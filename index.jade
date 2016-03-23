@@ -1,0 +1,76 @@
+//output: index.html
+doctype html
+html
+  head
+    link(rel="stylesheet",href="assets/stylesheets/master.min.css")
+    script(src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js")
+    script(src="assets/javascripts/bootstrap.min.js")
+    script(src="assets/javascripts/bootstrap-dropdowns-enhancement.js")
+    script(src="assets/javascripts/ecar.js")
+  
+  title Data Analyst Nanodegree Project 6 - Visualizing Electric Car Battery Performance in D3
+    
+  body
+    
+    h1 Data Analyst Nanodegree Project 6 - Visualizing Electric Car Battery Performance in D3
+    
+    #ecar-nav-views.modal.fade(tabindex="-1",role="dialog")
+      .modal-dialog(role="document")
+        .modal-content
+          .modal-header
+            button.close(type="button",data-dismiss="modal") &times;
+            h4.modal-title Views
+          .modal-body
+            ul.nav.nav-pills.nav-stacked
+              li.active
+                a(href="#ecar-explore",data-toggle="ecar-explore") Exploratory View
+              li
+                a(href="#ecar-explain",data-toggle="ecar-explain") Explanatory View
+    
+    .ecar-grid
+
+      nav.btn-group("role=navigation")
+        #ecar-nav-hamburger.btn-group
+          button.btn.btn-default(type="button",data-toggle="modal",data-target="#ecar-nav-views")
+            span.glyphicon.glyphicon-menu-hamburger
+
+      #ecar-explore.ecar-view.ecar-active
+        a(name="ecar-explore")
+        .ecar-view-col-2
+          .btn-group.ecar-maincontrol
+            button.btn.btn-default.dropdown-toggle(type="button",data-toggle="dropdown",aria-haspopup="true") Scenarios 
+              span.caret
+            ul.dropdown-menu
+              li
+                input(type="radio",id="ecar-explore-scenarios-1",name="ecar-scenarios",value="1")
+                label(for="ecar-explore-scenarios-1") Scenario 1
+              li
+                input(type="radio",id="ecar-explore-scenarios-2",name="ecar-scenarios",value="2")
+                label(for="ecar-explore-scenarios-2") Scenario 2
+              li
+                input(type="radio",id="ecar-explore-scenarios-3",name="ecar-scenarios",value="3")
+                label(for="ecar-explore-scenarios-3") Scenario 3
+          .ecar-panel
+            .ecar-dummy In this area we will show charts
+            .ecar-dummy Here goes a storybox
+          
+        .ecar-view-col-2
+          .btn-group.ecar-maincontrol
+            button.btn.btn-default.dropdown-toggle(type="button",data-toggle="dropdown",aria-haspopup="true",data-label-placement) Metrics 
+              span.caret
+            ul.dropdown-menu
+              li
+                input(type="checkbox",id="ecar-explore-metrics-voltage",name="ecar-metrics",value="voltage")
+                label(for="ecar-explore-metrics-voltage") Voltage
+              li
+                input(type="checkbox",id="ecar-explore-metrics-temperature",name="ecar-metrics",value="temperature")
+                label(for="ecar-explore-metrics-temperature") Temperature
+              li
+                input(type="checkbox",id="ecar-explore-metrics-soc",name="ecar-metrics",value="soc")
+                label(for="ecar-explore-metrics-soc") State of Charge
+          .ecar-panel
+            .ecar-dummy Here goes a chart
+            .ecar-dummy Here goes a second chart...
+
+      #ecar-explain.ecar-view.ecar-hide
+        a(name="ecar-explain")

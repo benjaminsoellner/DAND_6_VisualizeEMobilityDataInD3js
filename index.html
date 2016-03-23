@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="assets/stylesheets/master.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="assets/javascripts/bootstrap.min.js"></script>
+    <script src="assets/javascripts/bootstrap-dropdowns-enhancement.js"></script>
+    <script src="assets/javascripts/ecar.js"></script>
+  </head>
+  <title>Data Analyst Nanodegree Project 6 - Visualizing Electric Car Battery Performance in D3</title>
+  <body>
+    <h1>Data Analyst Nanodegree Project 6 - Visualizing Electric Car Battery Performance in D3</h1>
+    <div id="ecar-nav-views" tabindex="-1" role="dialog" class="modal fade">
+      <div role="document" class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" data-dismiss="modal" class="close">&times;</button>
+            <h4 class="modal-title">Views</h4>
+          </div>
+          <div class="modal-body">
+            <ul class="nav nav-pills nav-stacked">
+              <li class="active"><a href="#ecar-explore" data-toggle="ecar-explore">Exploratory View</a></li>
+              <li><a href="#ecar-explain" data-toggle="ecar-explain">Explanatory View</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ecar-grid">
+      <nav role=navigation class="btn-group">
+        <div id="ecar-nav-hamburger" class="btn-group">
+          <button type="button" data-toggle="modal" data-target="#ecar-nav-views" class="btn btn-default"><span class="glyphicon glyphicon-menu-hamburger"></span></button>
+        </div>
+      </nav>
+      <div id="ecar-explore" class="ecar-view ecar-active"><a name="ecar-explore"></a>
+        <div class="ecar-view-col-2">
+          <div class="btn-group ecar-maincontrol">
+            <button type="button" data-toggle="dropdown" aria-haspopup="true" class="btn btn-default dropdown-toggle">Scenarios <span class="caret"></span></button>
+            <ul class="dropdown-menu">
+              <li>
+                <input type="radio" id="ecar-explore-scenarios-1" name="ecar-scenarios" value="1">
+                <label for="ecar-explore-scenarios-1">Scenario 1</label>
+              </li>
+              <li>
+                <input type="radio" id="ecar-explore-scenarios-2" name="ecar-scenarios" value="2">
+                <label for="ecar-explore-scenarios-2">Scenario 2</label>
+              </li>
+              <li>
+                <input type="radio" id="ecar-explore-scenarios-3" name="ecar-scenarios" value="3">
+                <label for="ecar-explore-scenarios-3">Scenario 3</label>
+              </li>
+            </ul>
+          </div>
+          <div class="ecar-panel">
+            <div class="ecar-dummy">In this area we will show charts</div>
+            <div class="ecar-dummy">Here goes a storybox</div>
+          </div>
+        </div>
+        <div class="ecar-view-col-2">
+          <div class="btn-group ecar-maincontrol">
+            <button type="button" data-toggle="dropdown" aria-haspopup="true" data-label-placement class="btn btn-default dropdown-toggle">Metrics <span class="caret"></span></button>
+            <ul class="dropdown-menu">
+              <li>
+                <input type="checkbox" id="ecar-explore-metrics-voltage" name="ecar-metrics" value="voltage">
+                <label for="ecar-explore-metrics-voltage">Voltage</label>
+              </li>
+              <li>
+                <input type="checkbox" id="ecar-explore-metrics-temperature" name="ecar-metrics" value="temperature">
+                <label for="ecar-explore-metrics-temperature">Temperature</label>
+              </li>
+              <li>
+                <input type="checkbox" id="ecar-explore-metrics-soc" name="ecar-metrics" value="soc">
+                <label for="ecar-explore-metrics-soc">State of Charge</label>
+              </li>
+            </ul>
+          </div>
+          <div class="ecar-panel">
+            <div class="ecar-dummy">Here goes a chart</div>
+            <div class="ecar-dummy">Here goes a second chart...</div>
+          </div>
+        </div>
+      </div>
+      <div id="ecar-explain" class="ecar-view ecar-hide"><a name="ecar-explain"></a></div>
+    </div>
+  </body>
+</html>

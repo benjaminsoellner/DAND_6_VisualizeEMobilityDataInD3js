@@ -1,0 +1,57 @@
+.ecar-grid
+  display: flex
+  flex-direction: row
+
+  .ecar-view
+    flex-basis: 80%
+    flex-grow: 1
+
+#ecar-nav-views.modal
+  &.fade .modal-dialog
+    @include notransform()
+    .modal-content
+      @include transition-transform(all 0.3s ease-in-out)
+      left: -10%
+  &.fade.in .modal-dialog
+    @include notransform()
+    .modal-content
+      @include transition-transform(all 0.3s ease-in-out)
+      left: 0%
+
+  .modal-content
+    border-radius: 0px
+    position: fixed
+    top: 0px
+    height: 100vh
+    width: 20%
+
+#ecar-nav-hamburger
+  width: auto
+  padding: 5px
+
+#ecar-explore.ecar-view
+  display: flex
+  flex-direction: row
+
+  .ecar-view-col-2
+    width: 50%
+    display: flex
+    flex-direction: column
+
+  .ecar-maincontrol
+    .btn, .dropdown-menu
+      width: 100%
+      text-align: left
+
+  .ecar-maincontrol, .ecar-panel
+    padding: 5px
+
+.ecar-dummy
+  width: 400px
+  height: 100px
+  padding: 10px
+  margin-bottom: 10px
+  border: 2px solid blue
+
+.ecar-hide
+  display: none
