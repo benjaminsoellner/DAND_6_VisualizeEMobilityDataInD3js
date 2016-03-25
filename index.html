@@ -2,9 +2,12 @@
 <html>
   <head>
     <link rel="stylesheet" href="assets/stylesheets/master.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="assets/javascripts/jquery-1.12.2.min.js"></script>
     <script src="assets/javascripts/bootstrap.min.js"></script>
     <script src="assets/javascripts/bootstrap-dropdowns-enhancement.js"></script>
+    <script src="assets/javascripts/bootstrap-dropdowns-enhancement.js"></script>
+    <script src="assets/javascripts/d3.min.js"></script>
+    <script src="assets/javascripts/dimple.v2.2.0.min.js"></script>
     <script src="assets/javascripts/ecar.js"></script>
   </head>
   <title>Data Analyst Nanodegree Project 6 - Visualizing Electric Car Battery Performance in D3</title>
@@ -36,20 +39,7 @@
         <div class="ecar-view-col-2">
           <div class="btn-group ecar-maincontrol">
             <button type="button" data-toggle="dropdown" aria-haspopup="true" class="btn btn-default dropdown-toggle">Scenarios <span class="caret"></span></button>
-            <ul class="dropdown-menu">
-              <li>
-                <input type="radio" id="ecar-explore-scenarios-1" name="ecar-scenarios" value="1">
-                <label for="ecar-explore-scenarios-1">Scenario 1</label>
-              </li>
-              <li>
-                <input type="radio" id="ecar-explore-scenarios-2" name="ecar-scenarios" value="2">
-                <label for="ecar-explore-scenarios-2">Scenario 2</label>
-              </li>
-              <li>
-                <input type="radio" id="ecar-explore-scenarios-3" name="ecar-scenarios" value="3">
-                <label for="ecar-explore-scenarios-3">Scenario 3</label>
-              </li>
-            </ul>
+            <ul id="ecar-explore-scenarios" class="dropdown-menu bullet"></ul>
           </div>
           <div class="ecar-panel">
             <div class="ecar-dummy">In this area we will show charts</div>
@@ -59,7 +49,7 @@
         <div class="ecar-view-col-2">
           <div class="btn-group ecar-maincontrol">
             <button type="button" data-toggle="dropdown" aria-haspopup="true" data-label-placement class="btn btn-default dropdown-toggle">Metrics <span class="caret"></span></button>
-            <ul class="dropdown-menu">
+            <ul class="dropdown-menu bullet">
               <li>
                 <input type="checkbox" id="ecar-explore-metrics-voltage" name="ecar-metrics" value="voltage">
                 <label for="ecar-explore-metrics-voltage">Voltage</label>

@@ -1,0 +1,63 @@
+{
+  'voltage':
+    'label': 'Voltage',
+    'unit': 'Volt',
+    'locations': {
+       'a': {
+         'time': [0.1,0.2,0.3,0.4],
+         'data': [1.0,2.0,3.0,4.0],
+         'schematicref': 'id_a'
+       },
+       'b': {
+         'time': [0.1,0.2,0.3,0.4],
+         'data': [2.0,3.0,4.0,5.0],
+         'schematicref': 'id_b'
+       },
+       'c': {
+         'time': [0.1,0.2,0.3,0.4],
+         'data': [3.0,4.0,5.0,6.0],
+         'schematicref': 'id_c'
+       }
+    },
+  'soc':
+    'label': 'State of Charge',
+    'unit': '%',
+    'locations': {
+       'a': {
+         'time': [0.1,0.2,0.3,0.4],
+         'data': [1.0,1.0,1.0,1.0],
+         'schematicref': 'id_a'
+       },
+       'b': {
+         'time': [0.1,0.2,0.3,0.4],
+         'data': [2.0,2.0,2.0,2.0],
+         'schematicref': 'id_b'
+       },
+       'c': {
+         'time': [0.1,0.2,0.3,0.4],
+         'data': [3.0,3.0,3.0,3.0],
+         'schematicref': 'id_c'
+       }
+    },
+  'temperature': {
+    'label': 'Temperature',
+    'unit': '°C',
+    'locations': {
+       'a': {
+         'time': [0.1,0.2,0.3,0.4],
+         'data': [6.0,5.0,4.0,3.0],
+         'schematicref': 'id_a'
+       },
+       'b': {
+         'time': [0.1,0.2,0.3,0.4],
+         'data': [5.0,4.0,3.0,2.0],
+         'schematicref': 'id_b'
+       },
+       'c': {
+         'time': [0.1,0.2,0.3,0.4],
+         'data': [4.0,3.0,2.0,1.0],
+         'schematicref': 'id_c'
+       }
+    }
+  }
+}
