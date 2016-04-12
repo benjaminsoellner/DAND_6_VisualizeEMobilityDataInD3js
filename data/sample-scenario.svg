@@ -25,17 +25,17 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.4"
-     inkscape:cx="297.83178"
-     inkscape:cy="791.72471"
+     inkscape:zoom="2.8"
+     inkscape:cx="212.23132"
+     inkscape:cy="811.30237"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="807"
-     inkscape:window-height="633"
-     inkscape:window-x="1993"
-     inkscape:window-y="93"
-     inkscape:window-maximized="0" />
+     inkscape:window-width="1536"
+     inkscape:window-height="801"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
   <metadata
      id="metadata7">
     <rdf:RDF>
@@ -44,7 +44,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -73,25 +73,34 @@
        height="114.75098"
        x="195.83878"
        y="128.20099" />
-    <rect
-       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       id="id_a"
-       width="37.283966"
-       height="82.99823"
-       x="212.78658"
-       y="144.79166"
-       inkscape:label="#rect3336-8-6-8-5" />
-    <rect
-       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       id="id_c"
-       width="37.283966"
-       height="82.99823"
-       x="327.0723"
-       y="144.07738"
-       inkscape:label="#rect3336-8-6-8-3" />
+    <g
+       id="g3352"
+       app-location="id_a">
+      <rect
+         inkscape:label="#rect3336-8-6-8-5"
+         y="144.79166"
+         x="212.78658"
+         height="82.99823"
+         width="37.283966"
+         id="id_a"
+         style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    </g>
+    <g
+       id="g3349"
+       app-location="id_c">
+      <rect
+         inkscape:label="#rect3336-8-6-8-3"
+         y="144.07738"
+         x="327.0723"
+         height="82.99823"
+         width="37.283966"
+         id="id_c"
+         style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    </g>
     <g
        id="id_b"
-       inkscape:label="#g4239">
+       inkscape:label="#g4239"
+       app-location="id_b">
       <rect
          inkscape:label="#rect3336-8-6-8"
          y="143.69223"

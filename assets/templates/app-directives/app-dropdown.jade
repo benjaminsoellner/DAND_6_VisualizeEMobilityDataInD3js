@@ -1,0 +1,9 @@
+//output: app-dropdown.html
+.dropdown-container
+  button.btn.btn-default.dropdown-toggle(type="button",data-toggle="dropdown")
+    span(ng-if="!isPlaceholder") {{display}} 
+    span.ng-placeholder(ng-if="isPlaceholder") {{placeholder}} 
+    span.caret
+  ul.dropdown-menu.bullet
+    li(ng-repeat="item in list",ng-click="select(item)",ng-class="{active: isSelected(item)}")
+      a(href="") {{property !== undefined ? item[property] : item}}

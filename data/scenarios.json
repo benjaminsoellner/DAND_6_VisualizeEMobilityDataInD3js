@@ -1,8 +1,9 @@
 [
   {
+    "id": "sample",
     "label": "Sample Scenario",
     "dataFile": "sample-scenario.json",
-    "schematicFile": "sample-scenario.svg",
+    "schematicsFile": "sample-scenario.svg",
     "storiesFile": "!!! not available !!!"
   }
 ]

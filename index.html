@@ -2,18 +2,20 @@
 <html>
   <head>
     <link rel="stylesheet" href="assets/stylesheets/master.min.css">
-    <script src="assets/javascripts/jquery-1.12.2.min.js"></script>
-    <script src="assets/javascripts/bootstrap.min.js"></script>
-    <script src="assets/javascripts/bootstrap-dropdowns-enhancement.js"></script>
-    <script src="assets/javascripts/bootstrap-dropdowns-enhancement.js"></script>
+    <script src="assets/javascripts/jquery-1.12.2.js"></script>
+    <script src="assets/javascripts/bootstrap.js"></script>
     <script src="assets/javascripts/d3.min.js"></script>
-    <script src="assets/javascripts/dimple.v2.2.0.min.js"></script>
-    <script src="assets/javascripts/ecar.js"></script>
+    <!--script(src="assets/javascripts/dimple.v2.2.0.js")-->
+    <script src="assets/javascripts/angular.js"></script>
+    <!--script(src="assets/javascripts/angular-dimple.js")-->
+    <script src="assets/javascripts/underscore.min.js"></script>
+    <script src="assets/javascripts/app-directives.js"></script>
+    <script src="assets/javascripts/app-controllers.js"></script>
   </head>
   <title>Data Analyst Nanodegree Project 6 - Visualizing Electric Car Battery Performance in D3</title>
-  <body>
+  <body ng-app="app-controllers">
     <h1>Data Analyst Nanodegree Project 6 - Visualizing Electric Car Battery Performance in D3</h1>
-    <div id="ecar-nav-views" tabindex="-1" role="dialog" class="modal fade">
+    <div id="app-nav-views" tabindex="-1" role="dialog" class="modal fade">
       <div role="document" class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -22,55 +24,39 @@
           </div>
           <div class="modal-body">
             <ul class="nav nav-pills nav-stacked">
-              <li class="active"><a href="#ecar-explore" data-toggle="ecar-explore">Exploratory View</a></li>
-              <li><a href="#ecar-explain" data-toggle="ecar-explain">Explanatory View</a></li>
+              <li class="active"><a href="#app-explore" data-toggle="app-explore">Exploratory View</a></li>
+              <li><a href="#app-explain" data-toggle="app-explain">Explanatory View</a></li>
             </ul>
           </div>
         </div>
       </div>
     </div>
-    <div class="ecar-grid">
+    <div class="app-grid">
       <nav role=navigation class="btn-group">
-        <div id="ecar-nav-hamburger" class="btn-group">
-          <button type="button" data-toggle="modal" data-target="#ecar-nav-views" class="btn btn-default"><span class="glyphicon glyphicon-menu-hamburger"></span></button>
+        <div id="app-nav-hamburger" class="btn-group">
+          <button type="button" data-toggle="modal" data-target="#app-nav-views" class="btn btn-default"><span class="glyphicon glyphicon-menu-hamburger"></span></button>
         </div>
       </nav>
-      <div id="ecar-explore" class="ecar-view ecar-active"><a name="ecar-explore"></a>
-        <div class="ecar-view-col-2">
-          <div class="btn-group ecar-maincontrol">
-            <button type="button" data-toggle="dropdown" aria-haspopup="true" class="btn btn-default dropdown-toggle">Scenarios <span class="caret"></span></button>
-            <ul id="ecar-explore-scenarios" class="dropdown-menu bullet"></ul>
+      <div id="app-explore" ng-controller="appExplore as explore" class="app-view app-active"><a name="app-explore"></a>
+        <div class="app-view-col-2">
+          <div class="app-view-control btn-group">
+            <app-dropdown placeholder="Select Scenario" list="scenarios" selected="selectedScenario" property="label" type="radio"></app-dropdown>
           </div>
-          <div class="ecar-panel">
-            <div class="ecar-dummy">In this area we will show charts</div>
-            <div class="ecar-dummy">Here goes a storybox</div>
+          <div class="app-view-panel">
+            <app-schematics ng-if="selectedScenario.schematicsFile" svg="selectedScenario.schematicsFile" locations="locations" loc-values="locValues" val-color-map="valColorMap" highlighted-loc-id="highlightedLocId" dir="{{dataDir}}"></app-schematics>
           </div>
+          <div id="app-explore-stories" class="app-panel">{{highlightedLocId}}</div>
         </div>
-        <div class="ecar-view-col-2">
-          <div class="btn-group ecar-maincontrol">
-            <button type="button" data-toggle="dropdown" aria-haspopup="true" data-label-placement class="btn btn-default dropdown-toggle">Metrics <span class="caret"></span></button>
-            <ul class="dropdown-menu bullet">
-              <li>
-                <input type="checkbox" id="ecar-explore-metrics-voltage" name="ecar-metrics" value="voltage">
-                <label for="ecar-explore-metrics-voltage">Voltage</label>
-              </li>
-              <li>
-                <input type="checkbox" id="ecar-explore-metrics-temperature" name="ecar-metrics" value="temperature">
-                <label for="ecar-explore-metrics-temperature">Temperature</label>
-              </li>
-              <li>
-                <input type="checkbox" id="ecar-explore-metrics-soc" name="ecar-metrics" value="soc">
-                <label for="ecar-explore-metrics-soc">State of Charge</label>
-              </li>
-            </ul>
+        <div class="app-view-col-2">
+          <div class="app-view-control btn-group">
+            <app-dropdown placeholder="Select Metrics" list="metrics" selected="selectedMetrics" property="label" type="checkbox"></app-dropdown>
           </div>
-          <div class="ecar-panel">
-            <div class="ecar-dummy">Here goes a chart</div>
-            <div class="ecar-dummy">Here goes a second chart...</div>
+          <div class="app-view-panel">
+            <app-metric ng-repeat="metric in selectedMetrics" metric="metric" highlighted-loc-id="highlightedLocId" highlighted-time="highlightedTime" val-color-map="valColorMap" is-highlighted="metric == highlightedMetric" set-highlight="setHighlight(metric, isHighlighted)"></app-metric>
           </div>
         </div>
       </div>
-      <div id="ecar-explain" class="ecar-view ecar-hide"><a name="ecar-explain"></a></div>
+      <div id="app-explain" class="app-view app-hide"><a name="app-explain"></a></div>
     </div>
   </body>
 </html>

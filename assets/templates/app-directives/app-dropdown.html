@@ -1,0 +1,7 @@
+
+<div class="dropdown-container">
+  <button type="button" data-toggle="dropdown" class="btn btn-default dropdown-toggle"><span ng-if="!isPlaceholder">{{display}} </span><span ng-if="isPlaceholder" class="ng-placeholder">{{placeholder}} </span><span class="caret"></span></button>
+  <ul class="dropdown-menu bullet">
+    <li ng-repeat="item in list" ng-click="select(item)" ng-class="{active: isSelected(item)}"><a href="">{{property !== undefined ? item[property] : item}}</a></li>
+  </ul>
+</div>

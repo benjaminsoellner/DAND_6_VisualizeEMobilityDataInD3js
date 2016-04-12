@@ -1,12 +1,12 @@
-.ecar-grid
+.app-grid
   display: flex
   flex-direction: row
 
-  .ecar-view
+  .app-view
     flex-basis: 80%
     flex-grow: 1
 
-#ecar-nav-views.modal
+#app-nav-views.modal
   &.fade .modal-dialog
     @include notransform()
     .modal-content
@@ -25,38 +25,46 @@
     height: 100vh
     width: 20%
 
-#ecar-nav-hamburger
+#app-nav-hamburger
   width: auto
   padding: 5px
 
-#ecar-explore.ecar-view
+#app-explore.app-view
   display: flex
   flex-direction: row
 
-  .ecar-view-col-2
+  .app-view-col-2
     width: 50%
     display: flex
     flex-direction: column
 
-  .ecar-maincontrol
-    .btn, .dropdown-menu
+  .app-view-control
+    padding: 5px
+    width: 100%
+    .dropdown-toggle, .dropdown-menu
       width: 100%
       text-align: left
+    .dropdown-menu
+      margin-top: -3px
     .dropdown-menu.bullet:before
       left: 50%
     .dropdown-menu.bullet:after
       left: 50%
       margin-left: 1px
 
-  .ecar-maincontrol, .ecar-panel
+  .app-view-panel
     padding: 5px
 
-.ecar-dummy
+    svg
+      padding: 20px
+      max-height: 50vh
+
+.app-dummy
   width: 400px
   height: 100px
   padding: 10px
   margin-bottom: 10px
   border: 2px solid blue
 
-.ecar-hide
+.app-hide
   display: none

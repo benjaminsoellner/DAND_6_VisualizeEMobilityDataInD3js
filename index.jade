@@ -3,22 +3,24 @@ doctype html
 html
   head
     link(rel="stylesheet",href="assets/stylesheets/master.min.css")
-    script(src="assets/javascripts/jquery-1.12.2.min.js")
-    script(src="assets/javascripts/bootstrap.min.js")
-    script(src="assets/javascripts/bootstrap-dropdowns-enhancement.js")
-    script(src="assets/javascripts/bootstrap-dropdowns-enhancement.js")
+    script(src="assets/javascripts/jquery-1.12.2.js")
+    script(src="assets/javascripts/bootstrap.js")
     script(src="assets/javascripts/d3.min.js")
-    script(src="assets/javascripts/dimple.v2.2.0.min.js")
-    script(src="assets/javascripts/ecar.js")
+    //script(src="assets/javascripts/dimple.v2.2.0.js")
+    script(src="assets/javascripts/angular.js")
+    //script(src="assets/javascripts/angular-dimple.js")
+    script(src="assets/javascripts/underscore.min.js")
+    script(src="assets/javascripts/app-directives.js")
+    script(src="assets/javascripts/app-controllers.js")
     
   
   title Data Analyst Nanodegree Project 6 - Visualizing Electric Car Battery Performance in D3
     
-  body
+  body(ng-app="app-controllers")
     
     h1 Data Analyst Nanodegree Project 6 - Visualizing Electric Car Battery Performance in D3
     
-    #ecar-nav-views.modal.fade(tabindex="-1",role="dialog")
+    #app-nav-views.modal.fade(tabindex="-1",role="dialog")
       .modal-dialog(role="document")
         .modal-content
           .modal-header
@@ -27,45 +29,63 @@ html
           .modal-body
             ul.nav.nav-pills.nav-stacked
               li.active
-                a(href="#ecar-explore",data-toggle="ecar-explore") Exploratory View
+                a(href="#app-explore",data-toggle="app-explore") Exploratory View
               li
-                a(href="#ecar-explain",data-toggle="ecar-explain") Explanatory View
+                a(href="#app-explain",data-toggle="app-explain") Explanatory View
     
-    .ecar-grid
+    .app-grid
 
       nav.btn-group("role=navigation")
-        #ecar-nav-hamburger.btn-group
-          button.btn.btn-default(type="button",data-toggle="modal",data-target="#ecar-nav-views")
+        #app-nav-hamburger.btn-group
+          button.btn.btn-default(
+              type="button",
+              data-toggle="modal",
+              data-target="#app-nav-views")
             span.glyphicon.glyphicon-menu-hamburger
 
-      #ecar-explore.ecar-view.ecar-active
-        a(name="ecar-explore")
-        .ecar-view-col-2
-          .btn-group.ecar-maincontrol
-            button.btn.btn-default.dropdown-toggle(type="button",data-toggle="dropdown",aria-haspopup="true") Scenarios 
-              span.caret
-            ul#ecar-explore-scenarios.dropdown-menu.bullet
-          .ecar-panel
-            .ecar-dummy In this area we will show charts
-            .ecar-dummy Here goes a storybox
+      #app-explore.app-view.app-active(ng-controller="appExplore as explore")
+        a(name="app-explore")
+        .app-view-col-2
+          .app-view-control.btn-group
+            app-dropdown(
+                placeholder="Select Scenario",
+                list="scenarios",
+                selected="selectedScenario",
+                property="label",
+                type="radio"
+              )
+          .app-view-panel
+            app-schematics(
+                ng-if="selectedScenario.schematicsFile",
+                svg="selectedScenario.schematicsFile",
+                locations="locations",
+                loc-values="locValues",
+                val-color-map="valColorMap",
+                highlighted-loc-id="highlightedLocId",
+                dir="{{dataDir}}"
+              )
+          .app-panel#app-explore-stories
+            {{highlightedLocId}}
           
-        .ecar-view-col-2
-          .btn-group.ecar-maincontrol
-            button.btn.btn-default.dropdown-toggle(type="button",data-toggle="dropdown",aria-haspopup="true",data-label-placement) Metrics 
-              span.caret
-            ul.dropdown-menu.bullet
-              li
-                input(type="checkbox",id="ecar-explore-metrics-voltage",name="ecar-metrics",value="voltage")
-                label(for="ecar-explore-metrics-voltage") Voltage
-              li
-                input(type="checkbox",id="ecar-explore-metrics-temperature",name="ecar-metrics",value="temperature")
-                label(for="ecar-explore-metrics-temperature") Temperature
-              li
-                input(type="checkbox",id="ecar-explore-metrics-soc",name="ecar-metrics",value="soc")
-                label(for="ecar-explore-metrics-soc") State of Charge
-          .ecar-panel
-            .ecar-dummy Here goes a chart
-            .ecar-dummy Here goes a second chart...
-
-      #ecar-explain.ecar-view.ecar-hide
-        a(name="ecar-explain")
+        .app-view-col-2
+          .app-view-control.btn-group
+            app-dropdown(
+                placeholder="Select Metrics",
+                list="metrics",
+                selected="selectedMetrics",
+                property="label",
+                type="checkbox"
+              )
+          .app-view-panel
+            app-metric(
+                ng-repeat="metric in selectedMetrics",
+                metric="metric",
+                highlighted-loc-id="highlightedLocId",
+                highlighted-time="highlightedTime",
+                val-color-map="valColorMap",
+                is-highlighted="metric == highlightedMetric",
+                set-highlight="setHighlight(metric, isHighlighted)"
+              )
+            
+      #app-explain.app-view.app-hide
+        a(name="app-explain")
