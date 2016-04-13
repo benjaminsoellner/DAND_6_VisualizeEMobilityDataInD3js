@@ -162,7 +162,7 @@ angular.module("app-directives", [])
     return {
 
       restrict: "E",
-      template: "<svg></svg>",
+      templateUrl: "assets/templates/app-directives/app-metric.html",
       scope: {
         metric: "=",
         isHighlighted: "&",
@@ -174,15 +174,15 @@ angular.module("app-directives", [])
       },
 
       link: function($scope, $elem, $attrib) {
-        $scope.initialize = function() {
+        $scope.initialize = function($elem) {
           $scope.$watch("highlightedTime", $scope.decorate);
           $scope.$watch("highlightedLocId", $scope.decorate);
           $scope.$watch("isHighlighted", $scope.decorate);
-          $scope.drawAndDecorate();
+          $scope.drawAndDecorate($elem);
         };
-        $scope.drawAndDecorate = function($event) {
-          $scope.draw($event);
-          $scope.decorate($event);
+        $scope.drawAndDecorate = function($elem, $event) {
+          $scope.draw($event, $elem);
+          $scope.decorate($event, $elem);
         };
         $scope.draw = function($event) {
           // TODO draw graph with d3.js
@@ -190,14 +190,16 @@ angular.module("app-directives", [])
           // - when user hovers over a certain x value -> change highlighedTime
           // - when user hovers over a certain line -> change highlightedLoc
           // - when user hovers into or out of the diagram -> call $scope.setHighlight({"isHighlighted": isHighlighted});
+          draw_metrics($scope.metric, $elem.find('svg')[0]);
         };
-        $scope.decorate = function($event) {
+        $scope.decorate = function($event, $elem) {
           // TODO add classes and/or add/modify elements for
           // - highlightedLoc: highlighted location should be bold
           // - highlightedTime: highlighted time should be indicated by bar
           // - isHighlighted: should be represented by colormap in background
+
         };
-        $scope.initialize();
+        $scope.initialize($elem);
       }
 
     };

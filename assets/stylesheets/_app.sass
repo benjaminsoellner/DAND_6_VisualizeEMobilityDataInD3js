@@ -1,10 +1,19 @@
+html, body
+  height: 100vh
+
 .app-grid
   display: flex
-  flex-direction: row
+  bottom: 0px
+  height: 100%
+  flex-direction: column
+
+  .app-header
 
   .app-view
     flex-basis: 80%
     flex-grow: 1
+    display: flex
+    flex-direction: row
 
 #app-nav-views.modal
   &.fade .modal-dialog
@@ -33,31 +42,36 @@
   display: flex
   flex-direction: row
 
-  .app-view-col-2
-    width: 50%
-    display: flex
-    flex-direction: column
+.app-view-col-2
+  width: 50%
+  margin-left: 5px
+  margin-top: 5px
+  display: flex
+  flex-direction: column
 
-  .app-view-control
-    padding: 5px
+.app-view-control
+  .dropdown-toggle, .dropdown-menu
     width: 100%
-    .dropdown-toggle, .dropdown-menu
-      width: 100%
-      text-align: left
-    .dropdown-menu
-      margin-top: -3px
-    .dropdown-menu.bullet:before
-      left: 50%
-    .dropdown-menu.bullet:after
-      left: 50%
-      margin-left: 1px
+    text-align: left
+  .dropdown-menu
+    //margin-top: -3px
+  .dropdown-menu.bullet:before
+    left: 50%
+  .dropdown-menu.bullet:after
+    left: 50%
+    margin-left: 1px
 
-  .app-view-panel
-    padding: 5px
+.app-view-panel
+  flex-grow: 1
+  overflow: auto
+  margin-top: 5px
+  svg
+    max-height: 50vh
+    width: 100%
+    margin: auto
+  &.panel
+    margin-bottom: 0px
 
-    svg
-      padding: 20px
-      max-height: 50vh
 
 .app-dummy
   width: 400px

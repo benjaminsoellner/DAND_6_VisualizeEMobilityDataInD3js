@@ -9,12 +9,12 @@
     <script src="assets/javascripts/angular.js"></script>
     <!--script(src="assets/javascripts/angular-dimple.js")-->
     <script src="assets/javascripts/underscore.min.js"></script>
+    <script src="assets/javascripts/app-metrics.js"></script>
     <script src="assets/javascripts/app-directives.js"></script>
     <script src="assets/javascripts/app-controllers.js"></script>
   </head>
   <title>Data Analyst Nanodegree Project 6 - Visualizing Electric Car Battery Performance in D3</title>
   <body ng-app="app-controllers">
-    <h1>Data Analyst Nanodegree Project 6 - Visualizing Electric Car Battery Performance in D3</h1>
     <div id="app-nav-views" tabindex="-1" role="dialog" class="modal fade">
       <div role="document" class="modal-dialog">
         <div class="modal-content">
@@ -32,31 +32,36 @@
       </div>
     </div>
     <div class="app-grid">
-      <nav role=navigation class="btn-group">
-        <div id="app-nav-hamburger" class="btn-group">
-          <button type="button" data-toggle="modal" data-target="#app-nav-views" class="btn btn-default"><span class="glyphicon glyphicon-menu-hamburger"></span></button>
-        </div>
-      </nav>
+      <div class="app-header"> 
+        <h1>Data Analyst Nanodegree Project 6 - Visualizing Electric Car Battery Performance in D3</h1>
+      </div>
       <div id="app-explore" ng-controller="appExplore as explore" class="app-view app-active"><a name="app-explore"></a>
+        <nav role=navigation class="btn-group">
+          <div id="app-nav-hamburger" class="btn-group">
+            <button type="button" data-toggle="modal" data-target="#app-nav-views" class="btn btn-default"><span class="glyphicon glyphicon-menu-hamburger"></span></button>
+          </div>
+        </nav>
         <div class="app-view-col-2">
           <div class="app-view-control btn-group">
             <app-dropdown placeholder="Select Scenario" list="scenarios" selected="selectedScenario" property="label" type="radio"></app-dropdown>
           </div>
-          <div class="app-view-panel">
-            <app-schematics ng-if="selectedScenario.schematicsFile" svg="selectedScenario.schematicsFile" locations="locations" loc-values="locValues" val-color-map="valColorMap" highlighted-loc-id="highlightedLocId" dir="{{dataDir}}"></app-schematics>
+          <div class="app-view-panel panel panel-default">
+            <div class="panel-body">
+              <app-schematics ng-if="selectedScenario.schematicsFile" svg="selectedScenario.schematicsFile" locations="locations" loc-values="locValues" val-color-map="valColorMap" highlighted-loc-id="highlightedLocId" dir="{{dataDir}}"></app-schematics>
+            </div>
           </div>
-          <div id="app-explore-stories" class="app-panel">{{highlightedLocId}}</div>
         </div>
         <div class="app-view-col-2">
           <div class="app-view-control btn-group">
             <app-dropdown placeholder="Select Metrics" list="metrics" selected="selectedMetrics" property="label" type="checkbox"></app-dropdown>
           </div>
-          <div class="app-view-panel">
-            <app-metric ng-repeat="metric in selectedMetrics" metric="metric" highlighted-loc-id="highlightedLocId" highlighted-time="highlightedTime" val-color-map="valColorMap" is-highlighted="metric == highlightedMetric" set-highlight="setHighlight(metric, isHighlighted)"></app-metric>
+          <div class="app-view-panel panel panel-default">
+            <div class="panel-body">
+              <app-metric ng-repeat="metric in selectedMetrics" metric="metric" highlighted-loc-id="highlightedLocId" highlighted-time="highlightedTime" val-color-map="valColorMap" is-highlighted="metric == highlightedMetric" set-highlight="setHighlight(metric, isHighlighted)"></app-metric>
+            </div>
           </div>
         </div>
       </div>
-      <div id="app-explain" class="app-view app-hide"><a name="app-explain"></a></div>
     </div>
   </body>
 </html>
