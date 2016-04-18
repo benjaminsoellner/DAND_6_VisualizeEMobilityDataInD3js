@@ -1,18 +1,23 @@
-app-schematics svg
-  g.app-location
-    &.app-with-metrics *
-      fill: #ddd !important
-      cursor: pointer
-    &.app-highlighted *
-      stroke-width: 3px !important
 
-app-metric svg
-  .axis path, .axis line
-    fill: none
-    stroke: #000
-    shape-rendering: crispEdges
+// Metrics column
 
-  .line
-    fill: none
-    stroke: blue
-    stroke-width: 1.5px
+
+.app-metric-graph
+  flex-grow: 1
+  rect.plot
+    fill: #eeeeee
+  text.x.label
+  text.y.label
+  svg.location
+    path
+      stroke: black
+      stroke-width: 2
+    &.highlighted
+      path
+        stroke-width: 4
+  g.tick
+    line
+      stroke: #ccc
+      &.zero
+        stroke: #aaa
+    text

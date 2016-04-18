@@ -75,41 +75,39 @@ angular.module("app-directives", [])
     return {
 
       restrict: "E",
-      template: '<ng-include src="getSrcUrl()" data-onload="loaded()" />',
+      template: '<ng-include src="ctrl.getSrcUrl()" data-onload="ctrl.loaded()" />',
       scope: {
         svg: "=",
         locations: "=",
-        highlightedLocId: "=",
-        highlightedMetric: "=",
-        dir: "@",
+        highlights: "=",
+        dir: "@"
       },
+      bindToController: true,
+      controllerAs: "ctrl",
 
-      controller: ['$scope', function($scope) {
+      controller: function($scope, $element) {
         this.getHighlightedLocId = function() {
-          return $scope.highlightedLocId;
+          return this.highlights.locationId;
         }
         this.setHighlightedLocId = function(value) {
-          $scope.highlightedLocId = value;
+          this.highlights.locationId = value;
         }
         this.getLocations = function() {
-          return $scope.locations;
+          return this.locations;
         }
-      }],
-
-      link: function($scope, $elem, $attrib) {
-        $scope.getSrcUrl = function() {
-          return ($scope.dir ? $scope.dir + "/" : "")  + $scope.svg;
+        this.getSrcUrl = function() {
+          return (this.dir ? this.dir + "/" : "")  + this.svg;
         };
-        $scope.loaded = function($event) {
-          svg = $elem.find("svg");
+        this.loaded = function($event) {
+          svg = $element.find("svg");
           bbox = svg[0].getBBox();
           vbox = [bbox.x, bbox.y, bbox.width, bbox.height].join(" ");
           svg[0].setAttribute("viewBox", vbox);
-          // svg[0].setAttribute("width", "100%");
           svg[0].removeAttribute("height");
           svg[0].removeAttribute("width");
-        };
-      }
+        }
+      },
+
 
     };
   }])
@@ -167,42 +165,55 @@ angular.module("app-directives", [])
         metric: "=",
         isHighlighted: "&",
         setHighlight: "&",
-        highlightedLocId: "=",
-        highlightedTime: "=",
+        highlights: "=",
         // xMax: "=", xMin: "=", xStep: "=", // TODO later... also figure out how to scale x uniformly
         // yMax: "=", yMin: "=", yStep: "="  // TODO
       },
+      bindToController: true,
+      controllerAs: "ctrl",
 
-      link: function($scope, $elem, $attrib) {
-        $scope.initialize = function($elem) {
-          $scope.$watch("highlightedTime", $scope.decorate);
-          $scope.$watch("highlightedLocId", $scope.decorate);
-          $scope.$watch("isHighlighted", $scope.decorate);
-          $scope.drawAndDecorate($elem);
-        };
-        $scope.drawAndDecorate = function($elem, $event) {
-          $scope.draw($event, $elem);
-          $scope.decorate($event, $elem);
-        };
-        $scope.draw = function($event) {
-          // TODO draw graph with d3.js
-          // TODO set up event listener for
-          // - when user hovers over a certain x value -> change highlighedTime
-          // - when user hovers over a certain line -> change highlightedLoc
-          // - when user hovers into or out of the diagram -> call $scope.setHighlight({"isHighlighted": isHighlighted});
-          draw_metrics($scope.metric, $elem.find('svg')[0]);
-        };
-        $scope.decorate = function($event, $elem) {
-          // TODO add classes and/or add/modify elements for
-          // - highlightedLoc: highlighted location should be bold
-          // - highlightedTime: highlighted time should be indicated by bar
-          // - isHighlighted: should be represented by colormap in background
-
-        };
-        $scope.initialize($elem);
+      controller: function($scope, $element) {
+        this.initialize = function() {
+          var self = this;
+          $scope.$watch("ctrl.highlights.locationId", function() { self.dataUpdated(self) } );
+          this.metricGraph = new MetricGraph(
+              $element.find('.app-metric-graph')[0],
+              {
+                xlabel: 'time', ylabel: this.metric.label,
+                xmin: 1.0, xmax: 4.0, ymin: 1.0, ymax: 6.0
+              }
+            );
+          this.metricGraph.attachLocationHighlightedHandler(this.locationHighlighted);
+          this.metricGraph.attachLocationUnhighlightedHandler(this.locationUnhighlighted);
+          this.dataUpdated();
+        }
+        this.dataUpdated = function(self) {
+          if (!self) self = this
+          if (self.metricGraph) {
+            self.metricGraph.bind(self.metric, self.highlights.locationId);
+            self.metricGraph.scale();
+            self.metricGraph.draw();
+          }
+        }
+        this.visualUpdated = function() {
+          this.metricGraph.scale();
+          this.metricGraph.draw();
+        }
+        this.locationHighlighted = function(locationId) {
+          $scope.$apply( function() {
+            $scope.ctrl.highlights.locationId = locationId;
+          } );
+        }
+        this.locationUnhighlighted = function(locationId) {
+          $scope.$apply( function() {
+            $scope.ctrl.highlights.locationId = undefined;
+          } );
+        }
+        this.initialize();
       }
 
-    };
+
+    }
   }]);
   /*******
    ** /APP METRIC DIRECTIVE

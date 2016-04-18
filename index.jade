@@ -10,6 +10,8 @@ html
     script(src="assets/javascripts/angular.js")
     //script(src="assets/javascripts/angular-dimple.js")
     script(src="assets/javascripts/underscore.min.js")
+    script(src="assets/javascripts/element-queries/ElementQueries.js")
+    script(src="assets/javascripts/element-queries/ResizeSensor.js")
     script(src="assets/javascripts/app-metrics.js")
     script(src="assets/javascripts/app-directives.js")
     script(src="assets/javascripts/app-controllers.js")
@@ -59,18 +61,18 @@ html
                 property="label",
                 type="radio"
               )
-          .app-view-panel.panel.panel-default
-            .panel-body
+          .app-view-content
+            .panel.panel-default(ng-if="selectedScenario.schematicsFile")
+              .panel-body
                 app-schematics(
-                    ng-if="selectedScenario.schematicsFile",
                     svg="selectedScenario.schematicsFile",
                     locations="locations",
                     loc-values="locValues",
                     val-color-map="valColorMap",
-                    highlighted-loc-id="highlightedLocId",
+                    highlights="highlights",
                     dir="{{dataDir}}"
                   )
-            
+                  
         .app-view-col-2
           .app-view-control.btn-group
             app-dropdown(
@@ -80,13 +82,12 @@ html
                 property="label",
                 type="checkbox"
               )
-          .app-view-panel.panel.panel-default
-            .panel-body
+          .app-view-content
+            .panel.panel-default(ng-repeat="metric in selectedMetrics")
+              .panel-body
                 app-metric(
-                    ng-repeat="metric in selectedMetrics",
                     metric="metric",
-                    highlighted-loc-id="highlightedLocId",
-                    highlighted-time="highlightedTime",
+                    highlights="highlights",
                     val-color-map="valColorMap",
                     is-highlighted="metric == highlightedMetric",
                     set-highlight="setHighlight(metric, isHighlighted)"

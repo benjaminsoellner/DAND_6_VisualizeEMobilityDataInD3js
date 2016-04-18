@@ -58,9 +58,10 @@ angular.module("app-controllers", ["app-directives"])
     };
 
     $controller.resetHighlights = function() {
-      $scope.highlightedMetric = undefined;
-      $scope.highlightedLocId = undefined;
-      $scope.highlightedTime = undefined;
+      if (!$scope.highlights) $scope.highlights = {};
+      $scope.highlights.locationId = undefined;
+      $scope.highlights.metric = undefined;
+      $scope.highlights.time = undefined;
     };
 
     $controller.selectedScenarioChanged = function() {
