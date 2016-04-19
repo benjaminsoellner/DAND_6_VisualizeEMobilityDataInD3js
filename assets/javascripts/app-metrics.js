@@ -90,7 +90,7 @@ MetricGraph.prototype.scaleHandler = function() {
   var self = this;
   return function() {
     self.clientWidth = self.containerNode.clientWidth;
-    self.clientHeight = self.containerNode.clientHeight -10;
+    self.clientHeight = self.containerNode.clientHeight -1;
     self.size = {
       width:  self.clientWidth - self.padding.left - self.padding.right,
       height: self.clientHeight - self.padding.top - self.padding.bottom
@@ -122,6 +122,12 @@ MetricGraph.prototype.scaleHandler = function() {
       self.title
           .attr("x", self.size.width/2);
   };
+}
+
+MetricGraph.prototype.resetScale = function() {
+  this.svgNode
+      .attr("width",  "1")
+      .attr("height", "1");
 }
 
 MetricGraph.prototype.resizeHandler = function() {

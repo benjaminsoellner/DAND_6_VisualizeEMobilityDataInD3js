@@ -1,11 +1,7 @@
 angular.module("app-directives", [])
 
-  /*******
-   ** APP DROPDOWN DIRECTIVE
-   ******/
   .directive("appDropdown", [function() {
     return {
-
       restrict: "E",
       templateUrl: "assets/templates/app-directives/app-dropdown.html",
       scope: {
@@ -15,15 +11,12 @@ angular.module("app-directives", [])
         property: "@",
         type: "@"
       },
-
       link: function($scope) {
-
         $scope.initialize = function() {
           $scope.isPlaceholder = true;
           if ($scope.type == undefined) $scope.type = "radio";
           $scope.$watch("selected", $scope.selectedChange, true);
         }
-
         $scope.select = function(item) {
           if ($scope.type == "radio") {
             $scope.selected = item;
@@ -35,14 +28,12 @@ angular.module("app-directives", [])
               $scope.selected.push(item);
           }
         };
-
         $scope.isSelected = function(item) {
           if ($scope.type == "radio")
             return item == $scope.selected;
           else
             return ($scope.selected.indexOf(item) > -1);
         };
-
         $scope.selectedChange = function() {
           if ($scope.type == "radio") {
             $scope.isPlaceholder = ($scope.selected === undefined);
@@ -59,23 +50,15 @@ angular.module("app-directives", [])
               $scope.display = _.pluck($scope.selected, $scope.property).join(", ");
           }
         };
-
         $scope.initialize();
       }
     };
   }])
-  /*******
-   ** /APP DROPDOWN DIRECTIVE
-   ******/
 
-   /*******
-    ** /APP SCHEMATICS DIRECTIVE
-    ******/
   .directive("appSchematics", ["$http", "$q", function($http, $q) {
     return {
-
       restrict: "E",
-      template: '<ng-include src="ctrl.getSrcUrl()" data-onload="ctrl.loaded()" />',
+      template: '<ng-include src="self.getSrcUrl()" data-onload="self.loaded()" />',
       scope: {
         svg: "=",
         locations: "=",
@@ -83,8 +66,7 @@ angular.module("app-directives", [])
         dir: "@"
       },
       bindToController: true,
-      controllerAs: "ctrl",
-
+      controllerAs: "self",
       controller: function($scope, $element) {
         this.getHighlightedLocId = function() {
           return this.highlights.locationId;
@@ -107,19 +89,11 @@ angular.module("app-directives", [])
           svg[0].removeAttribute("width");
         }
       },
-
-
     };
   }])
-  /*******
-   ** /APP SCHEMATICS DIRECTIVE
-   ******/
-  /*******
-   ** APP LOCATION DIRECTIVE
-   ******/
+
   .directive("appLocation", [function() {
     return {
-
       require: ["^^appSchematics"],
       transclude: true,
       restrict: "A",
@@ -127,7 +101,6 @@ angular.module("app-directives", [])
       scope: {
        appLocation: "@"
       },
-
       link: function($scope, $elem, $attrib, $controllers) {
         $scope.hasMetrics = function() {
           locations = $controllers[0].getLocations();
@@ -147,74 +120,105 @@ angular.module("app-directives", [])
           $controllers[0].setHighlightedLocId(undefined);
         }
       }
-
     };
-   }])
-   /*******
-    ** APP LOCATION DIRECTIVE
-    ******/
-   /*******
-    ** APP METRIC DIRECTIVE
-    ******/
+  }])
+
+  .directive("appMetrics", [function() {
+    return {
+      templateUrl: "assets/templates/app-directives/app-metrics.html",
+      transclude: true,
+      restrict: "E",
+      scope: {
+        metrics: "=",
+        highlights: "="
+      },
+      controller: function($scope, $element) {
+        var self = this;
+        this.initialize = function() {
+          $scope.$watch("metrics", function() { self.metricsChanged(); }, true);
+        };
+        this.metricsChanged = function() {
+          $scope.$broadcast("resetScale");
+          $scope.$broadcast("rescale");
+        };
+        this.initialize();
+      }
+    };
+  }])
+
+  .directive("appTranscope", function() {
+    return {
+        link: function( $scope, $element, $attrs, $controllers, $transclude ) {
+            if ( !$transclude ) {
+                throw minErr( 'ngTransclude' )( 'orphan',
+                    'Illegal use of ngTransclude directive in the template! ' +
+                    'No parent directive that requires a transclusion found. ' +
+                    'Element: {0}',
+                    startingTag( $element ));
+            }
+            var innerScope = $scope.$new();
+            $transclude( innerScope, function( clone ) {
+                $element.empty();
+                $element.append( clone );
+                $element.on( '$destroy', function() {
+                    innerScope.$destroy();
+                });
+            });
+        }
+    };
+  })
+
   .directive("appMetric", [function() {
     return {
-
+      require: ["^^appMetrics"],
       restrict: "E",
       templateUrl: "assets/templates/app-directives/app-metric.html",
-      scope: {
-        metric: "=",
-        isHighlighted: "&",
-        setHighlight: "&",
-        highlights: "=",
-        // xMax: "=", xMin: "=", xStep: "=", // TODO later... also figure out how to scale x uniformly
-        // yMax: "=", yMin: "=", yStep: "="  // TODO
-      },
+      scope: false,
       bindToController: true,
-      controllerAs: "ctrl",
-
+      controllerAs: "self",
       controller: function($scope, $element) {
         this.initialize = function() {
           var self = this;
-          $scope.$watch("ctrl.highlights.locationId", function() { self.dataUpdated(self) } );
-          this.metricGraph = new MetricGraph(
-              $element.find('.app-metric-graph')[0],
+          $scope.$watch("highlights.locationId", function() { self.dataUpdated(self) } );
+          $scope.$on("resetScale", function() { self.resetScale() });
+          $scope.$on("rescale", function() { self.visualUpdated(); });
+          $scope.metricGraph = new MetricGraph(
+              $element.find('.app-metric')[0],
               {
-                xlabel: 'time', ylabel: this.metric.label,
+                xlabel: 'time', ylabel: $scope.metric.label,
                 xmin: 1.0, xmax: 4.0, ymin: 1.0, ymax: 6.0
               }
             );
-          this.metricGraph.attachLocationHighlightedHandler(this.locationHighlighted);
-          this.metricGraph.attachLocationUnhighlightedHandler(this.locationUnhighlighted);
+          $scope.metricGraph.attachLocationHighlightedHandler(this.locationHighlighted);
+          $scope.metricGraph.attachLocationUnhighlightedHandler(this.locationUnhighlighted);
           this.dataUpdated();
         }
         this.dataUpdated = function(self) {
           if (!self) self = this
-          if (self.metricGraph) {
-            self.metricGraph.bind(self.metric, self.highlights.locationId);
-            self.metricGraph.scale();
-            self.metricGraph.draw();
+          if ($scope.metricGraph) {
+            $scope.metricGraph.bind($scope.metric, $scope.highlights.locationId);
+            $scope.metricGraph.scale();
+            $scope.metricGraph.draw();
           }
         }
+        this.resetScale = function() {
+          $scope.metricGraph.resetScale();
+        }
         this.visualUpdated = function() {
-          this.metricGraph.scale();
-          this.metricGraph.draw();
+          $scope.metricGraph.scale();
+          $scope.metricGraph.draw();
         }
         this.locationHighlighted = function(locationId) {
           $scope.$apply( function() {
-            $scope.ctrl.highlights.locationId = locationId;
+            $scope.highlights.locationId = locationId;
           } );
         }
         this.locationUnhighlighted = function(locationId) {
           $scope.$apply( function() {
-            $scope.ctrl.highlights.locationId = undefined;
+            $scope.highlights.locationId = undefined;
           } );
         }
         this.initialize();
       }
-
-
     }
   }]);
-  /*******
-   ** /APP METRIC DIRECTIVE
-   ******/

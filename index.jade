@@ -6,9 +6,7 @@ html
     script(src="assets/javascripts/jquery-1.12.2.js")
     script(src="assets/javascripts/bootstrap.js")
     script(src="assets/javascripts/d3.min.js")
-    //script(src="assets/javascripts/dimple.v2.2.0.js")
     script(src="assets/javascripts/angular.js")
-    //script(src="assets/javascripts/angular-dimple.js")
     script(src="assets/javascripts/underscore.min.js")
     script(src="assets/javascripts/element-queries/ElementQueries.js")
     script(src="assets/javascripts/element-queries/ResizeSensor.js")
@@ -49,7 +47,8 @@ html
             button.btn.btn-default(
                 type="button",
                 data-toggle="modal",
-                data-target="#app-nav-views")
+                data-target="#app-nav-views"
+              )
               span.glyphicon.glyphicon-menu-hamburger
 
         .app-view-col-2
@@ -83,12 +82,10 @@ html
                 type="checkbox"
               )
           .app-view-content
-            .panel.panel-default(ng-repeat="metric in selectedMetrics")
-              .panel-body
-                app-metric(
-                    metric="metric",
-                    highlights="highlights",
-                    val-color-map="valColorMap",
-                    is-highlighted="metric == highlightedMetric",
-                    set-highlight="setHighlight(metric, isHighlighted)"
-                  )
+            app-metrics(
+                metrics="selectedMetrics",
+                highlights="highlights"
+              )
+              .panel.panel-default()
+                .panel-body
+                  app-metric

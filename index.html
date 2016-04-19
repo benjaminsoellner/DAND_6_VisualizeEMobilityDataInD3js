@@ -5,9 +5,7 @@
     <script src="assets/javascripts/jquery-1.12.2.js"></script>
     <script src="assets/javascripts/bootstrap.js"></script>
     <script src="assets/javascripts/d3.min.js"></script>
-    <!--script(src="assets/javascripts/dimple.v2.2.0.js")-->
     <script src="assets/javascripts/angular.js"></script>
-    <!--script(src="assets/javascripts/angular-dimple.js")-->
     <script src="assets/javascripts/underscore.min.js"></script>
     <script src="assets/javascripts/element-queries/ElementQueries.js"></script>
     <script src="assets/javascripts/element-queries/ResizeSensor.js"></script>
@@ -60,11 +58,13 @@
             <app-dropdown placeholder="Select Metrics" list="metrics" selected="selectedMetrics" property="label" type="checkbox"></app-dropdown>
           </div>
           <div class="app-view-content">
-            <div ng-repeat="metric in selectedMetrics" class="panel panel-default">
-              <div class="panel-body">
-                <app-metric metric="metric" highlights="highlights" val-color-map="valColorMap" is-highlighted="metric == highlightedMetric" set-highlight="setHighlight(metric, isHighlighted)"></app-metric>
+            <app-metrics metrics="selectedMetrics" highlights="highlights">
+              <div class="panel panel-default">
+                <div class="panel-body">
+                  <app-metric></app-metric>
+                </div>
               </div>
-            </div>
+            </app-metrics>
           </div>
         </div>
       </div>
