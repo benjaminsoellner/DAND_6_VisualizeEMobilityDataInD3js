@@ -45,12 +45,8 @@
           <div class="app-view-control btn-group">
             <app-dropdown placeholder="Select Scenario" list="scenarios" selected="selectedScenario" property="label" type="radio"></app-dropdown>
           </div>
-          <div class="app-view-content">
-            <div ng-if="selectedScenario.schematicsFile" class="panel panel-default">
-              <div class="panel-body">
-                <app-schematics svg="selectedScenario.schematicsFile" locations="locations" loc-values="locValues" val-color-map="valColorMap" highlights="highlights" dir="{{dataDir}}"></app-schematics>
-              </div>
-            </div>
+          <div ng-if="selectedScenario.schematicsFile" class="app-view-content">
+            <app-schematics svg="selectedScenario.schematicsFile" locations="locations" loc-values="locValues" val-color-map="valColorMap" highlights="highlights" dir="{{dataDir}}"></app-schematics>
           </div>
         </div>
         <div class="app-view-col-2">
@@ -59,11 +55,7 @@
           </div>
           <div class="app-view-content">
             <app-metrics metrics="selectedMetrics" highlights="highlights">
-              <div class="panel panel-default">
-                <div class="panel-body">
-                  <app-metric></app-metric>
-                </div>
-              </div>
+              <app-metric></app-metric>
             </app-metrics>
           </div>
         </div>

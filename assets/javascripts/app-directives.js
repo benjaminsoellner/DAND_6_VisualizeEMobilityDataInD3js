@@ -135,11 +135,6 @@ angular.module("app-directives", [])
       controller: function($scope, $element) {
         var self = this;
         this.initialize = function() {
-          $scope.$watch("metrics", function() { self.metricsChanged(); }, true);
-        };
-        this.metricsChanged = function() {
-          $scope.$broadcast("resetScale");
-          $scope.$broadcast("rescale");
         };
         this.initialize();
       }
@@ -168,7 +163,7 @@ angular.module("app-directives", [])
     };
   })
 
-  .directive("appMetric", [function() {
+  .directive("appMetric", ["$timeout", function($timeout) {
     return {
       require: ["^^appMetrics"],
       restrict: "E",
@@ -179,44 +174,51 @@ angular.module("app-directives", [])
       controller: function($scope, $element) {
         this.initialize = function() {
           var self = this;
-          $scope.$watch("highlights.locationId", function() { self.dataUpdated(self) } );
-          $scope.$on("resetScale", function() { self.resetScale() });
-          $scope.$on("rescale", function() { self.visualUpdated(); });
-          $scope.metricGraph = new MetricGraph(
-              $element.find('.app-metric')[0],
-              {
-                xlabel: 'time', ylabel: $scope.metric.label,
-                xmin: 1.0, xmax: 4.0, ymin: 1.0, ymax: 6.0
-              }
-            );
-          $scope.metricGraph.attachLocationHighlightedHandler(this.locationHighlighted);
-          $scope.metricGraph.attachLocationUnhighlightedHandler(this.locationUnhighlighted);
+          $scope.$watch("highlights.locationId", function() { self.dataUpdated(self); } );
+          $scope.$watch("highlights.timeRange", function() { self.timeRangeUpdated(self); } );
+          $scope.metricGraph = new MetricGraph( $element.find('.app-metric')[0],
+              { xlabel: 'time', ylabel: $scope.metric.label } );
+          $scope.metricGraph.dimensions(1.0, 4.0, 1.0, 6.0, false);
+          $scope.metricGraph.attachSeriesHighlightedHandler(this.locationHighlighted);
+          $scope.metricGraph.attachSeriesUnhighlightedHandler(this.locationUnhighlighted);
+          $scope.metricGraph.attachDimensionsChangedHandler(this.timeRangeChanged);
           this.dataUpdated();
-        }
+        };
         this.dataUpdated = function(self) {
           if (!self) self = this
           if ($scope.metricGraph) {
-            $scope.metricGraph.bind($scope.metric, $scope.highlights.locationId);
-            $scope.metricGraph.scale();
-            $scope.metricGraph.draw();
+            $scope.metricGraph.bind($scope.metric, $scope.highlights.locationId, this.locationToSerieses);
+          }
+        };
+        this.timeRangeUpdated = function(self, sendEvents) {
+          if ($scope.highlights.timeRange) {
+            minX = $scope.highlights.timeRange[0];
+            maxX = $scope.highlights.timeRange[1];
+            $scope.metricGraph.dimensions(minX, maxX, undefined, undefined);
           }
         }
-        this.resetScale = function() {
-          $scope.metricGraph.resetScale();
-        }
-        this.visualUpdated = function() {
-          $scope.metricGraph.scale();
-          $scope.metricGraph.draw();
-        }
+        this.locationToSerieses = function(data) {
+          return data.locations.map(
+            function(location) {
+              return {
+                id: location.id,
+                values: location.time.map(function(t, i) {
+                  return { time: t, value: location.data[i] };
+                })
+              };
+            });
+        };
         this.locationHighlighted = function(locationId) {
-          $scope.$apply( function() {
-            $scope.highlights.locationId = locationId;
-          } );
-        }
+          f = function() { $scope.highlights.locationId = locationId; };
+          if (!$scope.$$phase) $scope.$apply(f); else f();
+        };
         this.locationUnhighlighted = function(locationId) {
-          $scope.$apply( function() {
-            $scope.highlights.locationId = undefined;
-          } );
+          f = function() { $scope.highlights.locationId = undefined; };
+          if (!$scope.$$phase) $scope.$apply(f); else f();
+        };
+        this.timeRangeChanged = function(minX, maxX, minY, maxY) {
+          f = function() { $scope.highlights.timeRange = [minX, maxX]; };
+          $scope.$apply(f);
         }
         this.initialize();
       }

@@ -41,20 +41,6 @@ html, body
   display: flex
   flex-direction: column
   overflow: auto
-  .panel
-    margin-top: 5px
-    margin-bottom: 0px
-    min-height: 200px
-    //flex-grow: 1
-    //display: flex
-    //flex-direction: column
-  .panel, .panel .panel-body, .panel .panel-body > *, .app-metrics, .app-metric
-    display: flex
-    flex-direction: column
-    padding: 0px
-    flex-grow: 1
-    overflow: hidden
-  
 
 // Menu
 
@@ -96,29 +82,49 @@ html, body
     margin-left: 1px
 
 .app-view-content
-  app-schematics svg
-    max-height: 50vh
-    width: 100%
-    margin: auto
-    &.panel
-      margin-bottom: 0px
+  margin-top: 5px
+  app-schematics
+    display: block
+    margin-top: 5px
+    svg
+      max-height: 50vh
+      width: 100%
+      margin: auto
     g.app-location
       &.app-with-metrics *
         fill: #ddd !important
         cursor: pointer
       &.app-highlighted *
         stroke-width: 3px !important
+
+  /* grid layout: column should stretch vertically and contain different rows
+      "body" stretches vertically, if content is too big, it scrolls, it
+      also serves itself as a flex container */
   app-metrics
-    height: 100%
+    flex-grow: 1
+    overflow: auto
     display: flex
     flex-direction: column
+  /* every row has a minimum height, grows if possible (flex-grow: 1) and
+      clips (overflow: hidden) if necessary, elements in the row are positioned
+      relative to this row (necessary for overflow: hidden to work with
+      position: absolute children) */
+  app-metrics > div
+    overflow: hidden
+    min-height: 200px
     flex-grow: 1
-    app-metric svg
-      flex-grow: 1
-        .app-metric-graph
-          height: 100%
-          svg
-            height: 100%
+    position: relative
+  /* element should not take up any space in container so it doesn't affect
+      growing / shrinking behaviour, it should also get all the space
+      it can */
+  app-metric
+    position: absolute
+    width: 100%
+    height: 100%
+  /* all other elements should scale to height: 100% */
+  app-metric div, app-metrics div
+    height: 100%
+
 
 // Dummies
 
