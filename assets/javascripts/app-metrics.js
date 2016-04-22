@@ -17,14 +17,23 @@ MetricGraph.prototype.setup = function() {
   var self = this;
   this.y = d3.scale.linear();
   this.x = d3.scale.linear();
-  this.svgNode = d3.select(this.containerNode).append("svg");
+  this.svgNode = d3.select(this.containerNode).append("svg")
+      .on("mouseenter", this.mouseEnterHandler())
+      .on("mouseleave", this.mouseLeaveHandler());
   this.gNode = this.svgNode.append("g");
+  this.guideNode = this.gNode.append("g").attr("class", "guide");
+  guideNodeX = this.guideNode.append("g").attr("class", "x");
+  guideNodeY = this.guideNode.append("g").attr("class", "y");
+  guideNodeX.append("line")
+      .attr("class", "y")
+      .attr("y1", "0");
+  guideNodeY.append("line")
+      .attr("class", "y")
+      .attr("x1", "0");
+  guideNodeX.append("text").attr("class", "x");
+  guideNodeY.append("text").attr("class", "y");
   this.gridNode = this.gNode.append("g")
       .attr("class", "grid");
-  this.plotNode = this.gridNode.append("rect")
-      .attr("class", "plot")
-      .attr("pointer-events", "all")
-      .call(d3.behavior.zoom().x(this.x).y(this.y).on("zoom", this.zoomHandler()));
   this.axesNode = this.gridNode.append("g");
   this.xaxisNode = this.gridNode.append("rect")
       .attr("class", "x axis")
@@ -34,6 +43,11 @@ MetricGraph.prototype.setup = function() {
       .attr("class", "y axis")
       .on("mousedown.drag", self.draggingYStartedHandler())
       .on("touchstart.drag", self.draggingYStartedHandler());
+  this.plotNode = this.gridNode.append("rect")
+      .attr("class", "plot")
+      .attr("pointer-events", "all")
+      .on("mousemove", self.mouseMovedHandler())
+      .call(d3.behavior.zoom().x(this.x).y(this.y).on("zoom", this.zoomHandler()));
   // title
   if (this.options.title)
     this.titleNode = this.gridNode.append("text")
@@ -58,38 +72,41 @@ MetricGraph.prototype.setup = function() {
   this.draggingY = Math.NaN;
   // listeners
   d3.select(this.containerNode)
-      .on("mousemove.drag", this.mouseMovedHandler())
-      .on("touchmove.drag", this.mouseMovedHandler())
+      .on("mousemove.drag", this.mouseDraggedHandler())
+      .on("touchmove.drag", this.mouseDraggedHandler())
       .on("mouseup.drag", this.mouseReleasedHandler())
       .on("touchend.drag", this.mouseReleasedHandler());
   this.resizeSensor = new ResizeSensor(this.containerNode, this.scaleHandler());
   this.seriesHighlightedHandlers = [];
   this.seriesUnhighlightedHandlers = [];
   this.dimensionsChangedHandlers = [];
+  this.mouseEnterHandlers = [];
+  this.mouseLeaveHandlers = [];
+  this.mouseMovedHandlers = [];
 }
 
-MetricGraph.prototype.bind = function(serieses, highlightedSeries, buildSeriesTransform) {
+MetricGraph.prototype.bind = function(serieses, buildSeriesTransform) {
   var self = this;
   if (buildSeriesTransform)
     serieses = buildSeriesTransform(serieses);
-  serieses = serieses.map(function(d) {
-    d.highlighted = (d.id == highlightedSeries);
-    return d;
-  });
   this.serieses = serieses;
   var series = this.gNode.selectAll(".series")
-      .data(this.serieses, function(d) { return d.id; });
+      .data(this.serieses, function(d) { return d.id; })
+      .attr("id", function(d) { return d.id; });
   var seriese = series.enter();
   seriese.append("svg")
       .attr("top", 0)
       .attr("left", 0)
-      .attr("id", function(d) { return d.id; })
-      .append("path")
-        .attr("id", function(d) { return d.id; });
+      .attr("id", function(d) { return d.id; });
   series.exit().remove();
   this.seriesNode = series;
-  this.pathNode = this.seriesNode.selectAll("path");
   this.scale();
+}
+
+MetricGraph.prototype.getSeriesFromId = function(seriesId) {
+  for (i in this.serieses)
+    if (this.serieses[i].id == seriesId)
+      return this.serieses[i];
 }
 
 MetricGraph.prototype.dimensions = function(minX, maxX, minY, maxY) {
@@ -100,6 +117,32 @@ MetricGraph.prototype.dimensions = function(minX, maxX, minY, maxY) {
   this.x.domain([this.minX, this.maxX]);
   this.y.domain([this.maxY, this.minY]);
   this.scale();
+}
+
+MetricGraph.prototype.highlight = function(changedHighlights) {
+  var seriesesDirty = false, guideDirty = false;
+  if (changedHighlights.seriesId || changedHighlights.seriesId === false) {
+    this.highlightedSeries = changedHighlights.seriesId;
+    seriesDirty = true;
+    guideDirty = true;
+  }
+  if (changedHighlights.colorMap || changedHighlights.colorMap === false) {
+    this.colorMap = changedHighlights.colorMap;
+    if (this.colorMap === false)
+      this.color = d3.interpolateLab("black");
+    else
+      this.color = d3.scale.linear()
+          .domain(this.colorMap.map(function(d) { return d[0]; }))
+          .range(this.colorMap.map(function(d) { return d[1]; }));
+    seriesDirty = true;
+  }
+  if (changedHighlights.x || changedHighlights.x === false) {
+    this.highlightedX = changedHighlights.x;
+    guideDirty = true;
+  }
+  if (seriesDirty) this.drawSerieses();
+  if (guideDirty) this.drawGuide();
+  this.draw();
 }
 
 MetricGraph.prototype.scale = function() {
@@ -151,6 +194,8 @@ MetricGraph.prototype.scaleHandler = function() {
       self.titleNode
           .attr("x", self.size.width/2);
     self.draw();
+    self.guideNode.select("g.x line")
+      .attr("y2", self.size.height);
   };
 }
 
@@ -161,69 +206,174 @@ MetricGraph.prototype.draw = function() {
 MetricGraph.prototype.drawHandler = function() {
   var self = this;
   return function() {
-    var tx = function(d) { return "translate(" + self.x(d) + ", 0)"; },
-        ty = function(d) { return "translate(0, " + self.y(d) + ")"; };
-    var zeros = function(d) { return d ? "" : "zero"; },
-        fx = self.x.tickFormat(10),
-        fy = self.y.tickFormat(10);
-    // Regenerate x-ticks
-    var gx = self.axesNode.selectAll("g.x")
-        .data(self.x.ticks(10), String)
-        .attr("transform", tx);
-    var gxe = gx.enter().insert("g", "a")
-        .attr("class", "x tick")
-        .attr("transform", tx);
-    gxe.append("line")
-        .attr("class", zeros)
-    gxe.append("text")
-        .attr("dy", "1em")
-        .attr("text-anchor", "middle")
-        .text(fx);
-    gx.exit().remove();
-    // scaling
-    gx.selectAll("line")
-        .attr("z", 5)
-        .attr("y1", 0)
-        .attr("y2", self.size.height);
-    gx.selectAll("text")
-        .attr("y", self.size.height);
-    // Regenerate y-ticks
-    var gy = self.axesNode.selectAll("g.y")
-        .data(self.y.ticks(10), String)
-        .attr("transform", ty);
-    gy.select("text").text(fy);
-    var gye = gy.enter().insert("g", "a")
-        .attr("class", "y tick")
-        .attr("transform", ty);
-    gye.append("line")
-        .attr("class", zeros)
-    gye.append("text")
-        .attr("dy", ".35em")
-        .attr("text-anchor", "end")
-        .text(fy);
-    gy.exit().remove();
-    // scaling
-    gy.selectAll("line")
-        .attr("x1", 0)
-        .attr("x2", self.size.width);
-    gy.selectAll("text")
-        .attr("x", -3);
-    // lines
-    self.line = d3.svg.line()
-      .interpolate("basis")
-      .x(function(d,i) { return self.x(d.time); })
-      .y(function(d,i) { return self.y(d.value); });
-    if (self.seriesNode && self.pathNode) {
-      self.seriesNode
-          .attr("class", function(d) { return (d.highlighted ? "highlighted " : "") + "series"; })
-      self.pathNode
-          .attr("d", function(d) { return self.line(d.values); })
-          .on("mouseenter", function(d) { self.handleSeriesHighlighted(d.id); })
-          .on("mouseleave", function(d) { self.handleSeriesUnhighlighted(d.id); });
-    }
-    self.plotNode.call(d3.behavior.zoom().x(self.x).y(self.y).on("zoom", self.zoomHandler()));
-    // lines
+    self.drawGrid();
+    self.drawSerieses();
+    self.drawGuide();
   };
+}
+
+MetricGraph.prototype.drawGrid = function() {
+  var self = this;
+  var tx = function(d) { return "translate(" + self.x(d) + ", 0)"; },
+      ty = function(d) { return "translate(0, " + self.y(d) + ")"; };
+  var zeros = function(d) { return d ? "" : "zero"; },
+      fx = this.x.tickFormat(10),
+      fy = this.y.tickFormat(10);
+  // Regenerate x-ticks
+  var gx = this.axesNode.selectAll("g.x")
+      .data(this.x.ticks(10), String)
+      .attr("transform", tx);
+  var gxe = gx.enter().insert("g", "a")
+      .attr("class", "x tick")
+      .attr("transform", tx);
+  gxe.append("line")
+      .attr("class", zeros)
+  gxe.append("text")
+      .attr("dy", "1em")
+      .attr("text-anchor", "middle")
+      .text(fx);
+  gx.exit().remove();
+  // scaling
+  gx.selectAll("line")
+      .attr("z", 5)
+      .attr("y1", 0)
+      .attr("y2", this.size.height);
+  gx.selectAll("text")
+      .attr("y", this.size.height);
+  // Regenerate y-ticks
+  var gy = this.axesNode.selectAll("g.y")
+      .data(this.y.ticks(10), String)
+      .attr("transform", ty);
+  gy.select("text").text(fy);
+  var gye = gy.enter().insert("g", "a")
+      .attr("class", "y tick")
+      .attr("transform", ty);
+  gye.append("line")
+      .attr("class", zeros)
+  gye.append("text")
+      .attr("dy", ".35em")
+      .attr("text-anchor", "end")
+      .text(fy);
+  gy.exit().remove();
+  // scaling
+  gy.selectAll("line")
+      .attr("x1", 0)
+      .attr("x2", this.size.width);
+  gy.selectAll("text")
+      .attr("x", -3);
+}
+
+MetricGraph.prototype.drawSerieses = function() {
+  var self = this;
+  this.line = d3.svg.line()
+    .interpolate("basis")
+    .x(function(d,i) { return this.x(d.time); })
+    .y(function(d,i) { return this.y(d.value); });
+  if (this.seriesNode) {
+    this.seriesNode
+        .attr("class", function(d) { return (d.id == self.highlightedSeries ? "highlighted " : "") + "series"; })
+        .on("mouseenter", function(d) { self.handleSeriesHighlighted(d.id); })
+        .on("mouseleave", function(d) { self.handleSeriesUnhighlighted(d.id); })
+        .on("mousemove", self.mouseMovedHandler())
+        .selectAll("path")
+        .remove();
+    this.pathNode = this.seriesNode
+        .selectAll("path")
+        .data(function(d, i) {
+            return MetricGraph.quad(MetricGraph.sample(self.line(d.values), 8));
+          })
+        .enter().append("path");
+    this.pathNode
+        .style("fill", function(d) { return self.color(self.y.invert(d.p[1])); })
+        .style("stroke", function(d) { return self.color(self.y.invert(d.p[1])); })
+        .attr("d", function(d) {
+            return MetricGraph.lineJoin(d[0], d[1], d[2], d[3], 2);
+          });
+  }
+  this.plotNode.call(d3.behavior.zoom().x(this.x).y(this.y).on("zoom", this.zoomHandler()));
+}
+
+MetricGraph.prototype.drawGuide = function() {
+  gX = this.guideNode.select("g.x");
+  gY = this.guideNode.select("g.y");
+  if (this.highlightedX) {
+    gX.attr("class", "x show")
+        .select("line")
+          .attr("transform", "translate(" + this.x(this.highlightedX) + ", 0)");
+  } else {
+    gX.attr("class", "x hide");
+  }
+  if (this.highlightedSeries && this.highlightedX) {
+    gY.attr("class", "x show");
+    // gY.select("line").attr("x1", 0).attr("x2", x2);
+  } else {
+    gY.attr("class", "x hide");
+  }
+}
+
+MetricGraph.interpolateY = function(seriesValues, x) {
+  // seriesValues must be an array of points in the form [x, y]
+  seriesValues.sort(function(a, b) { return a[0] - b[0]; });
+  var i = MetricGraph.bisect(seriesValues, x, 1),
+      d0 = seriesValues[i - 1],
+      d1 = seriesValues[i],
+      d = x-d0[0] > d1[0]-x ? d1 : d0;
+}
+
+// see https://bl.ocks.org/mbostock/4163057
+MetricGraph.quad = function(points) {
+  return d3.range(points.length - 1).map(function(i) {
+    var a = [points[i - 1], points[i], points[i + 1], points[i + 2]];
+    a.t = (points[i].t + points[i + 1].t) / 2;
+    a.p = points[i];
+    return a;
+  });
+}
+
+MetricGraph.sample = function(d, precision) {
+  var path = document.createElementNS(d3.ns.prefix.svg, "path");
+  path.setAttribute("d", d);
+  var n = path.getTotalLength(), t = [0], i = 0, dt = precision;
+  while ((i += dt) < n) t.push(i);
+  t.push(n);
+  return t.map(function(t) {
+    var p = path.getPointAtLength(t), a = [p.x, p.y];
+    a.t = t / n;
+    return a;
+  });
+}
+
+MetricGraph.lineJoin = function(p0, p1, p2, p3, width) {
+  var u12 = MetricGraph.perp(p1, p2),
+      r = width / 2,
+      a = [p1[0] + u12[0] * r, p1[1] + u12[1] * r],
+      b = [p2[0] + u12[0] * r, p2[1] + u12[1] * r],
+      c = [p2[0] - u12[0] * r, p2[1] - u12[1] * r],
+      d = [p1[0] - u12[0] * r, p1[1] - u12[1] * r];
+  if (p0) { // clip ad and dc using average of u01 and u12
+    var u01 = MetricGraph.perp(p0, p1), e = [p1[0] + u01[0] + u12[0], p1[1] + u01[1] + u12[1]];
+    a = MetricGraph.lineIntersect(p1, e, a, b);
+    d = MetricGraph.lineIntersect(p1, e, d, c);
+  }
+  if (p3) { // clip ab and dc using average of u12 and u23
+    var u23 = MetricGraph.perp(p2, p3), e = [p2[0] + u23[0] + u12[0], p2[1] + u23[1] + u12[1]];
+    b = MetricGraph.lineIntersect(p2, e, a, b);
+    c = MetricGraph.lineIntersect(p2, e, d, c);
+  }
+  return "M" + a + "L" + b + " " + c + " " + d + "Z";
+}
+
+MetricGraph.lineIntersect = function(a, b, c, d) {
+  var x1 = c[0], x3 = a[0], x21 = d[0] - x1, x43 = b[0] - x3,
+      y1 = c[1], y3 = a[1], y21 = d[1] - y1, y43 = b[1] - y3,
+      ua = (x43 * (y1 - y3) - y43 * (x1 - x3)) / (y43 * x21 - x43 * y21);
+  return [x1 + ua * x21, y1 + ua * y21];
+}
+
+MetricGraph.perp = function(p0, p1) {
+  var u01x = p0[1] - p1[1], u01y = p1[0] - p0[0],
+      u01d = Math.sqrt(u01x * u01x + u01y * u01y);
+  return [u01x / u01d, u01y / u01d];
 }
 
 MetricGraph.prototype.draggingXStartedHandler = function() {
@@ -244,16 +394,17 @@ MetricGraph.prototype.draggingYStartedHandler = function() {
   };
 }
 
-MetricGraph.prototype.mouseMovedHandler = function() {
+MetricGraph.prototype.mouseDraggedHandler = function() {
   var self = this;
   return function() {
     var p = d3.mouse(self.gNode[0][0]),
-        t = d3.event.changedTouches;
+        t = d3.event.changedTouches,
+        x = self.x.invert(p[0]),
+        y = self.x.invert(p[1]);
     // x axis updated
     if (!isNaN(self.draggingX)) {
-      var draggedX = self.x.invert(p[0]);
-      if (draggedX != 0) {
-        var changeX = self.draggingX / draggedX;
+      if (x != 0) {
+        var changeX = self.draggingX / x;
         maxX = self.minX + (self.x.domain()[1] - self.minX) * changeX;
         self.dimensions(undefined, maxX, undefined, undefined);
       }
@@ -262,9 +413,8 @@ MetricGraph.prototype.mouseMovedHandler = function() {
     }
     // y axis updated
     if (!isNaN(self.draggingY)) {
-      var draggedY = self.y.invert(p[1]);
-      if (draggedY != 0) {
-        var changeY = self.draggingY / draggedY;
+      if (y != 0) {
+        var changeY = self.draggingY / y;
         maxY = self.minY + (self.y.domain()[0] - self.minY) * changeY;
         self.dimensions(undefined, undefined, undefined, maxY);
       }
@@ -273,6 +423,16 @@ MetricGraph.prototype.mouseMovedHandler = function() {
     }
     if (!isNaN(self.draggingX) || !isNaN(self.draggingY))
       self.handleDimensionsChanged();
+  };
+}
+
+MetricGraph.prototype.mouseMovedHandler = function() {
+  var self = this;
+  return function() {
+    var p = d3.mouse(self.gNode[0][0]),
+        x = self.x.invert(p[0]),
+        y = self.x.invert(p[1]);
+    self.handleMouseMoved(x, y);
   };
 }
 
@@ -307,6 +467,20 @@ MetricGraph.prototype.mouseReleasedHandler = function() {
   };
 }
 
+MetricGraph.prototype.mouseEnterHandler = function(f) {
+  var self = this;
+  return function() {
+    self.handleMouseEnter();
+  }
+}
+
+MetricGraph.prototype.mouseLeaveHandler = function(f) {
+  var self = this;
+  return function() {
+    self.handleMouseLeave();
+  }
+}
+
 MetricGraph.prototype.attachSeriesHighlightedHandler = function(f) {
   this.seriesHighlightedHandlers.push(f);
 }
@@ -317,6 +491,18 @@ MetricGraph.prototype.attachSeriesUnhighlightedHandler = function(f) {
 
 MetricGraph.prototype.attachDimensionsChangedHandler = function(f) {
   this.dimensionsChangedHandlers.push(f);
+}
+
+MetricGraph.prototype.attachMouseEnterHandler = function(f) {
+  this.mouseEnterHandlers.push(f);
+}
+
+MetricGraph.prototype.attachMouseLeaveHandler = function(f) {
+  this.mouseLeaveHandlers.push(f);
+}
+
+MetricGraph.prototype.attachMouseMovedHandler = function(f) {
+  this.mouseMovedHandlers.push(f);
 }
 
 MetricGraph.prototype.handleSeriesHighlighted = function(id) {
@@ -336,5 +522,23 @@ MetricGraph.prototype.handleDimensionsChanged = function() {
     this.dimensionsChangedHandlers[i](
         this.minX, this.maxX, this.minY, this.maxY
       );
+  }
+}
+
+MetricGraph.prototype.handleMouseEnter = function() {
+  for (i in this.mouseEnterHandlers) {
+    this.mouseEnterHandlers[i]();
+  }
+}
+
+MetricGraph.prototype.handleMouseLeave = function() {
+  for (i in this.mouseLeaveHandlers) {
+    this.mouseLeaveHandlers[i]();
+  }
+}
+
+MetricGraph.prototype.handleMouseMoved = function(x, y) {
+  for (i in this.mouseMovedHandlers) {
+    this.mouseMovedHandlers[i](x, y);
   }
 }

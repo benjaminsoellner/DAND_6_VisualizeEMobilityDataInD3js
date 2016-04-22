@@ -117,7 +117,7 @@ angular.module("app-directives", [])
           $controllers[0].setHighlightedLocId($scope.appLocation);
         }
         $scope.unhighlightLocation = function() {
-          $controllers[0].setHighlightedLocId(undefined);
+          $controllers[0].setHighlightedLocId(false);
         }
       }
     };
@@ -174,28 +174,53 @@ angular.module("app-directives", [])
       controller: function($scope, $element) {
         this.initialize = function() {
           var self = this;
-          $scope.$watch("highlights.locationId", function() { self.dataUpdated(self); } );
+          $scope.$watch("highlights.locationId", function() { self.highlightsUpdated(self); } );
+          $scope.$watch("highlights.metricId", function() { self.highlightsUpdated(self); } );
           $scope.$watch("highlights.timeRange", function() { self.timeRangeUpdated(self); } );
+          $scope.$watch("highlights.time", function() { self.timeUpdated(self); });
           $scope.metricGraph = new MetricGraph( $element.find('.app-metric')[0],
               { xlabel: 'time', ylabel: $scope.metric.label } );
           $scope.metricGraph.dimensions(1.0, 4.0, 1.0, 6.0, false);
           $scope.metricGraph.attachSeriesHighlightedHandler(this.locationHighlighted);
           $scope.metricGraph.attachSeriesUnhighlightedHandler(this.locationUnhighlighted);
+          $scope.metricGraph.attachMouseEnterHandler(this.metricHighlighted);
+          $scope.metricGraph.attachMouseLeaveHandler(this.metricUnhighlighted);
+          $scope.metricGraph.attachMouseLeaveHandler(this.timeUnhighlighted);
+          $scope.metricGraph.attachMouseMovedHandler(this.timeHighlighted);
           $scope.metricGraph.attachDimensionsChangedHandler(this.timeRangeChanged);
+          this.highlightsUpdated();
           this.dataUpdated();
         };
         this.dataUpdated = function(self) {
-          if (!self) self = this
+          if (!self) self = this;
           if ($scope.metricGraph) {
-            $scope.metricGraph.bind($scope.metric, $scope.highlights.locationId, this.locationToSerieses);
+            $scope.metricGraph.bind($scope.metric, this.locationToSerieses);
           }
         };
-        this.timeRangeUpdated = function(self, sendEvents) {
+        this.highlightsUpdated = function(self) {
+          if (!self) self = this;
+          if ($scope.metricGraph) {
+            var colorMap =
+            $scope.metricGraph.highlight({
+              seriesId: $scope.highlights.locationId,
+              colorMap: ($scope.metric.id == $scope.highlights.metricId) ?
+                          $scope.metric.dataColorMap : false
+            });
+          }
+
+        }
+        this.timeRangeUpdated = function(self) {
           if ($scope.highlights.timeRange) {
             minX = $scope.highlights.timeRange[0];
             maxX = $scope.highlights.timeRange[1];
             $scope.metricGraph.dimensions(minX, maxX, undefined, undefined);
           }
+        }
+        this.timeUpdated = function(self) {
+          if ($scope.highlights.time || $scope.highlights.time === false)
+            $scope.metricGraph.highlight({
+              x: $scope.highlights.time
+            });
         }
         this.locationToSerieses = function(data) {
           return data.locations.map(
@@ -209,17 +234,26 @@ angular.module("app-directives", [])
             });
         };
         this.locationHighlighted = function(locationId) {
-          f = function() { $scope.highlights.locationId = locationId; };
-          if (!$scope.$$phase) $scope.$apply(f); else f();
+          $scope.$apply(function() { $scope.highlights.locationId = locationId; });
         };
         this.locationUnhighlighted = function(locationId) {
-          f = function() { $scope.highlights.locationId = undefined; };
-          if (!$scope.$$phase) $scope.$apply(f); else f();
+          $scope.$apply(function() { $scope.highlights.locationId = false; });
+        };
+        this.metricHighlighted = function() {
+          $scope.$apply(function() { $scope.highlights.metricId = $scope.metric.id; });
+        };
+        this.metricUnhighlighted = function() {
+          $scope.$apply(function() { $scope.highlights.metricId = false; });
         };
         this.timeRangeChanged = function(minX, maxX, minY, maxY) {
-          f = function() { $scope.highlights.timeRange = [minX, maxX]; };
-          $scope.$apply(f);
-        }
+          $scope.$apply(function() { $scope.highlights.timeRange = [minX, maxX]; });
+        };
+        this.timeHighlighted = function(x, y) {
+          $scope.$apply(function() { $scope.highlights.time = x; });
+        };
+        this.timeUnhighlighted = function() {
+          $scope.$apply(function() { $scope.highlights.time = false; });
+        };
         this.initialize();
       }
     }
