@@ -3,39 +3,48 @@
 
 
 .app-metric
-  flex-grow: 1
-  g.grid
-    rect.plot
-      stroke-width: 1
-      stroke: black
-      fill: transparent
+  .show
+    display: block
+  .hide
+    display: none
+  g.chart
+    g.grid.layer
+      text.x.label
+      text.y.label
+      line.axis
+        stroke: black
+        stroke-width: 1
+      g.ticks g
+        line
+          stroke: black
+          &.zero
+            stroke: black
+            stroke-width: 2
+        text
+    svg.graph.layer
       cursor: all-scroll
-    rect.axis
-      fill: transparent
-    rect.x.axis
-      cursor: ew-resize
-    rect.y.axis
-      cursor: ns-resize
-    text.x.label
-    text.y.label
-    g.tick
-      line
-        stroke: #ddd
-        &.zero
-          stroke: #ddd
+      g.series
+        path
+          opacity: 0.5
+          stroke-width: 0
+        &.highlighted
+          path
+            opacity: 1.0
+            stroke-width: 1
+    g.highlight.layer
+      circle
+        stroke-width: 1
+        fill: transparent
+      circle.highlighted
+        stroke-width: 2
       text
-  g.guide
-    g.show
-      display: block
-    g.hide
-      display: none
-    line
-      stroke: black
-      stroke-width: 1
-  svg.series
-    path
-      stroke: black
-      stroke-width: 2
-    &.highlighted
-      path
-        stroke-width: 4
+        font-weight: bold
+    rect.interact
+      stroke: transparent
+      fill: transparent
+      &.graph
+        cursor: all-scroll
+      &.x.axis
+        cursor: ew-resize
+      &.y.axis
+        cursor: ns-resize

@@ -10,7 +10,7 @@ html
     script(src="assets/javascripts/underscore.min.js")
     script(src="assets/javascripts/element-queries/ElementQueries.js")
     script(src="assets/javascripts/element-queries/ResizeSensor.js")
-    script(src="assets/javascripts/app-metrics.js")
+    script(src="assets/javascripts/app-chart.js")
     script(src="assets/javascripts/app-directives.js")
     script(src="assets/javascripts/app-controllers.js")
     
@@ -64,12 +64,10 @@ html
             app-schematics(
                 svg="selectedScenario.schematicsFile",
                 locations="locations",
-                loc-values="locValues",
-                val-color-map="valColorMap",
                 highlights="highlights",
                 dir="{{dataDir}}"
               )
-                  
+            
         .app-view-col-2
           .app-view-control.btn-group
             app-dropdown(

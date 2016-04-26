@@ -62,6 +62,7 @@ angular.module("app-controllers", ["app-directives"])
       $scope.highlights.locationId = undefined;
       $scope.highlights.metric = undefined;
       $scope.highlights.time = undefined;
+      $scope.highlights.locationValues = {};
     };
 
     $controller.selectedScenarioChanged = function() {

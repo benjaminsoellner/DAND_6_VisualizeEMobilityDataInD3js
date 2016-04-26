@@ -1,81 +1,87 @@
 
-MetricGraph = function(containerNode, options) {
+AppChart = function(containerNode, options) {
   var self = this;
   this.containerNode = containerNode;
   // read options
   this.options = options || {};
   this.padding = {
-    top:    this.options.title  ? 40 : 20,
+    top:    this.options.title  ? 30 : 10,
     right:  20,
-    bottom: this.options.xlabel ? 50 : 40,
-    left:   this.options.ylabel ? 50 : 20,
+    bottom: this.options.xlabel ? 30 : 40,
+    left:   this.options.ylabel ? 40 : 20,
   };
   this.setup();
 }
 
-MetricGraph.prototype.setup = function() {
+AppChart.prototype.setup = function() {
   var self = this;
   this.y = d3.scale.linear();
   this.x = d3.scale.linear();
   this.svgNode = d3.select(this.containerNode).append("svg")
       .on("mouseenter", this.mouseEnterHandler())
       .on("mouseleave", this.mouseLeaveHandler());
-  this.gNode = this.svgNode.append("g");
-  this.guideNode = this.gNode.append("g").attr("class", "guide");
-  guideNodeX = this.guideNode.append("g").attr("class", "x");
-  guideNodeY = this.guideNode.append("g").attr("class", "y");
-  guideNodeX.append("line")
-      .attr("class", "y")
-      .attr("y1", "0");
-  guideNodeY.append("line")
-      .attr("class", "y")
-      .attr("x1", "0");
-  guideNodeX.append("text").attr("class", "x");
-  guideNodeY.append("text").attr("class", "y");
-  this.gridNode = this.gNode.append("g")
-      .attr("class", "grid");
-  this.axesNode = this.gridNode.append("g");
-  this.xaxisNode = this.gridNode.append("rect")
-      .attr("class", "x axis")
-      .on("mousedown.drag", self.draggingXStartedHandler())
-      .on("touchstart.drag", self.draggingXStartedHandler());
-  this.yaxisNode = this.gridNode.append("rect")
+  this.layers = this.svgNode.append("g");
+  // grid layer
+  this.gridLayer = this.layers.append("g")
+      .attr("class", "grid layer");
+  this.xAxisNode = this.gridLayer.append("line")
+      .attr("class", "x axis");
+  this.yAxisNode = this.gridLayer.append("line")
       .attr("class", "y axis")
-      .on("mousedown.drag", self.draggingYStartedHandler())
-      .on("touchstart.drag", self.draggingYStartedHandler());
-  this.plotNode = this.gridNode.append("rect")
-      .attr("class", "plot")
-      .attr("pointer-events", "all")
-      .on("mousemove", self.mouseMovedHandler())
-      .call(d3.behavior.zoom().x(this.x).y(this.y).on("zoom", this.zoomHandler()));
-  // title
+  this.xTicksNode = this.gridLayer.append("g")
+      .attr("class", "x ticks");
+  this.yTicksNode = this.gridLayer.append("g")
+      .attr("class", "y ticks");
   if (this.options.title)
-    this.titleNode = this.gridNode.append("text")
+    this.titleNode = this.gridLayer.append("text")
         .attr("class", "title")
         .text(this.options.title)
         .attr("dy", "-0.8em")
         .style("text-anchor", "middle");
-  // xlabel
   if (this.options.xlabel)
-    this.xlabelNode = this.axesNode.append("text")
+    this.xLabelNode = this.gridLayer.append("text")
         .attr("class", "x label")
-        .text(this.options.xlabel)
+        .text(this.options.xlabel
+          + (this.options.xunit ? " in " + this.options.xunit : ""))
         .attr("dy", "2.4em")
         .style("text-anchor", "middle");
-  // ylabel
   if (this.options.ylabel)
-    this.ylabelNode = this.axesNode.append("text")
+    this.yLabelNode = this.gridLayer.append("text")
         .attr("class", "y label")
-        .text(this.options.ylabel)
+        .text(this.options.ylabel
+          + (this.options.yunit ? " in " + this.options.yunit : ""))
         .style("text-anchor", "middle");
-  this.draggingX = Math.NaN;
-  this.draggingY = Math.NaN;
+  this.interactXAxis = this.gridLayer.append("rect")
+      .attr("class", "interact x axis")
+      .on("mousedown.drag", self.draggingXStartedHandler())
+      .on("touchstart.drag", self.draggingXStartedHandler());
+  this.interactYAxis = this.gridLayer.append("rect")
+      .attr("class", "interact y axis")
+      .on("mousedown.drag", self.draggingYStartedHandler())
+      .on("touchstart.drag", self.draggingYStartedHandler());
+  // inner layers
+  this.graphLayer = this.layers.append("svg")
+      .attr("class", "graph layer")
+      .on("mousemove", self.mouseMovedHandler())
+      .call(d3.behavior.zoom().x(this.x).y(this.y).on("zoom", this.zoomHandler()));
+  this.interactGraph = this.graphLayer.append("rect")
+      .attr("class", "interact graph")
+  this.seriesesLayer = this.graphLayer.append("g")
+      .attr("class", "serieses layer");
+  this.highlightLayer = this.graphLayer.append("g")
+      .attr("class", "highlight layer");
   // listeners
   d3.select(this.containerNode)
       .on("mousemove.drag", this.mouseDraggedHandler())
       .on("touchmove.drag", this.mouseDraggedHandler())
       .on("mouseup.drag", this.mouseReleasedHandler())
       .on("touchend.drag", this.mouseReleasedHandler());
+  // graph layer
+  // highlight layer
+  this.highlightXNode = this.highlightLayer.append("g");
+  this.draggingX = Math.NaN;
+  this.draggingY = Math.NaN;
+  this.highlightThis = false;
   this.resizeSensor = new ResizeSensor(this.containerNode, this.scaleHandler());
   this.seriesHighlightedHandlers = [];
   this.seriesUnhighlightedHandlers = [];
@@ -85,16 +91,16 @@ MetricGraph.prototype.setup = function() {
   this.mouseMovedHandlers = [];
 }
 
-MetricGraph.prototype.bind = function(serieses, buildSeriesTransform) {
+AppChart.prototype.bind = function(serieses, buildSeriesTransform) {
   var self = this;
   if (buildSeriesTransform)
     serieses = buildSeriesTransform(serieses);
   this.serieses = serieses;
-  var series = this.gNode.selectAll(".series")
+  var series = this.seriesesLayer.selectAll(".series")
       .data(this.serieses, function(d) { return d.id; })
       .attr("id", function(d) { return d.id; });
   var seriese = series.enter();
-  seriese.append("svg")
+  seriese.append("g")
       .attr("top", 0)
       .attr("left", 0)
       .attr("id", function(d) { return d.id; });
@@ -103,13 +109,35 @@ MetricGraph.prototype.bind = function(serieses, buildSeriesTransform) {
   this.scale();
 }
 
-MetricGraph.prototype.getSeriesFromId = function(seriesId) {
+AppChart.prototype.getSeriesFromId = function(seriesId) {
   for (i in this.serieses)
     if (this.serieses[i].id == seriesId)
       return this.serieses[i];
 }
 
-MetricGraph.prototype.dimensions = function(minX, maxX, minY, maxY) {
+AppChart.prototype.getXExtent = function(padding) {
+  if (padding === undefined) padding = 0.0;
+  var minX = undefined, maxX = undefined;
+  for (i in this.serieses) {
+    extentX = d3.extent(this.serieses[i].values, function(d) { return d.x; });
+    if (minX === undefined || extentX[0] < minX) minX = extentX[0];
+    if (maxX === undefined || extentX[1] > maxX) maxX = extentX[1];
+  }
+  return [minX - padding, maxX + padding];
+}
+
+AppChart.prototype.getYExtent = function(padding) {
+  if (padding === undefined) padding = 0.0;
+  var minY = undefined, maxY = undefined;
+  for (i in this.serieses) {
+    extentY = d3.extent(this.serieses[i].values, function(d) { return d.y; });
+    if (minY === undefined || extentY[0] < minY) minY = extentY[0];
+    if (maxY === undefined || extentY[1] > maxY) maxY = extentY[1];
+  }
+  return [minY - padding, maxY + padding];
+}
+
+AppChart.prototype.dimensions = function(minX, maxX, minY, maxY) {
   if (minX) this.minX = minX;
   if (maxX) this.maxX = maxX;
   if (minY) this.minY = minY;
@@ -119,12 +147,12 @@ MetricGraph.prototype.dimensions = function(minX, maxX, minY, maxY) {
   this.scale();
 }
 
-MetricGraph.prototype.highlight = function(changedHighlights) {
-  var seriesesDirty = false, guideDirty = false;
+AppChart.prototype.highlight = function(changedHighlights) {
+  var seriesesDirty = false, highlightsDirty = false;
   if (changedHighlights.seriesId || changedHighlights.seriesId === false) {
     this.highlightedSeries = changedHighlights.seriesId;
     seriesDirty = true;
-    guideDirty = true;
+    highlightsDirty = true;
   }
   if (changedHighlights.colorMap || changedHighlights.colorMap === false) {
     this.colorMap = changedHighlights.colorMap;
@@ -138,18 +166,22 @@ MetricGraph.prototype.highlight = function(changedHighlights) {
   }
   if (changedHighlights.x || changedHighlights.x === false) {
     this.highlightedX = changedHighlights.x;
-    guideDirty = true;
+    highlightsDirty = true;
+  }
+  if (changedHighlights.thisGraph !== undefined) {
+    this.highlightThis = changedHighlights.thisGraph;
+    highlightsDirty = true;
   }
   if (seriesDirty) this.drawSerieses();
-  if (guideDirty) this.drawGuide();
-  this.draw();
+  if (highlightsDirty) this.drawHighlights();
+  //this.draw();
 }
 
-MetricGraph.prototype.scale = function() {
+AppChart.prototype.scale = function() {
   return this.scaleHandler()();
 }
 
-MetricGraph.prototype.scaleHandler = function() {
+AppChart.prototype.scaleHandler = function() {
   var self = this;
   return function() {
     self.clientWidth = self.containerNode.clientWidth;
@@ -161,58 +193,63 @@ MetricGraph.prototype.scaleHandler = function() {
     self.svgNode
         .attr("width",  self.clientWidth)
         .attr("height", self.clientHeight);
-    self.gNode
+    self.layers
         .attr("width", self.clientWidth)
         .attr("height", self.clientHeight)
         .attr("transform", "translate("+self.padding.left+","+self.padding.top+")");
-    self.plotNode
+    self.interactGraph
+        .attr("transform", "translate("+self.padding.left+","+self.padding.top+")")
         .attr("width", self.size.width)
         .attr("height", self.size.height);
-    self.xaxisNode
+    self.interactXAxis
         .attr("width", self.size.width)
         .attr("height", self.padding.bottom)
         .attr("transform", "translate(0,"+self.size.height+")");
-    self.yaxisNode
+    self.interactYAxis
         .attr("width", self.padding.left)
         .attr("height", self.size.height)
         .attr("transform", "translate(-"+self.padding.left+",0)");
-    if (self.seriesNode)
-      self.seriesNode
-          .attr("width", self.size.width)
-          .attr("height", self.size.height)
-          .attr("viewBox", "0 0 " + self.size.width + " " + self.size.height);
+    self.graphLayer
+        .attr("width", self.size.width)
+        .attr("height", self.size.height)
+        .attr("viewBox", "0 0 " + self.size.width + " " + self.size.height);
     self.x = self.x.range([0, self.size.width]);
     self.y = self.y.range([0, self.size.height]);
-    if (self.xlabelNode)
-      self.xlabelNode
+    self.xAxisNode
+        .attr("x1", 0)
+        .attr("x2", self.size.width)
+        .attr("transform", "translate(0,"+self.size.height+")");
+    self.yAxisNode
+        .attr("y1", 0)
+        .attr("y2", self.size.height);
+    if (self.xLabelNode)
+      self.xLabelNode
           .attr("x", self.size.width/2)
-          .attr("y", self.size.height);
-    if (self.ylabelNode)
-      self.ylabelNode
+          .attr("y", self.size.height+5);
+    if (self.yLabelNode)
+      self.yLabelNode
           .attr("transform", "translate("+-30+" "+self.size.height/2+") rotate(-90)");
     if (self.titleNode)
       self.titleNode
           .attr("x", self.size.width/2);
     self.draw();
-    self.guideNode.select("g.x line")
-      .attr("y2", self.size.height);
   };
 }
 
-MetricGraph.prototype.draw = function() {
+AppChart.prototype.draw = function() {
   return this.drawHandler()();
 }
 
-MetricGraph.prototype.drawHandler = function() {
+AppChart.prototype.drawHandler = function() {
   var self = this;
   return function() {
     self.drawGrid();
     self.drawSerieses();
-    self.drawGuide();
+    self.drawHighlights();
   };
 }
 
-MetricGraph.prototype.drawGrid = function() {
+AppChart.prototype.drawGrid = function() {
   var self = this;
   var tx = function(d) { return "translate(" + self.x(d) + ", 0)"; },
       ty = function(d) { return "translate(0, " + self.y(d) + ")"; };
@@ -220,11 +257,10 @@ MetricGraph.prototype.drawGrid = function() {
       fx = this.x.tickFormat(10),
       fy = this.y.tickFormat(10);
   // Regenerate x-ticks
-  var gx = this.axesNode.selectAll("g.x")
+  var gx = this.xTicksNode.selectAll("g")
       .data(this.x.ticks(10), String)
       .attr("transform", tx);
   var gxe = gx.enter().insert("g", "a")
-      .attr("class", "x tick")
       .attr("transform", tx);
   gxe.append("line")
       .attr("class", zeros)
@@ -236,17 +272,16 @@ MetricGraph.prototype.drawGrid = function() {
   // scaling
   gx.selectAll("line")
       .attr("z", 5)
-      .attr("y1", 0)
-      .attr("y2", this.size.height);
+      .attr("y1", this.size.height)
+      .attr("y2", this.size.height+5);
   gx.selectAll("text")
-      .attr("y", this.size.height);
+      .attr("y", this.size.height+5);
   // Regenerate y-ticks
-  var gy = this.axesNode.selectAll("g.y")
+  var gy = this.yTicksNode.selectAll("g")
       .data(this.y.ticks(10), String)
       .attr("transform", ty);
   gy.select("text").text(fy);
   var gye = gy.enter().insert("g", "a")
-      .attr("class", "y tick")
       .attr("transform", ty);
   gye.append("line")
       .attr("class", zeros)
@@ -257,71 +292,122 @@ MetricGraph.prototype.drawGrid = function() {
   gy.exit().remove();
   // scaling
   gy.selectAll("line")
-      .attr("x1", 0)
-      .attr("x2", this.size.width);
+      .attr("x1", -5)
+      .attr("x2", 0);
   gy.selectAll("text")
-      .attr("x", -3);
+      .attr("x", -5);
 }
 
-MetricGraph.prototype.drawSerieses = function() {
+AppChart.prototype.drawSerieses = function() {
   var self = this;
   this.line = d3.svg.line()
     .interpolate("basis")
-    .x(function(d,i) { return this.x(d.time); })
-    .y(function(d,i) { return this.y(d.value); });
+    .x(function(d,i) { return this.x(d.x); })
+    .y(function(d,i) { return this.y(d.y); });
   if (this.seriesNode) {
     this.seriesNode
         .attr("class", function(d) { return (d.id == self.highlightedSeries ? "highlighted " : "") + "series"; })
-        .on("mouseenter", function(d) { self.handleSeriesHighlighted(d.id); })
-        .on("mouseleave", function(d) { self.handleSeriesUnhighlighted(d.id); })
         .on("mousemove", self.mouseMovedHandler())
         .selectAll("path")
         .remove();
     this.pathNode = this.seriesNode
+        .on("mouseenter", function(d) { self.handleSeriesHighlighted(d.id); })
+        .on("mouseleave", function(d) { self.handleSeriesUnhighlighted(d.id); })
         .selectAll("path")
         .data(function(d, i) {
-            return MetricGraph.quad(MetricGraph.sample(self.line(d.values), 8));
+            return AppChart.quad(AppChart.sample(self.line(d.values), 8));
           })
         .enter().append("path");
     this.pathNode
         .style("fill", function(d) { return self.color(self.y.invert(d.p[1])); })
         .style("stroke", function(d) { return self.color(self.y.invert(d.p[1])); })
         .attr("d", function(d) {
-            return MetricGraph.lineJoin(d[0], d[1], d[2], d[3], 2);
+            return AppChart.lineJoin(d[0], d[1], d[2], d[3], 2);
           });
   }
-  this.plotNode.call(d3.behavior.zoom().x(this.x).y(this.y).on("zoom", this.zoomHandler()));
+  this.graphLayer.call(d3.behavior.zoom().x(this.x).y(this.y).on("zoom", this.zoomHandler()));
 }
 
-MetricGraph.prototype.drawGuide = function() {
-  gX = this.guideNode.select("g.x");
-  gY = this.guideNode.select("g.y");
-  if (this.highlightedX) {
-    gX.attr("class", "x show")
-        .select("line")
-          .attr("transform", "translate(" + this.x(this.highlightedX) + ", 0)");
-  } else {
-    gX.attr("class", "x hide");
+AppChart.prototype.getValuesForX = function(x) {
+  hash = {};
+  for (i in this.serieses) {
+    series = this.serieses[i]
+    p = AppChart.findForX(series.values, x);
+    hash[series.id] = {
+        id: series.id, x: p.x, y: p.y,
+        color: this.color(p.y)
+      };
   }
-  if (this.highlightedSeries && this.highlightedX) {
-    gY.attr("class", "x show");
-    // gY.select("line").attr("x1", 0).attr("x2", x2);
-  } else {
-    gY.attr("class", "x hide");
-  }
+  return hash;
 }
 
-MetricGraph.interpolateY = function(seriesValues, x) {
+AppChart.prototype.drawHighlights = function() {
+  var self = this;
+  if (this.highlightedX || this.highlightedX === 0.0) {
+    this.highlightXNode.attr("class", "show");
+    hash = this.getValuesForX(this.highlightedX);
+    data = [];
+    for (k in hash)
+      data.push(hash[k]);
+    circles = this.highlightXNode
+        .selectAll("circle")
+        .data(data, function (d) { return d.id; });
+    circles.exit().remove();
+    circles.enter().append("circle")
+        .attr("r", "5");
+    circles
+        .attr("class", function (d) { return d.id == self.highlightedSeries ? "highlighted" : ""; })
+        .attr("cx", function (d) { return self.x(d.x); })
+        .attr("cy", function (d) { return self.y(d.y); })
+        .attr("stroke", function (d) { return d.color; })
+        .on("mouseenter", function(d) { self.handleSeriesHighlighted(d.id); })
+        .on("mouseleave", function(d) { self.handleSeriesUnhighlighted(d.id); });
+    if (this.highlightedSeries) {
+      var datum = undefined, format = d3.format(".2f");
+      for (i in data)
+        if (data[i].id == this.highlightedSeries)
+          datum = data[i];
+      xText = this.highlightXNode.selectAll("text.x").data([datum]);
+      yText = this.highlightXNode.selectAll("text.y").data([datum]);
+      xText.exit().remove();
+      yText.exit().remove();
+      xText.enter().append("text").attr("class", "x");
+      yText.enter().append("text").attr("class", "y");
+      xText.text(function(d) {
+              return format(d.x) + (self.options.xunit ? self.options.xunit : "");
+            })
+          .attr("x", function(d) { return self.x(d.x); })
+          .attr("y", function(d) { return self.y(d.y)+20; })
+          .attr("text-anchor", "middle");
+      yText.text(function(d) {
+              return format(d.y) + (self.options.yunit ? self.options.yunit : "");
+            })
+          .attr("x", function(d) { return self.x(d.x)-10; })
+          .attr("y", function(d) { return self.y(d.y)+3; })
+          .attr("text-anchor", "end");
+    } else {
+      this.highlightXNode.selectAll("text.x").remove();
+      this.highlightXNode.selectAll("text.y").remove();
+    }
+  } else if (this.highlightedX === false) {
+    this.highlightXNode.attr("class", "hide");
+  }
+  this.layers.attr("class", (this.highlightThis ? "highlighted " : "") + "chart");
+}
+
+AppChart.findForX = function(seriesValues, x) {
   // seriesValues must be an array of points in the form [x, y]
-  seriesValues.sort(function(a, b) { return a[0] - b[0]; });
-  var i = MetricGraph.bisect(seriesValues, x, 1),
+  seriesValues.sort(function(a, b) { return a.x - b.x; });
+  var bisect = d3.bisector(function(d) { return d.x; }).left,
+      i = bisect(seriesValues, x, 1),
       d0 = seriesValues[i - 1],
       d1 = seriesValues[i],
-      d = x-d0[0] > d1[0]-x ? d1 : d0;
+      d = (d1 === undefined ? d0 : (x-d0.x > d1.x-x ? d1 : d0));
+  return d;
 }
 
 // see https://bl.ocks.org/mbostock/4163057
-MetricGraph.quad = function(points) {
+AppChart.quad = function(points) {
   return d3.range(points.length - 1).map(function(i) {
     var a = [points[i - 1], points[i], points[i + 1], points[i + 2]];
     a.t = (points[i].t + points[i + 1].t) / 2;
@@ -330,7 +416,7 @@ MetricGraph.quad = function(points) {
   });
 }
 
-MetricGraph.sample = function(d, precision) {
+AppChart.sample = function(d, precision) {
   var path = document.createElementNS(d3.ns.prefix.svg, "path");
   path.setAttribute("d", d);
   var n = path.getTotalLength(), t = [0], i = 0, dt = precision;
@@ -343,64 +429,64 @@ MetricGraph.sample = function(d, precision) {
   });
 }
 
-MetricGraph.lineJoin = function(p0, p1, p2, p3, width) {
-  var u12 = MetricGraph.perp(p1, p2),
+AppChart.lineJoin = function(p0, p1, p2, p3, width) {
+  var u12 = AppChart.perp(p1, p2),
       r = width / 2,
       a = [p1[0] + u12[0] * r, p1[1] + u12[1] * r],
       b = [p2[0] + u12[0] * r, p2[1] + u12[1] * r],
       c = [p2[0] - u12[0] * r, p2[1] - u12[1] * r],
       d = [p1[0] - u12[0] * r, p1[1] - u12[1] * r];
   if (p0) { // clip ad and dc using average of u01 and u12
-    var u01 = MetricGraph.perp(p0, p1), e = [p1[0] + u01[0] + u12[0], p1[1] + u01[1] + u12[1]];
-    a = MetricGraph.lineIntersect(p1, e, a, b);
-    d = MetricGraph.lineIntersect(p1, e, d, c);
+    var u01 = AppChart.perp(p0, p1), e = [p1[0] + u01[0] + u12[0], p1[1] + u01[1] + u12[1]];
+    a = AppChart.lineIntersect(p1, e, a, b);
+    d = AppChart.lineIntersect(p1, e, d, c);
   }
   if (p3) { // clip ab and dc using average of u12 and u23
-    var u23 = MetricGraph.perp(p2, p3), e = [p2[0] + u23[0] + u12[0], p2[1] + u23[1] + u12[1]];
-    b = MetricGraph.lineIntersect(p2, e, a, b);
-    c = MetricGraph.lineIntersect(p2, e, d, c);
+    var u23 = AppChart.perp(p2, p3), e = [p2[0] + u23[0] + u12[0], p2[1] + u23[1] + u12[1]];
+    b = AppChart.lineIntersect(p2, e, a, b);
+    c = AppChart.lineIntersect(p2, e, d, c);
   }
   return "M" + a + "L" + b + " " + c + " " + d + "Z";
 }
 
-MetricGraph.lineIntersect = function(a, b, c, d) {
+AppChart.lineIntersect = function(a, b, c, d) {
   var x1 = c[0], x3 = a[0], x21 = d[0] - x1, x43 = b[0] - x3,
       y1 = c[1], y3 = a[1], y21 = d[1] - y1, y43 = b[1] - y3,
       ua = (x43 * (y1 - y3) - y43 * (x1 - x3)) / (y43 * x21 - x43 * y21);
   return [x1 + ua * x21, y1 + ua * y21];
 }
 
-MetricGraph.perp = function(p0, p1) {
+AppChart.perp = function(p0, p1) {
   var u01x = p0[1] - p1[1], u01y = p1[0] - p0[0],
       u01d = Math.sqrt(u01x * u01x + u01y * u01y);
   return [u01x / u01d, u01y / u01d];
 }
 
-MetricGraph.prototype.draggingXStartedHandler = function() {
+AppChart.prototype.draggingXStartedHandler = function() {
   var self = this;
   return function() {
     document.onselectstart = function() { return false; }
-    var p = d3.mouse(self.gNode[0][0]);
+    var p = d3.mouse(self.layers[0][0]);
     self.draggingX = self.x.invert(p[0]);
   };
 }
 
-MetricGraph.prototype.draggingYStartedHandler = function() {
+AppChart.prototype.draggingYStartedHandler = function() {
   var self = this;
   return function() {
     document.onselectstart = function() { return false; }
-    var p = d3.mouse(self.gNode[0][0]);
+    var p = d3.mouse(self.layers[0][0]);
     self.draggingY = self.y.invert(p[1]);
   };
 }
 
-MetricGraph.prototype.mouseDraggedHandler = function() {
+AppChart.prototype.mouseDraggedHandler = function() {
   var self = this;
   return function() {
-    var p = d3.mouse(self.gNode[0][0]),
+    var p = d3.mouse(self.layers[0][0]),
         t = d3.event.changedTouches,
         x = self.x.invert(p[0]),
-        y = self.x.invert(p[1]);
+        y = self.y.invert(p[1]);
     // x axis updated
     if (!isNaN(self.draggingX)) {
       if (x != 0) {
@@ -426,17 +512,18 @@ MetricGraph.prototype.mouseDraggedHandler = function() {
   };
 }
 
-MetricGraph.prototype.mouseMovedHandler = function() {
+AppChart.prototype.mouseMovedHandler = function() {
   var self = this;
   return function() {
-    var p = d3.mouse(self.gNode[0][0]),
+    var p = d3.mouse(self.layers[0][0]),
         x = self.x.invert(p[0]),
         y = self.x.invert(p[1]);
     self.handleMouseMoved(x, y);
+    return false;
   };
 }
 
-MetricGraph.prototype.zoomHandler = function() {
+AppChart.prototype.zoomHandler = function() {
   var self = this;
   return function() {
     self.minX = self.x.domain()[0];
@@ -448,7 +535,7 @@ MetricGraph.prototype.zoomHandler = function() {
   };
 }
 
-MetricGraph.prototype.mouseReleasedHandler = function() {
+AppChart.prototype.mouseReleasedHandler = function() {
   var self = this;
   return function() {
     document.onselectstart = function() { return true; }
@@ -467,77 +554,78 @@ MetricGraph.prototype.mouseReleasedHandler = function() {
   };
 }
 
-MetricGraph.prototype.mouseEnterHandler = function(f) {
+AppChart.prototype.mouseEnterHandler = function(f) {
   var self = this;
   return function() {
     self.handleMouseEnter();
   }
 }
 
-MetricGraph.prototype.mouseLeaveHandler = function(f) {
+AppChart.prototype.mouseLeaveHandler = function(f) {
   var self = this;
   return function() {
     self.handleMouseLeave();
   }
 }
 
-MetricGraph.prototype.attachSeriesHighlightedHandler = function(f) {
+AppChart.prototype.attachSeriesHighlightedHandler = function(f) {
   this.seriesHighlightedHandlers.push(f);
 }
 
-MetricGraph.prototype.attachSeriesUnhighlightedHandler = function(f) {
+AppChart.prototype.attachSeriesUnhighlightedHandler = function(f) {
   this.seriesUnhighlightedHandlers.push(f);
 }
 
-MetricGraph.prototype.attachDimensionsChangedHandler = function(f) {
+AppChart.prototype.attachDimensionsChangedHandler = function(f) {
   this.dimensionsChangedHandlers.push(f);
 }
 
-MetricGraph.prototype.attachMouseEnterHandler = function(f) {
+AppChart.prototype.attachMouseEnterHandler = function(f) {
   this.mouseEnterHandlers.push(f);
 }
 
-MetricGraph.prototype.attachMouseLeaveHandler = function(f) {
+AppChart.prototype.attachMouseLeaveHandler = function(f) {
   this.mouseLeaveHandlers.push(f);
 }
 
-MetricGraph.prototype.attachMouseMovedHandler = function(f) {
+AppChart.prototype.attachMouseMovedHandler = function(f) {
   this.mouseMovedHandlers.push(f);
 }
 
-MetricGraph.prototype.handleSeriesHighlighted = function(id) {
+AppChart.prototype.handleSeriesHighlighted = function(id) {
   for (i in this.seriesHighlightedHandlers) {
     this.seriesHighlightedHandlers[i](id);
   }
 }
 
-MetricGraph.prototype.handleSeriesUnhighlighted = function(id) {
+AppChart.prototype.handleSeriesUnhighlighted = function(id) {
   for (i in this.seriesHighlightedHandlers) {
     this.seriesUnhighlightedHandlers[i](id);
   }
 }
 
-MetricGraph.prototype.handleDimensionsChanged = function() {
+AppChart.prototype.handleDimensionsChanged = function() {
   for (i in this.dimensionsChangedHandlers) {
     this.dimensionsChangedHandlers[i](
         this.minX, this.maxX, this.minY, this.maxY
       );
+    this.draw();
   }
 }
 
-MetricGraph.prototype.handleMouseEnter = function() {
+AppChart.prototype.handleMouseEnter = function() {
   for (i in this.mouseEnterHandlers) {
     this.mouseEnterHandlers[i]();
   }
 }
 
-MetricGraph.prototype.handleMouseLeave = function() {
+AppChart.prototype.handleMouseLeave = function() {
   for (i in this.mouseLeaveHandlers) {
     this.mouseLeaveHandlers[i]();
   }
 }
 
-MetricGraph.prototype.handleMouseMoved = function(x, y) {
+AppChart.prototype.handleMouseMoved = function(x, y) {
   for (i in this.mouseMovedHandlers) {
     this.mouseMovedHandlers[i](x, y);
   }

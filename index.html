@@ -9,7 +9,7 @@
     <script src="assets/javascripts/underscore.min.js"></script>
     <script src="assets/javascripts/element-queries/ElementQueries.js"></script>
     <script src="assets/javascripts/element-queries/ResizeSensor.js"></script>
-    <script src="assets/javascripts/app-metrics.js"></script>
+    <script src="assets/javascripts/app-chart.js"></script>
     <script src="assets/javascripts/app-directives.js"></script>
     <script src="assets/javascripts/app-controllers.js"></script>
   </head>
@@ -46,7 +46,7 @@
             <app-dropdown placeholder="Select Scenario" list="scenarios" selected="selectedScenario" property="label" type="radio"></app-dropdown>
           </div>
           <div ng-if="selectedScenario.schematicsFile" class="app-view-content">
-            <app-schematics svg="selectedScenario.schematicsFile" locations="locations" loc-values="locValues" val-color-map="valColorMap" highlights="highlights" dir="{{dataDir}}"></app-schematics>
+            <app-schematics svg="selectedScenario.schematicsFile" locations="locations" highlights="highlights" dir="{{dataDir}}"></app-schematics>
           </div>
         </div>
         <div class="app-view-col-2">
