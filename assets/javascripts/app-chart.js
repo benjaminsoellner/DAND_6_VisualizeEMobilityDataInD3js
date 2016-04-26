@@ -301,7 +301,7 @@ AppChart.prototype.drawGrid = function() {
 AppChart.prototype.drawSerieses = function() {
   var self = this;
   this.line = d3.svg.line()
-    .interpolate("basis")
+    .interpolate("linear")
     .x(function(d,i) { return this.x(d.x); })
     .y(function(d,i) { return this.y(d.y); });
   if (this.seriesNode) {
