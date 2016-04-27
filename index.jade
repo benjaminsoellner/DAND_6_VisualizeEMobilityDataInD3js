@@ -5,81 +5,31 @@ html
     link(rel="stylesheet",href="assets/stylesheets/master.min.css")
     script(src="assets/javascripts/jquery-1.12.2.js")
     script(src="assets/javascripts/bootstrap.js")
+    script(src="assets/javascripts/underscore.min.js")
     script(src="assets/javascripts/d3.min.js")
     script(src="assets/javascripts/angular.js")
-    script(src="assets/javascripts/underscore.min.js")
+    script(src="assets/javascripts/angular-route.js")
     script(src="assets/javascripts/element-queries/ElementQueries.js")
     script(src="assets/javascripts/element-queries/ResizeSensor.js")
     script(src="assets/javascripts/app-chart.js")
-    script(src="assets/javascripts/app-directives.js")
-    script(src="assets/javascripts/app-controllers.js")
+    script(src="assets/javascripts/app-mod-emobviz.js")
     
   
   title Data Analyst Nanodegree Project 6 - Visualizing Electric Car Battery Performance in D3
     
-  body(ng-app="app-controllers")
+  body(ng-app="app-emobviz",ng-controller="appMain as main")
     
-    
-    #app-nav-views.modal.fade(tabindex="-1",role="dialog")
-      .modal-dialog(role="document")
-        .modal-content
-          .modal-header
-            button.close(type="button",data-dismiss="modal") &times;
-            h4.modal-title Views
-          .modal-body
-            ul.nav.nav-pills.nav-stacked
-              li.active
-                a(href="#app-explore",data-toggle="app-explore") Exploratory View
-              li
-                a(href="#app-explain",data-toggle="app-explain") Explanatory View
-    
+    app-routes(all="main.routes",current="main.currentRoute",title="Views")
     
     .app-grid
       
-      .app-header  
-        h1 Data Analyst Nanodegree Project 6 - Visualizing Electric Car Battery Performance in D3
-      
-      .app-view.app-active#app-explore(ng-controller="appExplore as explore")
-        a(name="app-explore")
-      
-        nav.btn-group("role=navigation")
-          #app-nav-hamburger.btn-group
-            button.btn.btn-default(
-                type="button",
-                data-toggle="modal",
-                data-target="#app-nav-views"
-              )
-              span.glyphicon.glyphicon-menu-hamburger
-
-        .app-view-col-2
-          .app-view-control.btn-group
-            app-dropdown(
-                placeholder="Select Scenario",
-                list="scenarios",
-                selected="selectedScenario",
-                property="label",
-                type="radio"
-              )
-          .app-view-content(ng-if="selectedScenario.schematicsFile")
-            app-schematics(
-                svg="selectedScenario.schematicsFile",
-                locations="locations",
-                highlights="highlights",
-                dir="{{dataDir}}"
-              )
-            
-        .app-view-col-2
-          .app-view-control.btn-group
-            app-dropdown(
-                placeholder="Select Metrics",
-                list="metrics",
-                selected="selectedMetrics",
-                property="label",
-                type="checkbox"
-              )
-          .app-view-content
-            app-metrics(
-                metrics="selectedMetrics",
-                highlights="highlights"
-              )
-              app-metric
+      nav("role=navigation")
+        button.btn-group.btn.btn-default(
+            type="button",
+            data-toggle="modal",
+            data-target="#app-nav-views"
+          )
+          span.glyphicon.glyphicon-menu-hamburger
+        h1 Data Analyst Nanodegree Project 6 - Visualizing Electric Car Battery Performance in D3      
+  
+      ng-view

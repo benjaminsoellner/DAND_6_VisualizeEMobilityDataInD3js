@@ -1,0 +1,21 @@
+
+<div id="app-explore" class="app-view">
+  <div class="app-view-col-2">
+    <div class="app-view-control btn-group">
+      <app-dropdown placeholder="Select Scenario" list="view.scenarios" selected="view.selectedScenario" property="label" type="radio"></app-dropdown>
+    </div>
+    <div ng-if="view.selectedScenario.schematicsFile" class="app-view-content">
+      <app-schematics svg="view.selectedScenario.schematicsFile" locations="view.locations" highlights="view.highlights" dir="{{view.dataDir}}"></app-schematics>
+    </div>
+  </div>
+  <div class="app-view-col-2">
+    <div class="app-view-control btn-group">
+      <app-dropdown placeholder="Select Metrics" list="view.metrics" selected="view.selectedMetrics" property="label" type="checkbox"></app-dropdown>
+    </div>
+    <div class="app-view-content">
+      <app-metrics metrics="view.selectedMetrics" highlights="view.highlights">
+        <app-metric></app-metric>
+      </app-metrics>
+    </div>
+  </div>
+</div>

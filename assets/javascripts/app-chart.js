@@ -392,7 +392,7 @@ AppChart.prototype.drawHighlights = function() {
   } else if (this.highlightedX === false) {
     this.highlightXNode.attr("class", "hide");
   }
-  this.layers.attr("class", (this.highlightThis ? "highlighted " : "") + "chart");
+  this.layers.attr("class", (this.highlightThis ? "highlighted " : "") + "app-chart");
 }
 
 AppChart.findForX = function(seriesValues, x) {

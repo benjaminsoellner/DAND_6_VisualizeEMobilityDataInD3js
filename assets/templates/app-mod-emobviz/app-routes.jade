@@ -1,0 +1,11 @@
+//output: app-routes.html
+.app-nav.modal.fade#app-nav-views(tabindex="-1",role="dialog")
+  .modal-dialog(role="document")
+    .modal-content
+      .modal-header
+        button.close(type="button",data-dismiss="modal") &times;
+        h4.modal-title {{routes.title}}
+      .modal-body
+        ul.nav.nav-pills.nav-stacked(ng-repeat="route in routes.all")
+          li(ng-class="{active: routes.current.id==route.id}")
+            a(ng-href="#!{{route.path}}",onclick="$(this).parents('.modal').first().modal('hide');") {{route.name}}

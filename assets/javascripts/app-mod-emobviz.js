@@ -1,9 +1,197 @@
-angular.module("app-directives", [])
+var DATA_DIR = "data";
+var SCENARIOS_FILE = "scenarios.json";
+
+angular.module("app-emobviz", ["ngRoute"])
+
+  .config(["$locationProvider", "$routeProvider", function($locationProvider, $routeProvider) {
+    $locationProvider.html5Mode(false);
+    $locationProvider.hashPrefix('!');
+    $routeProvider
+      .when('/explain', {
+        templateUrl: "views/explain.html",
+        name: "Introduction to E-Mobility",
+        id: "explain"
+      })
+      .when('/explore', {
+        templateUrl: "views/explore.html",
+        controller: "appExplore",
+        reloadOnSearch: false,
+        controllerAs: "view",
+        name: "Explore Car Batteries!",
+        id: "explore"
+      })
+      .when('/doc', {
+        templateUrl: "views/doc.html",
+        name: "Project Documentation",
+        id: "doc"
+      })
+      .otherwise({
+        redirectTo: "/explore"
+      });
+  }])
+
+  .controller("appMain", ["$scope", "$route", function($scope, $route) {
+    this.$route = $route;
+    this.setRoutes = function() {
+      var self = this;
+      this.routes = [];
+      ids = [];
+      angular.forEach(self.$route.routes, function (route, path) {
+        if (route.id !== undefined && !(route.id in ids)) {
+          self.routes.push({
+            path: path,
+            id: route.id,
+            name: route.name
+          });
+          ids.push(route.id);
+        }
+      });
+    };
+    this.updateCurrentRouteHandler = function() {
+      var self = this;
+      return function() {
+        if (self.$route.current === undefined)
+          self.currentRoute = undefined;
+        else {
+          self.currentRoute = {
+            id: self.$route.current.id,
+            name: self.$route.current.name
+          };
+        }
+      };
+    }
+    this.setRoutes();
+    this.updateCurrentRouteHandler()();
+    $scope.$watch("main.$route.current", this.updateCurrentRouteHandler());
+
+  }])
+
+  .directive("appRoutes", [function() {
+    return {
+      restrict: "E",
+      templateUrl: "assets/templates/app-mod-emobviz/app-routes.html",
+      bindToController: {
+        current: "=",
+        all: "=",
+        title: "@"
+      },
+      controllerAs: "routes",
+      controller: function($scope, $element) {
+      }
+    };
+  }])
+
+  .controller("appExplore", ["$scope", "$http", "$location", function($scope, $http, $location) {
+    this.loadScenarios = function(scenarioUrl) {
+      $http.get(scenarioUrl).success(this.scenariosLoadedHandler());
+    };
+    this.loadMetrics = function(metricsUrl) {
+      this.resetHighlights();
+      $http.get(metricsUrl).success(this.metricsLoadedHandler());
+    };
+    this.resetHighlights = function() {
+      if (!this.highlights) this.highlights = {};
+      this.highlights.locationId = undefined;
+      this.highlights.metric = undefined;
+      this.highlights.time = undefined;
+      this.highlights.locationValues = {};
+    };
+    this.metricsLoadedHandler = function() {
+      var self = this;
+      return function(data) {
+        metrics = data;
+        hotspots = [];
+        for (metricIdx in metrics)
+          metrics[metricIdx].graph = self.reshapeForGraph(metrics[metricIdx]);
+        self.metrics = metrics;
+      };
+    }
+    this.scenariosLoadedHandler = function() {
+      var self = this;
+      return function(data) {
+        self.scenarios = data;
+        self.processUrlScenarioId();
+      };
+    }
+    this.selectedScenarioChangedHandler = function() {
+      var self = this;
+      return function() {
+        self.resetHighlights();
+        if (self.selectedScenario) {
+          self.loadMetrics(self.dataDir + "/" + self.selectedScenario.dataFile);
+          $location.search("scenarioId", self.selectedScenario.id);
+        } else if (self.selectedScenario === undefined) {
+          self.metrics = undefined;
+          self.selectedMetrics = [];
+          self.locations = [];
+        }
+      };
+    };
+    this.selectedMetricsChangedHandler = function() {
+      var self = this;
+      return function() {
+        locations = [];
+        for (metricIdx in self.selectedMetrics) {
+          for (locationIdx in self.selectedMetrics[metricIdx].locations) {
+            locations.push(self.selectedMetrics[metricIdx].locations[locationIdx])
+          }
+        }
+        self.locations = locations;
+      }
+    };
+    this.setMetricHighlighted = function(metric, value) {
+      if (value)
+        self.highlightedMetric = metric;
+      else
+        self.highlightedMetric = undefined;
+    };
+    this.reshapeForGraph = function(metric) {
+      r = [];
+      for (l in metric.locations) {
+        for (i = 0; i < metric.locations[l].time.length; i++) {
+          r.push({
+            "location": l,
+            "time": metric.locations[l].time[i],
+            "data": metric.locations[l].data[i]
+          });
+        }
+      }
+      return r;
+    }
+    this.processUrlHandler = function() {
+      var self = this;
+      return function($event, $args) {
+        self.processUrlScenarioId();
+        self.processUrlStoryId();
+      }
+    }
+    this.processUrlScenarioId = function() {
+      var scenarioId = $location.search().scenarioId,
+          scenario = undefined;
+      for (i in this.scenarios)
+        if (this.scenarios[i].id == scenarioId)
+          scenario = this.scenarios[i];
+      this.selectedScenario = scenario;
+    }
+    this.processUrlStoryId = function() {
+
+    }
+    // initialization:
+    this.scenarios = [];
+    this.selectedScenario = undefined;
+    this.dataDir = DATA_DIR;
+    this.scenariosFile = SCENARIOS_FILE;
+    $scope.$watch("view.selectedScenario", this.selectedScenarioChangedHandler());
+    $scope.$watch("view.selectedMetrics", this.selectedMetricsChangedHandler(), true);
+    $scope.$on("$locationChangeSuccess", this.processUrlHandler());
+    this.resetHighlights();
+    this.loadScenarios(this.dataDir + "/" + this.scenariosFile);
+  }])
 
   .directive("appDropdown", [function() {
     return {
       restrict: "E",
-      templateUrl: "assets/templates/app-directives/app-dropdown.html",
+      templateUrl: "assets/templates/app-mod-emobviz/app-dropdown.html",
       scope: {
         placeholder: "@",
         list: "=",
@@ -67,9 +255,6 @@ angular.module("app-directives", [])
       },
       controllerAs: "schematics",
       controller: function($scope, $element) {
-        this.initialize = function() {
-          $scope.$watch("schematics.highlights.locationValues", this.locationValuesChanged, true);
-        }
         this.getHighlightedLocId = function() {
           return this.highlights.locationId;
         }
@@ -90,12 +275,15 @@ angular.module("app-directives", [])
           svg[0].removeAttribute("height");
           svg[0].removeAttribute("width");
         }
-        this.locationValuesChanged = function(values) {
-          if (values) {
-            $scope.$broadcast("locationValuesChanged", values);
+        this.locationValuesChangedHandler = function(values) {
+          return function(values) {
+            if (values) {
+              $scope.$broadcast("locationValuesChanged", values);
+            }
           }
         }
-        this.initialize();
+        // initialize
+        $scope.$watch("schematics.highlights.locationValues", this.locationValuesChangedHandler(), true);
       },
     };
   }])
@@ -105,7 +293,7 @@ angular.module("app-directives", [])
       require: ["^^appSchematics"],
       transclude: true,
       restrict: "A",
-      templateUrl: "assets/templates/app-directives/app-location.html",
+      templateUrl: "assets/templates/app-mod-emobviz/app-location.html",
       scope: {
         appLocation: "@"
       },
@@ -178,7 +366,7 @@ angular.module("app-directives", [])
 
   .directive("appMetrics", [function() {
     return {
-      templateUrl: "assets/templates/app-directives/app-metrics.html",
+      templateUrl: "assets/templates/app-mod-emobviz/app-metrics.html",
       transclude: true,
       restrict: "E",
       scope: {
@@ -217,7 +405,7 @@ angular.module("app-directives", [])
     return {
       require: ["^^appMetrics"],
       restrict: "E",
-      templateUrl: "assets/templates/app-directives/app-metric.html",
+      templateUrl: "assets/templates/app-mod-emobviz/app-metric.html",
       scope: false,
       bindToController: true,
       controllerAs: "self",

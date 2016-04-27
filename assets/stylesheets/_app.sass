@@ -7,7 +7,21 @@
   height: 100%
   flex-direction: column
 
-  .app-header
+  nav
+    display: flex
+    flex-direction: row
+    padding: 5px
+    button
+      width: auto
+      padding: 5px
+      padding-left: 10px
+      padding-right: 10px
+    h1
+      flex-grow: 1
+      font-size: 30px
+      margin: 0px
+      padding-left: 5px
+      padding-right: 5px
 
   .app-view
     flex-basis: 80%
@@ -19,9 +33,6 @@
   flex-grow: 1
   overflow: hidden
   margin-top: 5px
-
-html, body
-  height: 100vh
 
 // Exploratory View Grid
 
@@ -41,31 +52,6 @@ html, body
   display: flex
   flex-direction: column
   overflow: auto
-
-// Menu
-
-#app-nav-views.modal
-  &.fade .modal-dialog
-    @include notransform()
-    .modal-content
-      @include transition-transform(all 0.3s ease-in-out)
-      left: -10%
-  &.fade.in .modal-dialog
-    @include notransform()
-    .modal-content
-      @include transition-transform(all 0.3s ease-in-out)
-      left: 0%
-
-  .modal-content
-    border-radius: 0px
-    position: fixed
-    top: 0px
-    height: 100vh
-    width: 20%
-
-#app-nav-hamburger
-  width: auto
-  padding: 5px
 
 // Exploratory View: Components
 
@@ -123,16 +109,3 @@ html, body
   /* all other elements should scale to height: 100% */
   app-metric div, app-metrics div
     height: 100%
-
-
-// Dummies
-
-.app-dummy
-  width: 400px
-  height: 100px
-  padding: 10px
-  margin-bottom: 10px
-  border: 2px solid blue
-
-.app-hide
-  display: none

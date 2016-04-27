@@ -1,0 +1,28 @@
+// Metrics column
+
+.app-metric
+  .show
+    display: block
+  .hide
+    display: none
+
+// Navigation
+
+.app-nav.modal
+  &.fade .modal-dialog
+    @include notransform()
+    .modal-content
+      @include transition-transform(all 0.3s ease-in-out)
+      left: -10%
+  &.fade.in .modal-dialog
+    @include notransform()
+    .modal-content
+      @include transition-transform(all 0.3s ease-in-out)
+      left: 0%
+
+  .modal-content
+    border-radius: 0px
+    position: fixed
+    top: 0px
+    height: 100vh
+    width: 20%

@@ -4,62 +4,24 @@
     <link rel="stylesheet" href="assets/stylesheets/master.min.css">
     <script src="assets/javascripts/jquery-1.12.2.js"></script>
     <script src="assets/javascripts/bootstrap.js"></script>
+    <script src="assets/javascripts/underscore.min.js"></script>
     <script src="assets/javascripts/d3.min.js"></script>
     <script src="assets/javascripts/angular.js"></script>
-    <script src="assets/javascripts/underscore.min.js"></script>
+    <script src="assets/javascripts/angular-route.js"></script>
     <script src="assets/javascripts/element-queries/ElementQueries.js"></script>
     <script src="assets/javascripts/element-queries/ResizeSensor.js"></script>
     <script src="assets/javascripts/app-chart.js"></script>
-    <script src="assets/javascripts/app-directives.js"></script>
-    <script src="assets/javascripts/app-controllers.js"></script>
+    <script src="assets/javascripts/app-mod-emobviz.js"></script>
   </head>
   <title>Data Analyst Nanodegree Project 6 - Visualizing Electric Car Battery Performance in D3</title>
-  <body ng-app="app-controllers">
-    <div id="app-nav-views" tabindex="-1" role="dialog" class="modal fade">
-      <div role="document" class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" data-dismiss="modal" class="close">&times;</button>
-            <h4 class="modal-title">Views</h4>
-          </div>
-          <div class="modal-body">
-            <ul class="nav nav-pills nav-stacked">
-              <li class="active"><a href="#app-explore" data-toggle="app-explore">Exploratory View</a></li>
-              <li><a href="#app-explain" data-toggle="app-explain">Explanatory View</a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
+  <body ng-app="app-emobviz" ng-controller="appMain as main">
+    <app-routes all="main.routes" current="main.currentRoute" title="Views"></app-routes>
     <div class="app-grid">
-      <div class="app-header"> 
-        <h1>Data Analyst Nanodegree Project 6 - Visualizing Electric Car Battery Performance in D3</h1>
-      </div>
-      <div id="app-explore" ng-controller="appExplore as explore" class="app-view app-active"><a name="app-explore"></a>
-        <nav role=navigation class="btn-group">
-          <div id="app-nav-hamburger" class="btn-group">
-            <button type="button" data-toggle="modal" data-target="#app-nav-views" class="btn btn-default"><span class="glyphicon glyphicon-menu-hamburger"></span></button>
-          </div>
-        </nav>
-        <div class="app-view-col-2">
-          <div class="app-view-control btn-group">
-            <app-dropdown placeholder="Select Scenario" list="scenarios" selected="selectedScenario" property="label" type="radio"></app-dropdown>
-          </div>
-          <div ng-if="selectedScenario.schematicsFile" class="app-view-content">
-            <app-schematics svg="selectedScenario.schematicsFile" locations="locations" highlights="highlights" dir="{{dataDir}}"></app-schematics>
-          </div>
-        </div>
-        <div class="app-view-col-2">
-          <div class="app-view-control btn-group">
-            <app-dropdown placeholder="Select Metrics" list="metrics" selected="selectedMetrics" property="label" type="checkbox"></app-dropdown>
-          </div>
-          <div class="app-view-content">
-            <app-metrics metrics="selectedMetrics" highlights="highlights">
-              <app-metric></app-metric>
-            </app-metrics>
-          </div>
-        </div>
-      </div>
+      <nav role=navigation>
+        <button type="button" data-toggle="modal" data-target="#app-nav-views" class="btn-group btn btn-default"><span class="glyphicon glyphicon-menu-hamburger"></span></button>
+        <h1>Data Analyst Nanodegree Project 6 - Visualizing Electric Car Battery Performance in D3      </h1>
+      </nav>
+      <ng-view></ng-view>
     </div>
   </body>
 </html>
