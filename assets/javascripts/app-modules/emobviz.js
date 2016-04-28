@@ -68,7 +68,7 @@ angular.module("app-emobviz", ["ngRoute"])
   .directive("appRoutes", [function() {
     return {
       restrict: "E",
-      templateUrl: "assets/templates/app-mod-emobviz/app-routes.html",
+      templateUrl: "assets/templates/app-modules/routes.html",
       scope: true,
       bindToController: {
         current: "=",
@@ -191,7 +191,7 @@ angular.module("app-emobviz", ["ngRoute"])
   .directive("appDropdown", [function() {
     return {
       restrict: "E",
-      templateUrl: "assets/templates/app-mod-emobviz/app-dropdown.html",
+      templateUrl: "assets/templates/app-modules/dropdown.html",
       scope: true,
       bindToController: {
         placeholder: "@",
@@ -296,7 +296,7 @@ angular.module("app-emobviz", ["ngRoute"])
       require: ["^^appSchematics"],
       transclude: true,
       restrict: "A",
-      templateUrl: "assets/templates/app-mod-emobviz/app-location.html",
+      templateUrl: "assets/templates/app-modules/location.html",
       scope: true,
       bindToController: {
         appLocation: "@"
@@ -353,7 +353,7 @@ angular.module("app-emobviz", ["ngRoute"])
       bindToController: {
         style: "=appStyle"
       },
-      controllerAs: "style",
+      controllerAs: "appStyle",
       priority: 100,
       controller: function($scope, $element) {
         this.styleChangedHandler = function() {
@@ -378,7 +378,7 @@ angular.module("app-emobviz", ["ngRoute"])
 
   .directive("appMetrics", [function() {
     return {
-      templateUrl: "assets/templates/app-mod-emobviz/app-metrics.html",
+      templateUrl: "assets/templates/app-modules/metrics.html",
       transclude: true,
       restrict: "E",
       scope: true,
@@ -419,7 +419,7 @@ angular.module("app-emobviz", ["ngRoute"])
     return {
       require: ["^^appMetrics"],
       restrict: "E",
-      templateUrl: "assets/templates/app-mod-emobviz/app-metric.html",
+      templateUrl: "assets/templates/app-modules/metric.html",
       scope: {
         metric: "=",
         highlights: "="
