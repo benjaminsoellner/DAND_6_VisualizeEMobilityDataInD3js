@@ -1,5 +1,5 @@
 //output: app-location.html
-g(ng-class="['app-location', {'app-with-metrics': hasMetrics(), 'app-highlighted': isHighlighted()}]",
+g(ng-class="['app-location', {'app-with-metrics': appLocation.hasMetrics(), 'app-highlighted': appLocation.isHighlighted()}]",
   ng-transclude,
-  ng-mouseenter="highlightLocation()"
-  ng-mouseleave="unhighlightLocation()")
+  ng-mouseenter="appLocation.highlightLocation()"
+  ng-mouseleave="appLocation.unhighlightLocation()")

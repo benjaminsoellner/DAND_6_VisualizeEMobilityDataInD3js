@@ -4,8 +4,8 @@
     .modal-content
       .modal-header
         button.close(type="button",data-dismiss="modal") &times;
-        h4.modal-title {{routes.title}}
+        h4.modal-title {{appRoutes.title}}
       .modal-body
-        ul.nav.nav-pills.nav-stacked(ng-repeat="route in routes.all")
-          li(ng-class="{active: routes.current.id==route.id}")
+        ul.nav.nav-pills.nav-stacked(ng-repeat="route in appRoutes.all")
+          li(ng-class="{active: appRoutes.current.id==route.id}")
             a(ng-href="#!{{route.path}}",onclick="$(this).parents('.modal').first().modal('hide');") {{route.name}}

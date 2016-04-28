@@ -14,8 +14,7 @@ html
     script(src="assets/javascripts/app-chart.js")
     script(src="assets/javascripts/app-mod-emobviz.js")
     
-  
-  title Data Analyst Nanodegree Project 6 - Visualizing Electric Car Battery Performance in D3
+  title E-Mobility Battery Performance Visualization
     
   body(ng-app="app-emobviz",ng-controller="appMain as main")
     
@@ -23,13 +22,13 @@ html
     
     .app-grid
       
-      nav("role=navigation")
+      nav.navbar.navbar-default.navbar-fixed-top("role=navigation")
         button.btn-group.btn.btn-default(
             type="button",
             data-toggle="modal",
             data-target="#app-nav-views"
           )
           span.glyphicon.glyphicon-menu-hamburger
-        h1 Data Analyst Nanodegree Project 6 - Visualizing Electric Car Battery Performance in D3      
+        h1 E-Mobility Battery Performance Visualization       
   
       ng-view

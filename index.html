@@ -13,13 +13,13 @@
     <script src="assets/javascripts/app-chart.js"></script>
     <script src="assets/javascripts/app-mod-emobviz.js"></script>
   </head>
-  <title>Data Analyst Nanodegree Project 6 - Visualizing Electric Car Battery Performance in D3</title>
+  <title>E-Mobility Battery Performance Visualization</title>
   <body ng-app="app-emobviz" ng-controller="appMain as main">
     <app-routes all="main.routes" current="main.currentRoute" title="Views"></app-routes>
     <div class="app-grid">
-      <nav role=navigation>
+      <nav role=navigation class="navbar navbar-default navbar-fixed-top">
         <button type="button" data-toggle="modal" data-target="#app-nav-views" class="btn-group btn btn-default"><span class="glyphicon glyphicon-menu-hamburger"></span></button>
-        <h1>Data Analyst Nanodegree Project 6 - Visualizing Electric Car Battery Performance in D3      </h1>
+        <h1>E-Mobility Battery Performance Visualization       </h1>
       </nav>
       <ng-view></ng-view>
     </div>

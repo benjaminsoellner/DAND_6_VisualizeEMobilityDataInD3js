@@ -21,12 +21,12 @@ angular.module("app-emobviz", ["ngRoute"])
         id: "explore"
       })
       .when('/doc', {
-        templateUrl: "views/doc.html",
+        templateUrl: "views/report.html",
         name: "Project Documentation",
-        id: "doc"
+        id: "report"
       })
       .otherwise({
-        redirectTo: "/explore"
+        redirectTo: "/explain"
       });
   }])
 
@@ -63,19 +63,19 @@ angular.module("app-emobviz", ["ngRoute"])
     this.setRoutes();
     this.updateCurrentRouteHandler()();
     $scope.$watch("main.$route.current", this.updateCurrentRouteHandler());
-
   }])
 
   .directive("appRoutes", [function() {
     return {
       restrict: "E",
       templateUrl: "assets/templates/app-mod-emobviz/app-routes.html",
+      scope: true,
       bindToController: {
         current: "=",
         all: "=",
         title: "@"
       },
-      controllerAs: "routes",
+      controllerAs: "appRoutes",
       controller: function($scope, $element) {
       }
     };
@@ -192,53 +192,56 @@ angular.module("app-emobviz", ["ngRoute"])
     return {
       restrict: "E",
       templateUrl: "assets/templates/app-mod-emobviz/app-dropdown.html",
-      scope: {
+      scope: true,
+      bindToController: {
         placeholder: "@",
         list: "=",
         selected: "=",
         property: "@",
         type: "@"
       },
-      link: function($scope) {
-        $scope.initialize = function() {
-          $scope.isPlaceholder = true;
-          if ($scope.type == undefined) $scope.type = "radio";
-          $scope.$watch("selected", $scope.selectedChange, true);
-        }
-        $scope.select = function(item) {
-          if ($scope.type == "radio") {
-            $scope.selected = item;
-          } else if ($scope.type == "checkbox") {
-            index = $scope.selected.indexOf(item);
+      controllerAs: "appDropdown",
+      controller: function($scope) {
+        this.select = function(item) {
+          if (this.type == "radio") {
+            this.selected = item;
+          } else if (this.type == "checkbox") {
+            index = this.selected.indexOf(item);
             if (index > -1)
-              $scope.selected.splice(index, 1);
+              this.selected.splice(index, 1);
             else
-              $scope.selected.push(item);
+              this.selected.push(item);
           }
         };
-        $scope.isSelected = function(item) {
-          if ($scope.type == "radio")
-            return item == $scope.selected;
+        this.isSelected = function(item) {
+          if (this.type == "radio")
+            return item == this.selected;
           else
-            return ($scope.selected.indexOf(item) > -1);
+            return (this.selected.indexOf(item) > -1);
         };
-        $scope.selectedChange = function() {
-          if ($scope.type == "radio") {
-            $scope.isPlaceholder = ($scope.selected === undefined);
-            if (!$scope.isPlaceholder)
-              if (!$scope.property)
-                $scope.display = $scope.selected;
+        this.selectedChangedHandler = function() {
+          var self = this;
+          return function() {
+            if (self.type == "radio") {
+              self.isPlaceholder = (self.selected === undefined);
+              if (!self.isPlaceholder)
+                if (!self.property)
+                  self.display = self.selected;
+                else
+                  self.display = self.selected[self.property];
+            } else if (self.type == "checkbox") {
+              self.isPlaceholder = (self.selected.length == 0);
+              if (!self.property)
+                self.display = self.selected.join(", ");
               else
-                $scope.display = $scope.selected[$scope.property];
-          } else if ($scope.type == "checkbox") {
-            $scope.isPlaceholder = ($scope.selected.length == 0);
-            if (!$scope.property)
-              $scope.display = $scope.selected.join(", ");
-            else
-              $scope.display = _.pluck($scope.selected, $scope.property).join(", ");
+                self.display = _.pluck(self.selected, self.property).join(", ");
+            }
           }
         };
-        $scope.initialize();
+        // initialization
+        this.isPlaceholder = true;
+        if (this.type == undefined) this.type = "radio";
+        $scope.$watch("appDropdown.selected", this.selectedChangedHandler(), true);
       }
     };
   }])
@@ -246,14 +249,14 @@ angular.module("app-emobviz", ["ngRoute"])
   .directive("appSchematics", ["$http", "$q", function($http, $q) {
     return {
       restrict: "E",
-      template: '<ng-include src="schematics.getSrcUrl()" data-onload="schematics.loaded()" />',
+      template: '<ng-include src="appSchematics.getSrcUrl()" data-onload="appSchematics.loaded()" />',
       bindToController: {
         svg: "=",
         locations: "=",
         highlights: "=",
         dir: "@"
       },
-      controllerAs: "schematics",
+      controllerAs: "appSchematics",
       controller: function($scope, $element) {
         this.getHighlightedLocId = function() {
           return this.highlights.locationId;
@@ -283,8 +286,8 @@ angular.module("app-emobviz", ["ngRoute"])
           }
         }
         // initialize
-        $scope.$watch("schematics.highlights.locationValues", this.locationValuesChangedHandler(), true);
-      },
+        $scope.$watch("appSchematics.highlights.locationValues", this.locationValuesChangedHandler(), true);
+      }
     };
   }])
 
@@ -294,44 +297,50 @@ angular.module("app-emobviz", ["ngRoute"])
       transclude: true,
       restrict: "A",
       templateUrl: "assets/templates/app-mod-emobviz/app-location.html",
-      scope: {
+      scope: true,
+      bindToController: {
         appLocation: "@"
       },
-      link: function($scope, $elem, $attrib, $controllers) {
-        $scope.hasMetrics = function() {
-          locations = $controllers[0].getLocations();
+      controllerAs: "appLocation",
+      controller: function($scope, $element) {
+        this.hasMetrics = function() {
+          locations = this.schematics.getLocations();
           for (locationIdx in locations)
-            if (locations[locationIdx].id == $scope.appLocation)
+            if (locations[locationIdx].id == this.appLocation)
                 return true;
           return false;
         }
-        $scope.isHighlighted = function() {
-          highlightedLocId = $controllers[0].getHighlightedLocId();
-          return ($scope.appLocation == highlightedLocId);
+        this.isHighlighted = function() {
+          highlightedLocId = this.schematics.getHighlightedLocId();
+          return (this.appLocation == highlightedLocId);
         }
-        $scope.highlightLocation = function() {
-          $controllers[0].setHighlightedLocId($scope.appLocation);
+        this.highlightLocation = function() {
+          this.schematics.setHighlightedLocId(this.appLocation);
         }
-        $scope.unhighlightLocation = function() {
-          $controllers[0].setHighlightedLocId(false);
+        this.unhighlightLocation = function() {
+          this.schematics.setHighlightedLocId(false);
         }
-        $scope.locationValuesChanged = function($event, values) {
-          var elems = $elem.find("*");
-          var value = undefined;
-          for (i in values)
-            if (values[i].id == $scope.appLocation)
-              value = values[i];
-          if (value) {
-            $scope.appStyle.fill = value.color;
-          } else {
-            $scope.appStyle.fill = undefined;
-          }
+        this.locationValuesChangedHandler = function() {
+          var self = this;
+          return function($event, values) {
+            var value = undefined;
+            for (i in values)
+              if (values[i].id == self.appLocation)
+                value = values[i];
+            if (value) {
+              self.style.fill = value.color;
+            } else {
+              self.style.fill = undefined;
+            }
+          };
         }
         // initialization
-        $scope.appStyle = {fill: undefined};
-        $scope.$on("locationValuesChanged", $scope.locationValuesChanged);
-        updatedChilds = $elem.children().first().find("*")
-            .attr("app-style","appStyle");
+        this.style = {fill: undefined};
+        $scope.$on("locationValuesChanged", this.locationValuesChangedHandler());
+      },
+      link: function($scope, $element, $attrs, $controllers) {
+        $scope.appLocation.schematics = $controllers[0];
+        updatedChilds = $element.children().first().find("*").attr("app-style","appLocation.style");
         $compile(updatedChilds)($scope);
       }
     };
@@ -340,26 +349,29 @@ angular.module("app-emobviz", ["ngRoute"])
   .directive("appStyle", ["$compile", function($compile) {
     return {
       restrict: "A",
-      scope: {
-        appStyle: "="
+      scope: true,
+      bindToController: {
+        style: "=appStyle"
       },
+      controllerAs: "style",
       priority: 100,
-      link: function($scope, $elem, $attrib, $controllers) {
-        $scope.oldStyle = {};
-        for (k in $scope.appStyle)
-          $scope.oldStyle[k] = $elem[0].style[k];
-        $scope.$watch("appStyle",
-          function(appStyle) {
-            for (k in appStyle) {
-              if (appStyle[k] === undefined && $scope.oldStyle[k]) {
-                $elem.css(k, $scope.oldStyle[k]);
+      controller: function($scope, $element) {
+        this.styleChangedHandler = function() {
+          var self = this;
+          return function(style) {
+            for (k in style) {
+              if (style[k] === undefined && self.oldStyle[k]) {
+                $element.css(k, self.oldStyle[k]);
               } else {
-                $elem.css(k, appStyle[k]);
+                $element.css(k, style[k]);
               }
             }
-          }, true);
-          //updatedChilds = $elem.attr("ng-style","appStyle").removeAttr("app-style");
-          //$compile(updatedChilds)($scope);
+          };
+        }
+        // initialization
+        this.oldStyle = {};
+        for (k in this.style) this.oldStyle[k] = $element[0].style[k];
+        $scope.$watch("appStyle.style", this.styleChangedHandler(), true);
       }
     }
   }])
@@ -369,10 +381,12 @@ angular.module("app-emobviz", ["ngRoute"])
       templateUrl: "assets/templates/app-mod-emobviz/app-metrics.html",
       transclude: true,
       restrict: "E",
-      scope: {
+      scope: true,
+      bindToController: {
         metrics: "=",
         highlights: "="
       },
+      controllerAs: "appMetrics",
       controller: function($scope, $element) {
 
       }
@@ -381,23 +395,23 @@ angular.module("app-emobviz", ["ngRoute"])
 
   .directive("appTranscope", function() {
     return {
-        link: function( $scope, $element, $attrs, $controllers, $transclude ) {
-            if ( !$transclude ) {
-                throw minErr( 'ngTransclude' )( 'orphan',
-                    'Illegal use of ngTransclude directive in the template! ' +
-                    'No parent directive that requires a transclusion found. ' +
-                    'Element: {0}',
-                    startingTag( $element ));
-            }
-            var innerScope = $scope.$new();
-            $transclude( innerScope, function( clone ) {
-                $element.empty();
-                $element.append( clone );
-                $element.on( '$destroy', function() {
-                    innerScope.$destroy();
-                });
-            });
-        }
+      link: function( $scope, $element, $attrs, $controllers, $transclude ) {
+          if ( !$transclude ) {
+              throw minErr( 'ngTransclude' )( 'orphan',
+                  'Illegal use of ngTransclude directive in the template! ' +
+                  'No parent directive that requires a transclusion found. ' +
+                  'Element: {0}',
+                  startingTag( $element ));
+          }
+          var innerScope = $scope.$new();
+          $transclude( innerScope, function( clone ) {
+              $element.empty();
+              $element.append( clone );
+              $element.on( '$destroy', function() {
+                  innerScope.$destroy();
+              });
+          });
+      }
     };
   })
 
@@ -406,82 +420,66 @@ angular.module("app-emobviz", ["ngRoute"])
       require: ["^^appMetrics"],
       restrict: "E",
       templateUrl: "assets/templates/app-mod-emobviz/app-metric.html",
-      scope: false,
+      scope: {
+        metric: "=",
+        highlights: "="
+      },
       bindToController: true,
-      controllerAs: "self",
+      controllerAs: "appMetric",
       controller: function($scope, $element) {
-        this.initialize = function() {
+        this.dataUpdated = function() {
+          if (this.chart) {
+            this.chart.bind(this.metric, this.locationsToSerieses);
+          }
+        };
+        this.highlightsUpdatedHandler = function() {
           var self = this;
-          $scope.$watch("highlights.locationId", function() { self.highlightsUpdated(self); } );
-          $scope.$watch("highlights.metricId", function() { self.highlightsUpdated(self); } );
-          $scope.$watch("highlights.timeRange", function() { self.timeRangeUpdated(self); } );
-          $scope.$watch("highlights.time", function() { self.timeUpdated(self); });
-          chartOptions = {
-            xlabel: 'time',
-            xunit: 's',
-            ylabel: $scope.metric.label,
-            yunit: $scope.metric.unit
-          };
-          $scope.chart = new AppChart( $element.find('.app-metric')[0], chartOptions);
-          $scope.chart.attachSeriesHighlightedHandler(this.locationHighlighted);
-          $scope.chart.attachSeriesUnhighlightedHandler(this.locationUnhighlighted);
-          $scope.chart.attachMouseEnterHandler(this.metricHighlighted);
-          $scope.chart.attachMouseLeaveHandler(this.metricUnhighlighted);
-          $scope.chart.attachMouseLeaveHandler(this.timeUnhighlighted);
-          $scope.chart.attachMouseMovedHandler(this.timeHighlighted);
-          $scope.chart.attachDimensionsChangedHandler(this.timeRangeChanged);
-          this.highlightsUpdated();
-          this.dataUpdated();
-          this.fitChart();
-        };
-        this.dataUpdated = function(self) {
-          if (!self) self = this;
-          if ($scope.chart) {
-            $scope.chart.bind($scope.metric, this.locationsToSerieses);
+          return function() {
+            if (self.chart) {
+              var highlightThisGraph = (self.metric.id == self.highlights.metricId);
+              self.chart.highlight({
+                seriesId: self.highlights.locationId,
+                colorMap: highlightThisGraph ? self.metric.dataColorMap : false,
+                thisGraph: highlightThisGraph
+              });
+            }
           }
-        };
-        this.highlightsUpdated = function(self) {
-          if (!self) self = this;
-          if ($scope.chart) {
-            var highlightThisGraph = ($scope.metric.id == $scope.highlights.metricId);
-            $scope.chart.highlight({
-              seriesId: $scope.highlights.locationId,
-              colorMap: highlightThisGraph ? $scope.metric.dataColorMap : false,
-              thisGraph: highlightThisGraph
-            });
-          }
-
         }
         this.fitChart = function() {
           var minX = undefined, minY = undefined,
               maxX = undefined, maxY = undefined,
-              rangeXNew = $scope.chart.getXExtent(0.5),
-              rangeYNew = $scope.chart.getYExtent(0.5);
-
-          if ($scope.highlights.timeRange) {
-            minX = $scope.highlights.timeRange[0];
-            maxX = $scope.highlights.timeRange[1];
+              rangeXNew = this.chart.getXExtent(0.5),
+              rangeYNew = this.chart.getYExtent(0.5);
+          if (this.highlights.timeRange) {
+            minX = this.highlights.timeRange[0];
+            maxX = this.highlights.timeRange[1];
           } else {
-            $scope.highlights.timeRange = [undefined, undefined];
+            this.highlights.timeRange = [undefined, undefined];
           }
           if (minX === undefined || rangeXNew[0] < minX)
-            $scope.highlights.timeRange[0] = minX = rangeXNew[0];
+            this.highlights.timeRange[0] = minX = rangeXNew[0];
           if (maxX === undefined || rangeXNew[1] > maxX)
-            $scope.highlights.timeRange[1] = maxX = rangeXNew[1];
-          $scope.chart.dimensions(minX, maxX, rangeYNew[0], rangeYNew[1]);
+            this.highlights.timeRange[1] = maxX = rangeXNew[1];
+          this.chart.dimensions(minX, maxX, rangeYNew[0], rangeYNew[1]);
         }
-        this.timeRangeUpdated = function(self) {
-          if ($scope.highlights.timeRange) {
-            minX = $scope.highlights.timeRange[0];
-            maxX = $scope.highlights.timeRange[1];
-            $scope.chart.dimensions(minX, maxX, undefined, undefined);
+        this.timeRangeUpdatedHandler = function() {
+          var self = this;
+          return function() {
+            if (self.highlights.timeRange) {
+              minX = self.highlights.timeRange[0];
+              maxX = self.highlights.timeRange[1];
+              self.chart.dimensions(minX, maxX, undefined, undefined);
+            }
           }
         }
-        this.timeUpdated = function(self) {
-          if ($scope.highlights.time || $scope.highlights.time === false)
-            $scope.chart.highlight({
-              x: $scope.highlights.time
-            });
+        this.timeUpdatedHandler = function() {
+          var self = this;
+          return function() {
+            if (self.highlights.time || self.highlights.time === false)
+              self.chart.highlight({
+                x: self.highlights.time
+              });
+          }
         }
         this.locationsToSerieses = function(data) {
           return data.locations.map(
@@ -494,35 +492,87 @@ angular.module("app-emobviz", ["ngRoute"])
               };
             });
         };
-        this.locationHighlighted = function(locationId) {
-          $scope.$apply(function() { $scope.highlights.locationId = locationId; });
-        };
-        this.locationUnhighlighted = function(locationId) {
-          $scope.$apply(function() { $scope.highlights.locationId = false; });
-        };
-        this.metricHighlighted = function() {
-          $scope.$apply(function() { $scope.highlights.metricId = $scope.metric.id; });
-        };
-        this.metricUnhighlighted = function() {
-          $scope.$apply(function() { $scope.highlights.metricId = false; });
-        };
-        this.timeRangeChanged = function(minX, maxX, minY, maxY) {
-          $scope.$apply(function() { $scope.highlights.timeRange = [minX, maxX]; });
-        };
-        this.timeHighlighted = function(x, y) {
-          values = $scope.chart.getValuesForX(x);
-          $scope.$apply(function() {
-              $scope.highlights.time = x;
-              $scope.highlights.locationValues = values;
+        this.locationHighlightedHandler = function() {
+          var self = this;
+          return function(locationId) {
+            $scope.$apply(function() {
+              self.highlights.locationId = locationId;
             });
+          };
         };
-        this.timeUnhighlighted = function() {
-          $scope.$apply(function() {
-              $scope.highlights.time = false;
-              $scope.highlights.locationValues = {};
+        this.locationUnhighlightedHandler = function() {
+          var self = this;
+          return function(locationId) {
+            $scope.$apply(function() {
+              self.highlights.locationId = false;
             });
+          };
         };
-        this.initialize();
+        this.metricHighlightedHandler = function() {
+          var self = this;
+          return function() {
+            $scope.$apply(function() {
+              self.highlights.metricId = self.metric.id;
+            });
+          };
+        };
+        this.metricUnhighlightedHandler = function() {
+          var self = this;
+          return function() {
+            $scope.$apply(function() {
+              self.highlights.metricId = false;
+            });
+          };
+        };
+        this.timeRangeChangedHandler = function() {
+          var self = this;
+          return function(minX, maxX, minY, maxY) {
+            $scope.$apply(function() {
+              self.highlights.timeRange = [minX, maxX];
+            });
+          };
+        };
+        this.timeHighlightedHandler = function() {
+          var self = this;
+          return function(x, y) {
+            values = self.chart.getValuesForX(x);
+            $scope.$apply(function() {
+                self.highlights.time = x;
+                self.highlights.locationValues = values;
+              });
+          };
+        };
+        this.timeUnhighlightedHandler = function() {
+          var self = this;
+          return function() {
+            $scope.$apply(function() {
+                self.highlights.time = false;
+                self.highlights.locationValues = {};
+              });
+          };
+        };
+        // initialization
+        chartOptions = {
+          xlabel: 'time',
+          xunit: 's',
+          ylabel: this.metric.label,
+          yunit: this.metric.unit
+        };
+        this.chart = new AppChart( $element.find('.app-metric')[0], chartOptions);
+        this.chart.attachSeriesHighlightedHandler(this.locationHighlightedHandler());
+        this.chart.attachSeriesUnhighlightedHandler(this.locationUnhighlightedHandler());
+        this.chart.attachMouseEnterHandler(this.metricHighlightedHandler());
+        this.chart.attachMouseLeaveHandler(this.metricUnhighlightedHandler());
+        this.chart.attachMouseLeaveHandler(this.timeUnhighlightedHandler());
+        this.chart.attachMouseMovedHandler(this.timeHighlightedHandler());
+        this.chart.attachDimensionsChangedHandler(this.timeRangeChangedHandler());
+        this.highlightsUpdatedHandler()();
+        this.dataUpdated();
+        this.fitChart();
+        $scope.$watch("appMetric.highlights.locationId", this.highlightsUpdatedHandler());
+        $scope.$watch("appMetric.highlights.metricId", this.highlightsUpdatedHandler());
+        $scope.$watch("appMetric.highlights.timeRange", this.timeRangeUpdatedHandler());
+        $scope.$watch("appMetric.highlights.time", this.timeUpdatedHandler());
       }
     }
   }]);

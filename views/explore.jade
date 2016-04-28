@@ -19,7 +19,7 @@
         )
       
   .app-view-col-2
-    .app-view-control.btn-group
+    .app-view-control.btn-group(ng-if="view.metrics.length")
       app-dropdown(
           placeholder="Select Metrics",
           list="view.metrics",
@@ -27,9 +27,9 @@
           property="label",
           type="checkbox"
         )
-    .app-view-content
+    .app-view-content(ng-if="view.selectedMetrics.length")
       app-metrics(
           metrics="view.selectedMetrics",
           highlights="view.highlights"
         )
-        app-metric
+        app-metric(metric="metric",highlights="view.highlights")
