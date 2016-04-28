@@ -27,6 +27,11 @@
           property="label",
           type="checkbox"
         )
+      button.btn(
+        ng-if="view.highlights.looseness > 2",
+        ng-click="view.highlights.looseness = 2")
+          span.glyphicon.glyphicon-refresh
+          span &nbsp; Reset Graph
     .app-view-content(ng-if="view.selectedMetrics.length")
       app-metrics(
           metrics="view.selectedMetrics",

@@ -94,6 +94,8 @@ angular.module("app-emobviz", ["ngRoute"])
       this.highlights.locationId = undefined;
       this.highlights.metric = undefined;
       this.highlights.time = undefined;
+      this.highlights.timeRane = [];
+      this.highlights.looseness = 0;
       this.highlights.locationValues = {};
     };
     this.metricsLoadedHandler = function() {
@@ -388,7 +390,6 @@ angular.module("app-emobviz", ["ngRoute"])
       },
       controllerAs: "appMetrics",
       controller: function($scope, $element) {
-
       }
     };
   }])
@@ -461,6 +462,8 @@ angular.module("app-emobviz", ["ngRoute"])
           if (maxX === undefined || rangeXNew[1] > maxX)
             this.highlights.timeRange[1] = maxX = rangeXNew[1];
           this.chart.dimensions(minX, maxX, rangeYNew[0], rangeYNew[1]);
+          if (this.highlights.looseness > 2)
+            this.highlights.looseness = 2;
         }
         this.timeRangeUpdatedHandler = function() {
           var self = this;
@@ -497,6 +500,8 @@ angular.module("app-emobviz", ["ngRoute"])
           return function(locationId) {
             $scope.$apply(function() {
               self.highlights.locationId = locationId;
+              if (self.highlights.looseness < 1)
+                self.highlights.looseness = 1;
             });
           };
         };
@@ -505,6 +510,8 @@ angular.module("app-emobviz", ["ngRoute"])
           return function(locationId) {
             $scope.$apply(function() {
               self.highlights.locationId = false;
+              if (self.highlights.looseness < 1)
+                self.highlights.looseness = 1;
             });
           };
         };
@@ -513,6 +520,8 @@ angular.module("app-emobviz", ["ngRoute"])
           return function() {
             $scope.$apply(function() {
               self.highlights.metricId = self.metric.id;
+              if (self.highlights.looseness < 1)
+                self.highlights.looseness = 1;
             });
           };
         };
@@ -521,14 +530,18 @@ angular.module("app-emobviz", ["ngRoute"])
           return function() {
             $scope.$apply(function() {
               self.highlights.metricId = false;
+              if (self.highlights.looseness < 1)
+                self.highlights.looseness = 1;
             });
           };
         };
-        this.timeRangeChangedHandler = function() {
+        this.rangeChangedHandler = function() {
           var self = this;
           return function(minX, maxX, minY, maxY) {
             $scope.$apply(function() {
               self.highlights.timeRange = [minX, maxX];
+              if (self.highlights.looseness < 3)
+                self.highlights.looseness = 3;
             });
           };
         };
@@ -539,6 +552,8 @@ angular.module("app-emobviz", ["ngRoute"])
             $scope.$apply(function() {
                 self.highlights.time = x;
                 self.highlights.locationValues = values;
+                if (self.highlights.looseness < 1)
+                  self.highlights.looseness = 1;
               });
           };
         };
@@ -548,9 +563,20 @@ angular.module("app-emobviz", ["ngRoute"])
             $scope.$apply(function() {
                 self.highlights.time = false;
                 self.highlights.locationValues = {};
+                if (self.highlights.looseness < 1)
+                  self.highlights.looseness = 1;
               });
           };
         };
+        this.loosenessUpdatedHandler = function() {
+          var self = this;
+          return function() {
+            if (self.highlights.looseness < 3) {
+              self.highlights.timeRange = [undefined, undefined];
+              self.fitChart();              
+            }
+          }
+        }
         // initialization
         chartOptions = {
           xlabel: 'time',
@@ -565,7 +591,7 @@ angular.module("app-emobviz", ["ngRoute"])
         this.chart.attachMouseLeaveHandler(this.metricUnhighlightedHandler());
         this.chart.attachMouseLeaveHandler(this.timeUnhighlightedHandler());
         this.chart.attachMouseMovedHandler(this.timeHighlightedHandler());
-        this.chart.attachDimensionsChangedHandler(this.timeRangeChangedHandler());
+        this.chart.attachDimensionsChangedHandler(this.rangeChangedHandler());
         this.highlightsUpdatedHandler()();
         this.dataUpdated();
         this.fitChart();
@@ -573,6 +599,7 @@ angular.module("app-emobviz", ["ngRoute"])
         $scope.$watch("appMetric.highlights.metricId", this.highlightsUpdatedHandler());
         $scope.$watch("appMetric.highlights.timeRange", this.timeRangeUpdatedHandler());
         $scope.$watch("appMetric.highlights.time", this.timeUpdatedHandler());
+        $scope.$watch("appMetric.highlights.looseness", this.loosenessUpdatedHandler());
       }
     }
   }]);

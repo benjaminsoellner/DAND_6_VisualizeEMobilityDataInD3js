@@ -11,6 +11,7 @@
   <div class="app-view-col-2">
     <div ng-if="view.metrics.length" class="app-view-control btn-group">
       <app-dropdown placeholder="Select Metrics" list="view.metrics" selected="view.selectedMetrics" property="label" type="checkbox"></app-dropdown>
+      <button ng-if="view.highlights.looseness &gt; 2" ng-click="view.highlights.looseness = 2" class="btn"><span class="glyphicon glyphicon-refresh"></span><span>&nbsp; Reset Graph</span></button>
     </div>
     <div ng-if="view.selectedMetrics.length" class="app-view-content">
       <app-metrics metrics="view.selectedMetrics" highlights="view.highlights">
