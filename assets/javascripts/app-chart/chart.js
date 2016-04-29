@@ -157,7 +157,7 @@ AppChart.prototype.highlight = function(changedHighlights) {
   if (changedHighlights.colorMap || changedHighlights.colorMap === false) {
     this.colorMap = changedHighlights.colorMap;
     if (this.colorMap === false)
-      this.color = d3.interpolateLab("black");
+      this.color = false;
     else
       this.color = d3.scale.linear()
           .domain(this.colorMap.map(function(d) { return d[0]; }))
@@ -170,6 +170,7 @@ AppChart.prototype.highlight = function(changedHighlights) {
   }
   if (changedHighlights.thisGraph !== undefined) {
     this.highlightThis = changedHighlights.thisGraph;
+    seriesDirty = true;
     highlightsDirty = true;
   }
   if (seriesDirty) this.drawSerieses();
@@ -319,8 +320,8 @@ AppChart.prototype.drawSerieses = function() {
           })
         .enter().append("path");
     this.pathNode
-        .style("fill", function(d) { return self.color(self.y.invert(d.p[1])); })
-        .style("stroke", function(d) { return self.color(self.y.invert(d.p[1])); })
+        .style("fill", function(d) { return self.color ? self.color(self.y.invert(d.p[1])) : "black"; })
+        .style("stroke", function(d) { return self.color ? self.color(self.y.invert(d.p[1])) : "black"; })
         .attr("d", function(d) {
             return AppChart.lineJoin(d[0], d[1], d[2], d[3], 2);
           });
@@ -335,7 +336,7 @@ AppChart.prototype.getValuesForX = function(x) {
     p = AppChart.findForX(series.values, x);
     hash[series.id] = {
         id: series.id, x: p.x, y: p.y,
-        color: this.color(p.y)
+        color: (this.color ? this.color(p.y) : undefined)
       };
   }
   return hash;
@@ -352,17 +353,17 @@ AppChart.prototype.drawHighlights = function() {
     circles = this.highlightXNode
         .selectAll("circle")
         .data(data, function (d) { return d.id; });
-    circles.exit().remove();
+    //circles.exit().remove();
     circles.enter().append("circle")
         .attr("r", "5");
     circles
         .attr("class", function (d) { return d.id == self.highlightedSeries ? "highlighted" : ""; })
         .attr("cx", function (d) { return self.x(d.x); })
         .attr("cy", function (d) { return self.y(d.y); })
-        .attr("stroke", function (d) { return d.color; })
+        .attr("stroke", function (d) { return d.color ? d.color : "black"; })
         .on("mouseenter", function(d) { self.handleSeriesHighlighted(d.id); })
         .on("mouseleave", function(d) { self.handleSeriesUnhighlighted(d.id); });
-    if (this.highlightedSeries) {
+    if (data.length > 0 && this.highlightedSeries) {
       var datum = undefined, format = d3.format(".2f");
       for (i in data)
         if (data[i].id == this.highlightedSeries)

@@ -85,21 +85,6 @@ ng-view, .app-view, .app-grid
   display: flex
   flex-direction: row
 
-  app-dropdown
-    flex-grow: 1
-    button, ul
-      width: 100%
-
-  .dropdown-toggle, .dropdown-menu
-    text-align: left
-  .dropdown-menu
-    //margin-top: -3px
-  .dropdown-menu.bullet:before
-    left: 50%
-  .dropdown-menu.bullet:after
-    left: 50%
-    margin-left: 1px
-
 // Explanatory View
 .app-view#app-explain
   padding: 10px
@@ -108,6 +93,34 @@ ng-view, .app-view, .app-grid
 .app-view#app-explore
   padding-left: 10px
   padding-right: 10px
+
+  .app-view-control app-dropdown
+    flex-grow: 1
+    button, ul
+      width: 100%
+    .dropdown-toggle, .dropdown-menu
+      text-align: left
+
+  .app-view-empty
+    text-align: center
+    display: block
+    color: #aaa
+    font-weight: bold
+    .app-hand-up, .app-hand-right
+      font-size: 32px
+      margin: 20px
+    .app-hand-right
+      float: right
+
+
+  app-schematics
+    display: block
+    margin-top: 10px
+    flex-grow: 1
+
+  app-stories
+    margin-bottom: 50px
+
 
 // Documentation View
 .app-view#app-report

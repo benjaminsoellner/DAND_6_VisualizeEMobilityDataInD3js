@@ -4,6 +4,6 @@
     "label": "Sample Scenario",
     "dataFile": "sample-scenario.json",
     "schematicsFile": "sample-scenario.svg",
-    "storiesFile": "!!! not available !!!"
+    "storiesFile": "sample-stories.json"
   }
 ]

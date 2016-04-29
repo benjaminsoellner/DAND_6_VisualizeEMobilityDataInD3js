@@ -59,7 +59,7 @@ angular.module("app-emobviz", ["ngRoute"])
           };
         }
       };
-    }
+    };
     this.setRoutes();
     this.updateCurrentRouteHandler()();
     $scope.$watch("main.$route.current", this.updateCurrentRouteHandler());
@@ -89,6 +89,9 @@ angular.module("app-emobviz", ["ngRoute"])
       this.resetHighlights();
       $http.get(metricsUrl).success(this.metricsLoadedHandler());
     };
+    this.loadStories = function(storiesUrl) {
+      $http.get(storiesUrl).success(this.storiesLoadedHandler());
+    }
     this.resetHighlights = function() {
       if (!this.highlights) this.highlights = {};
       this.highlights.locationId = undefined;
@@ -98,14 +101,28 @@ angular.module("app-emobviz", ["ngRoute"])
       this.highlights.looseness = 0;
       this.highlights.locationValues = {};
     };
+    this.selectMetricsById = function(metricsIds) {
+      this.selectedMetrics = []
+      for (i in this.metrics) {
+        if (metricsIds.indexOf(this.metrics[i].id) != -1)
+          this.selectedMetrics.push(this.metrics[i])
+      }
+    }
     this.metricsLoadedHandler = function() {
       var self = this;
       return function(data) {
-        metrics = data;
-        hotspots = [];
-        for (metricIdx in metrics)
-          metrics[metricIdx].graph = self.reshapeForGraph(metrics[metricIdx]);
-        self.metrics = metrics;
+        self.metrics = data;
+      };
+    };
+    this.storiesLoadedHandler = function() {
+      var self = this;
+      return function(data) {
+        self.stories = data;
+        if (data.length > 0) {
+          self.selectedStory = data[0];
+          self.highlights.looseness = 0;
+        }
+        self.processUrlStoryId();
       };
     }
     this.scenariosLoadedHandler = function() {
@@ -119,9 +136,11 @@ angular.module("app-emobviz", ["ngRoute"])
       var self = this;
       return function() {
         self.resetHighlights();
+        if (self.selectedScenario !== undefined)
+          $location.search("scenarioId", self.selectedScenario.id);
         if (self.selectedScenario) {
           self.loadMetrics(self.dataDir + "/" + self.selectedScenario.dataFile);
-          $location.search("scenarioId", self.selectedScenario.id);
+          self.loadStories(self.dataDir + "/" + self.selectedScenario.storiesFile);
         } else if (self.selectedScenario === undefined) {
           self.metrics = undefined;
           self.selectedMetrics = [];
@@ -129,6 +148,13 @@ angular.module("app-emobviz", ["ngRoute"])
         }
       };
     };
+    this.selectedStoryChangedHandler = function() {
+      var self = this;
+      return function() {
+        if (self.selectedStory !== undefined)
+          $location.search("storyId", self.selectedStory.id);
+      }
+    }
     this.selectedMetricsChangedHandler = function() {
       var self = this;
       return function() {
@@ -141,25 +167,6 @@ angular.module("app-emobviz", ["ngRoute"])
         self.locations = locations;
       }
     };
-    this.setMetricHighlighted = function(metric, value) {
-      if (value)
-        self.highlightedMetric = metric;
-      else
-        self.highlightedMetric = undefined;
-    };
-    this.reshapeForGraph = function(metric) {
-      r = [];
-      for (l in metric.locations) {
-        for (i = 0; i < metric.locations[l].time.length; i++) {
-          r.push({
-            "location": l,
-            "time": metric.locations[l].time[i],
-            "data": metric.locations[l].data[i]
-          });
-        }
-      }
-      return r;
-    }
     this.processUrlHandler = function() {
       var self = this;
       return function($event, $args) {
@@ -176,7 +183,15 @@ angular.module("app-emobviz", ["ngRoute"])
       this.selectedScenario = scenario;
     }
     this.processUrlStoryId = function() {
-
+      var storyId = $location.search().storyId,
+          story = undefined;
+      if (this.stories && this.stories.length > 0) {
+        for (i in this.stories)
+          if (this.stories[i].id == storyId)
+            story = this.stories[i];
+        if (story === undefined && this.selectedStory === undefined)
+          this.selectedStory = this.stories[0];
+      }
     }
     // initialization:
     this.scenarios = [];
@@ -185,6 +200,7 @@ angular.module("app-emobviz", ["ngRoute"])
     this.scenariosFile = SCENARIOS_FILE;
     $scope.$watch("view.selectedScenario", this.selectedScenarioChangedHandler());
     $scope.$watch("view.selectedMetrics", this.selectedMetricsChangedHandler(), true);
+    $scope.$watch("view.selectedStory", this.selectedStoryChangedHandler());
     $scope.$on("$locationChangeSuccess", this.processUrlHandler());
     this.resetHighlights();
     this.loadScenarios(this.dataDir + "/" + this.scenariosFile);
@@ -200,7 +216,8 @@ angular.module("app-emobviz", ["ngRoute"])
         list: "=",
         selected: "=",
         property: "@",
-        type: "@"
+        type: "@",
+        changed: "&"
       },
       controllerAs: "appDropdown",
       controller: function($scope) {
@@ -214,6 +231,7 @@ angular.module("app-emobviz", ["ngRoute"])
             else
               this.selected.push(item);
           }
+          this.changed();
         };
         this.isSelected = function(item) {
           if (this.type == "radio")
@@ -265,6 +283,8 @@ angular.module("app-emobviz", ["ngRoute"])
         }
         this.setHighlightedLocId = function(value) {
           this.highlights.locationId = value;
+          if (this.highlights.looseness < 1)
+            this.highlights.looseness = 1;
         }
         this.getLocations = function() {
           return this.locations;
@@ -301,23 +321,23 @@ angular.module("app-emobviz", ["ngRoute"])
       templateUrl: "assets/templates/app-modules/location.html",
       scope: true,
       bindToController: {
-        appLocation: "@"
+        location: "@appLocation"
       },
       controllerAs: "appLocation",
       controller: function($scope, $element) {
         this.hasMetrics = function() {
           locations = this.schematics.getLocations();
           for (locationIdx in locations)
-            if (locations[locationIdx].id == this.appLocation)
+            if (locations[locationIdx].id == this.location)
                 return true;
           return false;
         }
         this.isHighlighted = function() {
           highlightedLocId = this.schematics.getHighlightedLocId();
-          return (this.appLocation == highlightedLocId);
+          return (this.location == highlightedLocId);
         }
         this.highlightLocation = function() {
-          this.schematics.setHighlightedLocId(this.appLocation);
+          this.schematics.setHighlightedLocId(this.location);
         }
         this.unhighlightLocation = function() {
           this.schematics.setHighlightedLocId(false);
@@ -327,9 +347,9 @@ angular.module("app-emobviz", ["ngRoute"])
           return function($event, values) {
             var value = undefined;
             for (i in values)
-              if (values[i].id == self.appLocation)
+              if (values[i].id == self.location)
                 value = values[i];
-            if (value) {
+            if (value && value.color) {
               self.style.fill = value.color;
             } else {
               self.style.fill = undefined;
@@ -342,7 +362,8 @@ angular.module("app-emobviz", ["ngRoute"])
       },
       link: function($scope, $element, $attrs, $controllers) {
         $scope.appLocation.schematics = $controllers[0];
-        updatedChilds = $element.children().first().find("*").attr("app-style","appLocation.style");
+        updatedChilds = $element.children().first().find("*")
+          .attr("app-style","appLocation.style");
         $compile(updatedChilds)($scope);
       }
     };
@@ -439,6 +460,7 @@ angular.module("app-emobviz", ["ngRoute"])
             if (self.chart) {
               var highlightThisGraph = (self.metric.id == self.highlights.metricId);
               self.chart.highlight({
+                x: self.highlights.time,
                 seriesId: self.highlights.locationId,
                 colorMap: highlightThisGraph ? self.metric.dataColorMap : false,
                 thisGraph: highlightThisGraph
@@ -454,16 +476,16 @@ angular.module("app-emobviz", ["ngRoute"])
           if (this.highlights.timeRange) {
             minX = this.highlights.timeRange[0];
             maxX = this.highlights.timeRange[1];
+            if (this.highlights.looseness > 1) {
+              if (minX === undefined || rangeXNew[0] < minX)
+                this.highlights.timeRange[0] = minX = rangeXNew[0];
+              if (maxX === undefined || rangeXNew[1] > maxX)
+                this.highlights.timeRange[1] = maxX = rangeXNew[1];
+            }
           } else {
             this.highlights.timeRange = [undefined, undefined];
           }
-          if (minX === undefined || rangeXNew[0] < minX)
-            this.highlights.timeRange[0] = minX = rangeXNew[0];
-          if (maxX === undefined || rangeXNew[1] > maxX)
-            this.highlights.timeRange[1] = maxX = rangeXNew[1];
           this.chart.dimensions(minX, maxX, rangeYNew[0], rangeYNew[1]);
-          if (this.highlights.looseness > 2)
-            this.highlights.looseness = 2;
         }
         this.timeRangeUpdatedHandler = function() {
           var self = this;
@@ -475,14 +497,15 @@ angular.module("app-emobviz", ["ngRoute"])
             }
           }
         }
-        this.timeUpdatedHandler = function() {
+        this.locationValuesUpdatedHandler = function() {
           var self = this;
           return function() {
-            if (self.highlights.time || self.highlights.time === false)
-              self.chart.highlight({
-                x: self.highlights.time
-              });
-          }
+            if (self.highlights.time !== undefined &&
+                self.highlights.metricId === self.metric.id) {
+              values = self.chart.getValuesForX(self.highlights.time);
+              self.highlights.locationValues = values;
+            }
+          };
         }
         this.locationsToSerieses = function(data) {
           return data.locations.map(
@@ -548,10 +571,8 @@ angular.module("app-emobviz", ["ngRoute"])
         this.timeHighlightedHandler = function() {
           var self = this;
           return function(x, y) {
-            values = self.chart.getValuesForX(x);
             $scope.$apply(function() {
                 self.highlights.time = x;
-                self.highlights.locationValues = values;
                 if (self.highlights.looseness < 1)
                   self.highlights.looseness = 1;
               });
@@ -571,9 +592,9 @@ angular.module("app-emobviz", ["ngRoute"])
         this.loosenessUpdatedHandler = function() {
           var self = this;
           return function() {
-            if (self.highlights.looseness < 3) {
+            if (self.highlights.looseness == 2) {
               self.highlights.timeRange = [undefined, undefined];
-              self.fitChart();              
+              self.fitChart();
             }
           }
         }
@@ -597,9 +618,57 @@ angular.module("app-emobviz", ["ngRoute"])
         this.fitChart();
         $scope.$watch("appMetric.highlights.locationId", this.highlightsUpdatedHandler());
         $scope.$watch("appMetric.highlights.metricId", this.highlightsUpdatedHandler());
+        $scope.$watch("appMetric.highlights.metricId", this.locationValuesUpdatedHandler());
+        $scope.$watch("appMetric.highlights.time", this.highlightsUpdatedHandler());
+        $scope.$watch("appMetric.highlights.time", this.locationValuesUpdatedHandler());
         $scope.$watch("appMetric.highlights.timeRange", this.timeRangeUpdatedHandler());
-        $scope.$watch("appMetric.highlights.time", this.timeUpdatedHandler());
         $scope.$watch("appMetric.highlights.looseness", this.loosenessUpdatedHandler());
       }
     }
+  }])
+
+  .directive("appStories", [function() {
+    return {
+      require: [],
+      restrict: "E",
+      templateUrl: "assets/templates/app-modules/stories.html",
+      scope: {
+        stories: "=",
+        story: "=",
+        highlights: "=",
+        homeurl: "@",
+        metricsselector: "&"
+      },
+      bindToController: true,
+      controllerAs: "appStories",
+      controller: function($scope, $element) {
+        this.goToStory = function(storyId) {
+          for (i in this.stories)
+            if (this.stories[i].id == storyId) {
+              this.story = this.stories[i];
+              this.highlights.looseness = 0;
+            }
+        }
+        this.tellStoryHandler = function() {
+          var self = this;
+          return function() {
+            if (self.highlights.looseness < 2 && self.story) {
+              if (self.story.metrics)
+                self.metricsselector({metrics: self.story.metrics});
+              if (self.story.timeRange)
+                self.highlights.timeRange = self.story.timeRange;
+              if (self.story.location)
+                self.highlights.locationId = self.story.location;
+              if (self.story.metric)
+                self.highlights.metricId = self.story.metric;
+              if (self.story.time)
+                self.highlights.time = self.story.time;
+            }
+          }
+        }
+        // initialization
+        $scope.$watch("appStories.highlights.looseness", this.tellStoryHandler());
+        $scope.$watch("appStories.story", this.tellStoryHandler());
+      }
+    };
   }]);
