@@ -1,7 +1,21 @@
 var DATA_DIR = "data";
 var SCENARIOS_FILE = "scenarios.json";
+var SUMMARY_FILE = "summary.json";
 
-angular.module("app-emobviz", ["ngRoute"])
+AppHelper = {};
+
+AppHelper.getSeriesDataTransformer = function(xKey, yKey) {
+  return function(data) {
+    return data.serieses.map(function(series) {
+        series.values = series[xKey].map(function(t, i) {
+            return { x: t, y: series[yKey][i] };
+          });
+        return series;
+      });
+  }
+};
+
+angular.module("app-dand6", ["ngRoute"])
 
   .config(["$locationProvider", "$routeProvider", function($locationProvider, $routeProvider) {
     $locationProvider.html5Mode(false);
@@ -9,14 +23,16 @@ angular.module("app-emobviz", ["ngRoute"])
     $routeProvider
       .when('/explain', {
         templateUrl: "views/explain.html",
+        controller: "appExplain",
+        controllerAs: "appExplain",
         name: "Introduction to E-Mobility",
         id: "explain"
       })
       .when('/explore', {
         templateUrl: "views/explore.html",
         controller: "appExplore",
+        controllerAs: "appExplore",
         reloadOnSearch: false,
-        controllerAs: "view",
         name: "Explore Car Batteries!",
         id: "explore"
       })
@@ -94,12 +110,12 @@ angular.module("app-emobviz", ["ngRoute"])
     }
     this.resetHighlights = function() {
       if (!this.highlights) this.highlights = {};
-      this.highlights.locationId = undefined;
+      this.highlights.seriesId = undefined;
       this.highlights.metric = undefined;
       this.highlights.time = undefined;
-      this.highlights.timeRane = [];
+      this.highlights.timeRange = [undefined, undefined];
       this.highlights.looseness = 0;
-      this.highlights.locationValues = {};
+      this.highlights.seriesesValues = {};
     };
     this.selectMetricsById = function(metricsIds) {
       this.selectedMetrics = []
@@ -144,7 +160,7 @@ angular.module("app-emobviz", ["ngRoute"])
         } else if (self.selectedScenario === undefined) {
           self.metrics = undefined;
           self.selectedMetrics = [];
-          self.locations = [];
+          self.serieses = [];
         }
       };
     };
@@ -158,13 +174,10 @@ angular.module("app-emobviz", ["ngRoute"])
     this.selectedMetricsChangedHandler = function() {
       var self = this;
       return function() {
-        locations = [];
-        for (metricIdx in self.selectedMetrics) {
-          for (locationIdx in self.selectedMetrics[metricIdx].locations) {
-            locations.push(self.selectedMetrics[metricIdx].locations[locationIdx])
-          }
-        }
-        self.locations = locations;
+        self.serieses = [];
+        for (i in self.selectedMetrics)
+          for (j in self.selectedMetrics[i].serieses)
+            self.serieses.push(self.selectedMetrics[i].serieses[j])
       }
     };
     this.processUrlHandler = function() {
@@ -198,9 +211,9 @@ angular.module("app-emobviz", ["ngRoute"])
     this.selectedScenario = undefined;
     this.dataDir = DATA_DIR;
     this.scenariosFile = SCENARIOS_FILE;
-    $scope.$watch("view.selectedScenario", this.selectedScenarioChangedHandler());
-    $scope.$watch("view.selectedMetrics", this.selectedMetricsChangedHandler(), true);
-    $scope.$watch("view.selectedStory", this.selectedStoryChangedHandler());
+    $scope.$watch("appExplore.selectedScenario", this.selectedScenarioChangedHandler());
+    $scope.$watch("appExplore.selectedMetrics", this.selectedMetricsChangedHandler(), true);
+    $scope.$watch("appExplore.selectedStory", this.selectedStoryChangedHandler());
     $scope.$on("$locationChangeSuccess", this.processUrlHandler());
     this.resetHighlights();
     this.loadScenarios(this.dataDir + "/" + this.scenariosFile);
@@ -272,22 +285,22 @@ angular.module("app-emobviz", ["ngRoute"])
       template: '<ng-include src="appSchematics.getSrcUrl()" data-onload="appSchematics.loaded()" />',
       bindToController: {
         svg: "=",
-        locations: "=",
+        serieses: "=",
         highlights: "=",
         dir: "@"
       },
       controllerAs: "appSchematics",
       controller: function($scope, $element) {
-        this.getHighlightedLocId = function() {
-          return this.highlights.locationId;
+        this.getHighlightedSerId = function() {
+          return this.highlights.seriesId;
         }
-        this.setHighlightedLocId = function(value) {
-          this.highlights.locationId = value;
+        this.setHighlightedSerId = function(value) {
+          this.highlights.seriesId = value;
           if (this.highlights.looseness < 1)
             this.highlights.looseness = 1;
         }
-        this.getLocations = function() {
-          return this.locations;
+        this.getSerieses = function() {
+          return this.serieses;
         }
         this.getSrcUrl = function() {
           return (this.dir ? this.dir + "/" : "")  + this.svg;
@@ -300,54 +313,53 @@ angular.module("app-emobviz", ["ngRoute"])
           svg[0].removeAttribute("height");
           svg[0].removeAttribute("width");
         }
-        this.locationValuesChangedHandler = function(values) {
+        this.seriesesValuesChangedHandler = function(values) {
           return function(values) {
             if (values) {
-              $scope.$broadcast("locationValuesChanged", values);
+              $scope.$broadcast("seriesesValuesChanged", values);
             }
           }
         }
         // initialize
-        $scope.$watch("appSchematics.highlights.locationValues", this.locationValuesChangedHandler(), true);
+        $scope.$watch("appSchematics.highlights.seriesesValues", this.seriesesValuesChangedHandler(), true);
       }
     };
   }])
 
-  .directive("appLocation", ["$compile", function($compile) {
+  .directive("appSeries", ["$compile", function($compile) {
     return {
       require: ["^^appSchematics"],
       transclude: true,
       restrict: "A",
-      templateUrl: "assets/templates/app-modules/location.html",
+      templateUrl: "assets/templates/app-modules/series.html",
       scope: true,
       bindToController: {
-        location: "@appLocation"
+        series: "@appSeries"
       },
-      controllerAs: "appLocation",
+      controllerAs: "appSeries",
       controller: function($scope, $element) {
         this.hasMetrics = function() {
-          locations = this.schematics.getLocations();
-          for (locationIdx in locations)
-            if (locations[locationIdx].id == this.location)
+          serieses = this.schematics.getSerieses();
+          for (i in serieses)
+            if (serieses[i].id == this.series)
                 return true;
           return false;
         }
         this.isHighlighted = function() {
-          highlightedLocId = this.schematics.getHighlightedLocId();
-          return (this.location == highlightedLocId);
+          return (this.series == this.schematics.getHighlightedSerId());
         }
-        this.highlightLocation = function() {
-          this.schematics.setHighlightedLocId(this.location);
+        this.highlightSeries = function() {
+          this.schematics.setHighlightedSerId(this.series);
         }
-        this.unhighlightLocation = function() {
-          this.schematics.setHighlightedLocId(false);
+        this.unhighlightSeries = function() {
+          this.schematics.setHighlightedSerId(false);
         }
-        this.locationValuesChangedHandler = function() {
+        this.seriesesValuesChangedHandler = function() {
           var self = this;
           return function($event, values) {
             var value = undefined;
             for (i in values)
-              if (values[i].id == self.location)
+              if (values[i].id == self.series)
                 value = values[i];
             if (value && value.color) {
               self.style.fill = value.color;
@@ -358,12 +370,12 @@ angular.module("app-emobviz", ["ngRoute"])
         }
         // initialization
         this.style = {fill: undefined};
-        $scope.$on("locationValuesChanged", this.locationValuesChangedHandler());
+        $scope.$on("seriesesValuesChanged", this.seriesesValuesChangedHandler());
       },
       link: function($scope, $element, $attrs, $controllers) {
-        $scope.appLocation.schematics = $controllers[0];
+        $scope.appSeries.schematics = $controllers[0];
         updatedChilds = $element.children().first().find("*")
-          .attr("app-style","appLocation.style");
+          .attr("app-style","appSeries.style");
         $compile(updatedChilds)($scope);
       }
     };
@@ -437,192 +449,31 @@ angular.module("app-emobviz", ["ngRoute"])
     };
   })
 
-  .directive("appMetric", ["$timeout", function($timeout) {
+  .directive("appMetric", [function($timeout) {
     return {
       require: ["^^appMetrics"],
       restrict: "E",
       templateUrl: "assets/templates/app-modules/metric.html",
-      scope: {
-        metric: "=",
+      scope: true,
+      bindToController: {
+        data: "=metric",
         highlights: "="
       },
-      bindToController: true,
       controllerAs: "appMetric",
       controller: function($scope, $element) {
-        this.dataUpdated = function() {
-          if (this.chart) {
-            this.chart.bind(this.metric, this.locationsToSerieses);
-          }
-        };
-        this.highlightsUpdatedHandler = function() {
-          var self = this;
-          return function() {
-            if (self.chart) {
-              var highlightThisGraph = (self.metric.id == self.highlights.metricId);
-              self.chart.highlight({
-                x: self.highlights.time,
-                seriesId: self.highlights.locationId,
-                colorMap: highlightThisGraph ? self.metric.dataColorMap : false,
-                thisGraph: highlightThisGraph
-              });
-            }
-          }
-        }
-        this.fitChart = function() {
-          var minX = undefined, minY = undefined,
-              maxX = undefined, maxY = undefined,
-              rangeXNew = this.chart.getXExtent(0.5),
-              rangeYNew = this.chart.getYExtent(0.5);
-          if (this.highlights.timeRange) {
-            minX = this.highlights.timeRange[0];
-            maxX = this.highlights.timeRange[1];
-            if (this.highlights.looseness > 1) {
-              if (minX === undefined || rangeXNew[0] < minX)
-                this.highlights.timeRange[0] = minX = rangeXNew[0];
-              if (maxX === undefined || rangeXNew[1] > maxX)
-                this.highlights.timeRange[1] = maxX = rangeXNew[1];
-            }
-          } else {
-            this.highlights.timeRange = [undefined, undefined];
-          }
-          this.chart.dimensions(minX, maxX, rangeYNew[0], rangeYNew[1]);
-        }
-        this.timeRangeUpdatedHandler = function() {
-          var self = this;
-          return function() {
-            if (self.highlights.timeRange) {
-              minX = self.highlights.timeRange[0];
-              maxX = self.highlights.timeRange[1];
-              self.chart.dimensions(minX, maxX, undefined, undefined);
-            }
-          }
-        }
-        this.locationValuesUpdatedHandler = function() {
-          var self = this;
-          return function() {
-            if (self.highlights.time !== undefined &&
-                self.highlights.metricId === self.metric.id) {
-              values = self.chart.getValuesForX(self.highlights.time);
-              self.highlights.locationValues = values;
-            }
-          };
-        }
-        this.locationsToSerieses = function(data) {
-          return data.locations.map(
-            function(location) {
-              return {
-                id: location.id,
-                values: location.time.map(function(t, i) {
-                  return { x: t, y: location.data[i] };
-                })
-              };
-            });
-        };
-        this.locationHighlightedHandler = function() {
-          var self = this;
-          return function(locationId) {
-            $scope.$apply(function() {
-              self.highlights.locationId = locationId;
-              if (self.highlights.looseness < 1)
-                self.highlights.looseness = 1;
-            });
-          };
-        };
-        this.locationUnhighlightedHandler = function() {
-          var self = this;
-          return function(locationId) {
-            $scope.$apply(function() {
-              self.highlights.locationId = false;
-              if (self.highlights.looseness < 1)
-                self.highlights.looseness = 1;
-            });
-          };
-        };
-        this.metricHighlightedHandler = function() {
-          var self = this;
-          return function() {
-            $scope.$apply(function() {
-              self.highlights.metricId = self.metric.id;
-              if (self.highlights.looseness < 1)
-                self.highlights.looseness = 1;
-            });
-          };
-        };
-        this.metricUnhighlightedHandler = function() {
-          var self = this;
-          return function() {
-            $scope.$apply(function() {
-              self.highlights.metricId = false;
-              if (self.highlights.looseness < 1)
-                self.highlights.looseness = 1;
-            });
-          };
-        };
-        this.rangeChangedHandler = function() {
-          var self = this;
-          return function(minX, maxX, minY, maxY) {
-            $scope.$apply(function() {
-              self.highlights.timeRange = [minX, maxX];
-              if (self.highlights.looseness < 3)
-                self.highlights.looseness = 3;
-            });
-          };
-        };
-        this.timeHighlightedHandler = function() {
-          var self = this;
-          return function(x, y) {
-            $scope.$apply(function() {
-                self.highlights.time = x;
-                if (self.highlights.looseness < 1)
-                  self.highlights.looseness = 1;
-              });
-          };
-        };
-        this.timeUnhighlightedHandler = function() {
-          var self = this;
-          return function() {
-            $scope.$apply(function() {
-                self.highlights.time = false;
-                self.highlights.locationValues = {};
-                if (self.highlights.looseness < 1)
-                  self.highlights.looseness = 1;
-              });
-          };
-        };
-        this.loosenessUpdatedHandler = function() {
-          var self = this;
-          return function() {
-            if (self.highlights.looseness == 2) {
-              self.highlights.timeRange = [undefined, undefined];
-              self.fitChart();
-            }
-          }
-        }
-        // initialization
         chartOptions = {
           xlabel: 'time',
           xunit: 's',
-          ylabel: this.metric.label,
-          yunit: this.metric.unit
+          ylabel: this.data.label,
+          yunit: this.data.unit
         };
-        this.chart = new AppChart( $element.find('.app-metric')[0], chartOptions);
-        this.chart.attachSeriesHighlightedHandler(this.locationHighlightedHandler());
-        this.chart.attachSeriesUnhighlightedHandler(this.locationUnhighlightedHandler());
-        this.chart.attachMouseEnterHandler(this.metricHighlightedHandler());
-        this.chart.attachMouseLeaveHandler(this.metricUnhighlightedHandler());
-        this.chart.attachMouseLeaveHandler(this.timeUnhighlightedHandler());
-        this.chart.attachMouseMovedHandler(this.timeHighlightedHandler());
-        this.chart.attachDimensionsChangedHandler(this.rangeChangedHandler());
-        this.highlightsUpdatedHandler()();
-        this.dataUpdated();
-        this.fitChart();
-        $scope.$watch("appMetric.highlights.locationId", this.highlightsUpdatedHandler());
-        $scope.$watch("appMetric.highlights.metricId", this.highlightsUpdatedHandler());
-        $scope.$watch("appMetric.highlights.metricId", this.locationValuesUpdatedHandler());
-        $scope.$watch("appMetric.highlights.time", this.highlightsUpdatedHandler());
-        $scope.$watch("appMetric.highlights.time", this.locationValuesUpdatedHandler());
-        $scope.$watch("appMetric.highlights.timeRange", this.timeRangeUpdatedHandler());
-        $scope.$watch("appMetric.highlights.looseness", this.loosenessUpdatedHandler());
+        panelOptions = {
+          ctrl: this,
+          ctrlName: "appMetric",
+          chartContainer: $element.children().first()[0],
+          dataTransformer: AppHelper.getSeriesDataTransformer("time", "data")
+        };
+        this.panel = new AppMetricPanel($scope, panelOptions, chartOptions);
       }
     }
   }])
@@ -632,14 +483,14 @@ angular.module("app-emobviz", ["ngRoute"])
       require: [],
       restrict: "E",
       templateUrl: "assets/templates/app-modules/stories.html",
-      scope: {
+      scope: true,
+      bindToController: {
         stories: "=",
         story: "=",
         highlights: "=",
         homeurl: "@",
         metricsselector: "&"
       },
-      bindToController: true,
       controllerAs: "appStories",
       controller: function($scope, $element) {
         this.goToStory = function(storyId) {
@@ -657,8 +508,8 @@ angular.module("app-emobviz", ["ngRoute"])
                 self.metricsselector({metrics: self.story.metrics});
               if (self.story.timeRange)
                 self.highlights.timeRange = self.story.timeRange;
-              if (self.story.location)
-                self.highlights.locationId = self.story.location;
+              if (self.story.series)
+                self.highlights.seriesId = self.story.series;
               if (self.story.metric)
                 self.highlights.metricId = self.story.metric;
               if (self.story.time)
@@ -671,4 +522,58 @@ angular.module("app-emobviz", ["ngRoute"])
         $scope.$watch("appStories.story", this.tellStoryHandler());
       }
     };
+  }])
+
+  .controller("appExplain", ["$scope", "$http", function($scope, $http) {
+    this.resetHighlights = function() {
+      if (!this.highlights) this.highlights = {};
+      this.highlights.seriesId = undefined;
+      this.highlights.time = undefined;
+      this.highlights.timeRange = [undefined, undefined];
+      this.highlights.looseness = 0;
+    };
+    this.loadSummary = function(summaryUrl) {
+      $http.get(summaryUrl).success(this.summaryLoadedHandler());
+    };
+    this.summaryLoadedHandler = function() {
+      var self = this;
+      return function(data) {
+        self.summary = data;
+        self.resetHighlights();
+      };
+    };
+    // initialization
+    this.loadSummary(DATA_DIR + "/" + SUMMARY_FILE);
+    this.resetHighlights();
+  }])
+
+  .directive("appChart", [function($timeout) {
+    return {
+      restrict: "E",
+      scope: true,
+      bindToController: {
+        data: "=",
+        highlights: "=",
+        xlabel: "@",
+        ylabel: "@",
+        xunit: "@",
+        yunit: "@"
+      },
+      controllerAs: "appChart",
+      controller: function($scope, $element) {
+        chartOptions = {
+          xlabel: this.xlabel,
+          xunit: this.xunit,
+          yunit: this.yunit,
+          ylabel: this.ylabel
+        };
+        panelOptions = {
+          ctrl: this,
+          ctrlName: "appChart",
+          chartContainer: $element[0],
+          dataTransformer: AppHelper.getSeriesDataTransformer("x", "y")
+        };
+        this.panel = new AppChartPanel($scope, panelOptions, chartOptions);
+      }
+    }
   }]);

@@ -75,7 +75,7 @@
        y="128.20099" />
     <g
        id="g3352"
-       app-location="id_a">
+       app-series="id_a">
       <rect
          inkscape:label="#rect3336-8-6-8-5"
          y="144.79166"
@@ -87,7 +87,7 @@
     </g>
     <g
        id="g3349"
-       app-location="id_c">
+       app-series="id_c">
       <rect
          inkscape:label="#rect3336-8-6-8-3"
          y="144.07738"
@@ -100,7 +100,7 @@
     <g
        id="id_b"
        inkscape:label="#g4239"
-       app-location="id_b">
+       app-series="id_b">
       <rect
          inkscape:label="#rect3336-8-6-8"
          y="143.69223"

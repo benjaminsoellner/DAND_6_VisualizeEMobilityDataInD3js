@@ -1,10 +1,16 @@
 //output: explain.html
 .app-view#app-explain
 
-  h3 Explanatory Visualization...
-
-  p Here we will have some explanatory visualization first...
-
-  p Check out if this button leads right to the exploratory visualization:
-
-  a.btn.btn-primary(ng-href="#!/explore") Click me...
+  svg.app-halo(viewBox="20 70 60 30",preserveAspectRatio="none")
+    circle(cx="50",cy="50",r="50",fill="#f3f3f3")
+  
+  .app-summary-outline
+    .app-summary-chart(ng-if="appExplain.summary")
+      app-chart(
+          data="appExplain.summary",
+          highlights="appExplain.highlights",
+          xlabel="Time",
+          ylabel="Temperature",
+          xunit="s",
+          yunit="°C"
+        )

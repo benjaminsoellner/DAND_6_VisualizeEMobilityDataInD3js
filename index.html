@@ -2,19 +2,20 @@
 <html>
   <head>
     <link rel="stylesheet" href="assets/stylesheets/master.min.css">
-    <script src="assets/javascripts/ext/jquery-1.12.2.js"></script>
-    <script src="assets/javascripts/ext-bootstrap/bootstrap.js"></script>
+    <script src="assets/javascripts/ext/jquery-1.12.2.min.js"></script>
+    <script src="assets/javascripts/ext-bootstrap/bootstrap.min.js"></script>
     <script src="assets/javascripts/ext/underscore.min.js"></script>
     <script src="assets/javascripts/ext/d3.min.js"></script>
-    <script src="assets/javascripts/ext/angular.js"></script>
-    <script src="assets/javascripts/ext/angular-route.js"></script>
+    <script src="assets/javascripts/ext/angular.min.js"></script>
+    <script src="assets/javascripts/ext/angular-route.min.js"></script>
     <script src="assets/javascripts/ext-resize-sensor/ElementQueries.js"></script>
     <script src="assets/javascripts/ext-resize-sensor/ResizeSensor.js"></script>
     <script src="assets/javascripts/app-chart/chart.js"></script>
-    <script src="assets/javascripts/app-modules/emobviz.js"></script>
+    <script src="assets/javascripts/app-modules/dand6-chart.js"></script>
+    <script src="assets/javascripts/app-modules/dand6.js"></script>
   </head>
   <title>E-Mobility Battery Performance Visualization</title>
-  <body ng-app="app-emobviz" ng-controller="appMain as main">
+  <body ng-app="app-dand6" ng-controller="appMain as main">
     <app-routes all="main.routes" current="main.currentRoute" title="Views"></app-routes>
     <div class="app-grid">
       <nav role=navigation class="navbar navbar-default navbar-fixed-top">

@@ -5,50 +5,50 @@
     .app-view-control.btn-group
       app-dropdown(
           placeholder="Select Battery and Test Scenario",
-          list="view.scenarios",
-          selected="view.selectedScenario",
+          list="appExplore.scenarios",
+          selected="appExplore.selectedScenario",
           property="label",
           type="radio"
         )
-    .app-view-content.app-view-empty(ng-if="!view.selectedScenario")
+    .app-view-content.app-view-empty(ng-if="!appExplore.selectedScenario")
       .app-hand-up
         .glyphicon.glyphicon-hand-up
       .app-hand-right
         .glyphicon.glyphicon-hand-right
       p Select a battery type and test scenario! we will show you how it looks like and how it performed in this area! 
-    .app-view-content(ng-if="view.selectedScenario.schematicsFile")
+    .app-view-content(ng-if="appExplore.selectedScenario.schematicsFile")
       app-schematics(
-          svg="view.selectedScenario.schematicsFile",
-          locations="view.locations",
-          highlights="view.highlights",
-          dir="{{view.dataDir}}"
+          svg="appExplore.selectedScenario.schematicsFile",
+          serieses="appExplore.serieses",
+          highlights="appExplore.highlights",
+          dir="{{appExplore.dataDir}}"
         )
       app-stories(
-          stories="view.stories",
-          story="view.selectedStory"
-          highlights="view.highlights",
-          metricsselector="view.selectMetricsById(metrics)",
+          stories="appExplore.stories",
+          story="appExplore.selectedStory"
+          highlights="appExplore.highlights",
+          metricsselector="appExplore.selectMetricsById(metrics)",
           homeurl="#!/explain"
         )
       
   .app-view-col-2
-    .app-view-control.btn-group(ng-if="view.metrics.length")
+    .app-view-control.btn-group(ng-if="appExplore.metrics.length")
       app-dropdown(
           placeholder="Select Metrics",
-          list="view.metrics",
-          selected="view.selectedMetrics",
-          changed="view.highlights.looseness = (view.highlights.looseness < 2 ? 2 : view.highlights.looseness)"
+          list="appExplore.metrics",
+          selected="appExplore.selectedMetrics",
+          changed="appExplore.highlights.looseness = (appExplore.highlights.looseness < 2 ? 2 : appExplore.highlights.looseness)"
           property="label",
           type="checkbox"
         )
       button.btn(
-        ng-if="view.highlights.looseness > 2",
-        ng-click="view.highlights.looseness = 2")
+        ng-if="appExplore.highlights.looseness > 2",
+        ng-click="appExplore.highlights.looseness = 2")
           span.glyphicon.glyphicon-fullscreen
           span.app-label &nbsp; Re-Fit to View 
-    .app-view-content(ng-if="view.selectedMetrics.length")
+    .app-view-content(ng-if="appExplore.selectedMetrics.length")
       app-metrics(
-          metrics="view.selectedMetrics",
-          highlights="view.highlights"
+          metrics="appExplore.selectedMetrics",
+          highlights="appExplore.highlights"
         )
-        app-metric(metric="metric",highlights="view.highlights")
+        app-metric(metric="metric",highlights="appExplore.highlights")

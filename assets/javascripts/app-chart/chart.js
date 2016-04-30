@@ -151,29 +151,23 @@ AppChart.prototype.highlight = function(changedHighlights) {
   var seriesesDirty = false, highlightsDirty = false;
   if (changedHighlights.seriesId || changedHighlights.seriesId === false) {
     this.highlightedSeries = changedHighlights.seriesId;
-    seriesDirty = true;
+    seriesesDirty = true;
     highlightsDirty = true;
   }
   if (changedHighlights.colorMap || changedHighlights.colorMap === false) {
     this.colorMap = changedHighlights.colorMap;
-    if (this.colorMap === false)
-      this.color = false;
-    else
-      this.color = d3.scale.linear()
-          .domain(this.colorMap.map(function(d) { return d[0]; }))
-          .range(this.colorMap.map(function(d) { return d[1]; }));
-    seriesDirty = true;
+    seriesesDirty = true;
   }
   if (changedHighlights.x || changedHighlights.x === false) {
     this.highlightedX = changedHighlights.x;
     highlightsDirty = true;
   }
-  if (changedHighlights.thisGraph !== undefined) {
-    this.highlightThis = changedHighlights.thisGraph;
-    seriesDirty = true;
+  if (changedHighlights.thisChart !== undefined) {
+    this.highlightThis = changedHighlights.thisChart;
+    seriesesDirty = true;
     highlightsDirty = true;
   }
-  if (seriesDirty) this.drawSerieses();
+  if (seriesesDirty) this.drawSerieses();
   if (highlightsDirty) this.drawHighlights();
   //this.draw();
 }
@@ -301,10 +295,27 @@ AppChart.prototype.drawGrid = function() {
 
 AppChart.prototype.drawSerieses = function() {
   var self = this;
+  var colorDomain = function(d) { return d[0]; };
+  var colorRange = function(d) { return d[1]; };
   this.line = d3.svg.line()
     .interpolate("linear")
     .x(function(d,i) { return this.x(d.x); })
     .y(function(d,i) { return this.y(d.y); });
+  this.colors = [];
+  if (!this.colorMap)
+    for (i in this.serieses)
+      if (this.serieses[i].dataColorMap)
+        this.colors.push(
+              d3.scale.linear()
+                .domain(this.serieses[i].dataColorMap.map(colorDomain))
+                .range(this.serieses[i].dataColorMap.map(colorRange))
+            );
+      else
+        this.colors.push(false);
+  else
+    this.colors = d3.scale.linear()
+        .domain(this.colorMap.map(colorDomain))
+        .range(this.colorMap.map(colorRange));
   if (this.seriesNode) {
     this.seriesNode
         .attr("class", function(d) { return (d.id == self.highlightedSeries ? "highlighted " : "") + "series"; })
@@ -316,12 +327,22 @@ AppChart.prototype.drawSerieses = function() {
         .on("mouseleave", function(d) { self.handleSeriesUnhighlighted(d.id); })
         .selectAll("path")
         .data(function(d, i) {
-            return AppChart.quad(AppChart.sample(self.line(d.values), 8));
-          })
+              color = (self.colors instanceof Array ? self.colors[i] : self.colors);
+              data = AppChart.quad(AppChart.sample(self.line(d.values), 8))
+                  .map(function (value) {
+                        value.color = color;
+                        return value;
+                      });
+              return data;
+            })
         .enter().append("path");
     this.pathNode
-        .style("fill", function(d) { return self.color ? self.color(self.y.invert(d.p[1])) : "black"; })
-        .style("stroke", function(d) { return self.color ? self.color(self.y.invert(d.p[1])) : "black"; })
+        .style("fill", function(d) {
+            return d.color ? d.color(self.y.invert(d.p[1])) : "black";
+          })
+        .style("stroke", function(d) {
+            return d.color ? d.color(self.y.invert(d.p[1])) : "black";
+          })
         .attr("d", function(d) {
             return AppChart.lineJoin(d[0], d[1], d[2], d[3], 2);
           });
@@ -334,9 +355,10 @@ AppChart.prototype.getValuesForX = function(x) {
   for (i in this.serieses) {
     series = this.serieses[i]
     p = AppChart.findForX(series.values, x);
+    color = (this.colors instanceof Array ? this.colors[i] : this.colors);
     hash[series.id] = {
         id: series.id, x: p.x, y: p.y,
-        color: (this.color ? this.color(p.y) : undefined)
+        color: color ? color(p.y) : false
       };
   }
   return hash;

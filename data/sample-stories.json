@@ -6,7 +6,7 @@
     "timeRange": [1.0, 2.0],
     "time": [0.2],
     "metrics": ["voltage", "temperature"],
-    "location": "id_a",
+    "series": "id_a",
     "metric": "voltage",
     "next": "hump"
   },
