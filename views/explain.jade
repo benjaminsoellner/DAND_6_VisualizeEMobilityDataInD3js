@@ -1,8 +1,10 @@
 //output: explain.html
 .app-view#app-explain
 
-  svg.app-halo(viewBox="20 70 60 30",preserveAspectRatio="none")
+  svg.app-halo(viewBox="30 70 40 30",preserveAspectRatio="none")
     circle(cx="50",cy="50",r="50",fill="#f3f3f3")
+
+  h1.app-summary-title Electric Car Batteries Withstand Loads Differently Depending on the Use Case 
   
   .app-summary-outline
     .app-summary-chart(ng-if="appExplain.summary")
@@ -13,4 +15,18 @@
           ylabel="Temperature",
           xunit="s",
           yunit="°C"
+        )
+
+  .app-summary-bubbles(ng-if="appExplain.summary.serieses")
+    .app-summary-bubble(ng-repeat="item in appExplain.summary.serieses")
+      app-bubble(
+          svg="{{item.schematicsUrl}}",
+          color="{{item.color}}",
+          outlinecolor="{{item.id == appExplain.highlights.seriesId ? item.color : undefined}}"
+          label="{{item.label}}",
+          buttonlink="{{item.exploreUrl}}",
+          dir="{{appExplain.dataDir}}",
+          buttontext="Explore",
+          ng-mouseenter="appExplain.highlights.seriesId = item.id"
+          ng-mouseleave="appExplain.highlights.seriesId = undefined"
         )

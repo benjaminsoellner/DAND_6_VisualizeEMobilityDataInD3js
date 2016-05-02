@@ -15,6 +15,14 @@ AppHelper.getSeriesDataTransformer = function(xKey, yKey) {
   }
 };
 
+AppHelper.trimSvg = function(svg) {
+  bbox = svg[0].getBBox();
+  vbox = [bbox.x, bbox.y, bbox.width, bbox.height].join(" ");
+  svg[0].setAttribute("viewBox", vbox);
+  svg[0].removeAttribute("height");
+  svg[0].removeAttribute("width");
+}
+
 angular.module("app-dand6", ["ngRoute"])
 
   .config(["$locationProvider", "$routeProvider", function($locationProvider, $routeProvider) {
@@ -279,7 +287,7 @@ angular.module("app-dand6", ["ngRoute"])
     };
   }])
 
-  .directive("appSchematics", ["$http", "$q", function($http, $q) {
+  .directive("appSchematics", [function() {
     return {
       restrict: "E",
       template: '<ng-include src="appSchematics.getSrcUrl()" data-onload="appSchematics.loaded()" />',
@@ -307,11 +315,7 @@ angular.module("app-dand6", ["ngRoute"])
         };
         this.loaded = function() {
           svg = $element.find("svg");
-          bbox = svg[0].getBBox();
-          vbox = [bbox.x, bbox.y, bbox.width, bbox.height].join(" ");
-          svg[0].setAttribute("viewBox", vbox);
-          svg[0].removeAttribute("height");
-          svg[0].removeAttribute("width");
+          AppHelper.trimSvg(svg);
         }
         this.seriesesValuesChangedHandler = function(values) {
           return function(values) {
@@ -381,7 +385,7 @@ angular.module("app-dand6", ["ngRoute"])
     };
   }])
 
-  .directive("appStyle", ["$compile", function($compile) {
+  .directive("appStyle", [function() {
     return {
       restrict: "A",
       scope: true,
@@ -427,7 +431,7 @@ angular.module("app-dand6", ["ngRoute"])
     };
   }])
 
-  .directive("appTranscope", function() {
+  .directive("appTranscope", [function() {
     return {
       link: function( $scope, $element, $attrs, $controllers, $transclude ) {
           if ( !$transclude ) {
@@ -447,9 +451,9 @@ angular.module("app-dand6", ["ngRoute"])
           });
       }
     };
-  })
+  }])
 
-  .directive("appMetric", [function($timeout) {
+  .directive("appMetric", [function() {
     return {
       require: ["^^appMetrics"],
       restrict: "E",
@@ -524,7 +528,7 @@ angular.module("app-dand6", ["ngRoute"])
     };
   }])
 
-  .controller("appExplain", ["$scope", "$http", function($scope, $http) {
+  .controller("appExplain", ["$http", function($http) {
     this.resetHighlights = function() {
       if (!this.highlights) this.highlights = {};
       this.highlights.seriesId = undefined;
@@ -543,11 +547,33 @@ angular.module("app-dand6", ["ngRoute"])
       };
     };
     // initialization
+    this.dataDir = DATA_DIR;
     this.loadSummary(DATA_DIR + "/" + SUMMARY_FILE);
     this.resetHighlights();
   }])
 
-  .directive("appChart", [function($timeout) {
+  .directive("appBubble", [function() {
+    return {
+      restrict: "E",
+      templateUrl: "assets/templates/app-modules/bubble.html",
+      scope: true,
+      controllerAs: "appBubble",
+      bindToController: {
+        svg: "@",
+        color: "@",
+        outlinecolor: "@",
+        label: "@",
+        buttonlink: "@",
+        buttontext: "@",
+        dir: "@"
+      },
+      controller: function($scope, $element) {
+        this.svgUrl = this.dir + "/" + this.svg;
+      }
+    }
+  }])
+
+  .directive("appChart", [function() {
     return {
       restrict: "E",
       scope: true,

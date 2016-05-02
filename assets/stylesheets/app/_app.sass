@@ -98,12 +98,20 @@ ng-view, .app-view, .app-grid
     height: 80vh
     position: absolute
 
+  .app-summary-title
+    position: relative
+    text-align: center
+    margin-top: 2vh
+    margin-bottom: 2vh
+
   .app-summary-outline
-    top: 5vh
-    left: 10vw
-    height: 40vh
+    height: 47vh
     width: 80vw
-    position: absolute
+    margin-top: 5vh
+    max-width: 800px
+    max-height: 500px
+    margin: auto
+    position: relative
     border: 1px solid #ddd
     background-color: white
     padding: 20px
@@ -121,6 +129,14 @@ ng-view, .app-view, .app-grid
       position: absolute
       width: 100%
       height: 100%
+
+  .app-summary-bubbles
+    top: 5vh
+    position: relative
+    display: flex
+    flex-direction: row
+    justify-content: space-around
+
 
 // Exploratory View
 .app-view#app-explore

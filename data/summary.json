@@ -4,18 +4,30 @@
        "x": [1.0,2.0,3.0,4.0],
        "y": [1.0,2.0,3.0,2.0],
        "id": "id_1",
+       "schematicsUrl": "sample-scenario.svg",
+       "exploreUrl": "#!/explore?scenarioId=sample",
+       "color": "red",
+       "label": "One Battery",
        "dataColorMap": [[0.0,"red"],[4.0,"red"]]
      },
      {
        "x": [1.0,2.0,3.0,4.0],
        "y": [2.0,3.0,4.0,5.0],
        "id": "id_2",
+       "schematicsUrl": "sample-scenario.svg",
+       "exploreUrl": "#!/explore?scenarioId=sample",
+       "color": "blue",
+       "label": "Another Battery",
        "dataColorMap": [[0.0,"blue"],[5.0,"blue"]]
      },
      {
        "x": [1.0,2.0,3.0,4.0],
        "y": [3.0,4.0,5.0,6.0],
        "id": "id_3",
+       "schematicsUrl": "sample-scenario.svg",
+       "exploreUrl": "#!/explore?scenarioId=sample",
+       "color": "green",
+       "label": "A Third Battery",
        "dataColorMap": [[0.0,"green"],[6.0,"green"]]
      }
   ]

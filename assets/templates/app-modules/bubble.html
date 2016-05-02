@@ -1,0 +1,8 @@
+
+<svg viewbox="0,0,100,100" class="app-bubble-halo">
+  <circle cx="50" cy="50" r="49" ng-style="{'stroke': appBubble.outlinecolor, 'stroke-width': appBubble.outlinecolor ? 1 : undefined}"></circle>
+</svg>
+<div class="app-bubble-content">
+  <h4 ng-style="{'color': appBubble.color}" class="app-bubble-label">{{appBubble.label}}</h4><img ng-src="{{appBubble.svgUrl}}" class="app-bubble-img"/>
+  <div class="app-bubble-button"><a ng-href="{{appBubble.buttonlink}}" ng-style="{'border-color': appBubble.color}" class="btn btn-default">{{appBubble.buttontext}}</a></div>
+</div>

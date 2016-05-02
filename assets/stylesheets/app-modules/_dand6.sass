@@ -78,3 +78,37 @@ app-dropdown
 
 .app-hide
   display: none
+
+app-bubble
+  display: block
+  width: 250px
+  height: 250px
+  position: relative
+
+  svg.app-bubble-halo
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+    circle
+      fill: white
+      stroke: #ddd
+      stroke-width: 0.33px
+
+  .app-bubble-content
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+    position: absolute
+    display: flex
+    flex-direction: column
+    align-items: center
+    justify-content: space-around
+    padding: 5%
+
+  img.app-bubble-img
+    display: block
+    max-width: 90%
+    max-height: 66%
+    margin-bottom: 5px

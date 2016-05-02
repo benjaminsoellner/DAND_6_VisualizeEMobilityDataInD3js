@@ -1,11 +1,17 @@
 
 <div id="app-explain" class="app-view">
-  <svg viewBox="20 70 60 30" preserveAspectRatio="none" class="app-halo">
+  <svg viewBox="30 70 40 30" preserveAspectRatio="none" class="app-halo">
     <circle cx="50" cy="50" r="50" fill="#f3f3f3"></circle>
   </svg>
+  <h1 class="app-summary-title">Electric Car Batteries Withstand Loads Differently Depending on the Use Case </h1>
   <div class="app-summary-outline">
     <div ng-if="appExplain.summary" class="app-summary-chart">
       <app-chart data="appExplain.summary" highlights="appExplain.highlights" xlabel="Time" ylabel="Temperature" xunit="s" yunit="°C"></app-chart>
+    </div>
+  </div>
+  <div ng-if="appExplain.summary.serieses" class="app-summary-bubbles">
+    <div ng-repeat="item in appExplain.summary.serieses" class="app-summary-bubble">
+      <app-bubble svg="{{item.schematicsUrl}}" color="{{item.color}}" outlinecolor="{{item.id == appExplain.highlights.seriesId ? item.color : undefined}}" label="{{item.label}}" buttonlink="{{item.exploreUrl}}" dir="{{appExplain.dataDir}}" buttontext="Explore" ng-mouseenter="appExplain.highlights.seriesId = item.id" ng-mouseleave="appExplain.highlights.seriesId = undefined"></app-bubble>
     </div>
   </div>
 </div>
