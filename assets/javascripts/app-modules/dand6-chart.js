@@ -7,10 +7,11 @@ AppChartPanel = function($scope, panelOptions, chartOptions) {
   this.chart.attachSeriesUnhighlightedHandler(this.seriesUnhighlightedHandler($scope));
   this.chart.attachMouseLeaveHandler(this.timeUnhighlightedHandler($scope));
   this.chart.attachMouseMovedHandler(this.timeHighlightedHandler($scope));
-  this.chart.attachDimensionsChangedHandler(this.rangeChangedHandler($scope));
+  this.chart.attachZoomedPannedHandler(this.zoomedPannedHandler($scope));
   this.highlightsUpdatedHandler()();
   this.dataUpdated(panelOptions.dataTransformer);
   this.fitChart();
+  this.chart.draw();
   n = panelOptions.ctrlName;
   $scope.$watch(n + ".highlights.time", this.highlightsUpdatedHandler());
   $scope.$watch(n + ".highlights.time", this.seriesesValuesUpdatedHandler());
@@ -93,7 +94,7 @@ AppChartPanel.prototype.seriesUnhighlightedHandler = function($scope) {
   };
 };
 
-AppChartPanel.prototype.rangeChangedHandler = function($scope) {
+AppChartPanel.prototype.zoomedPannedHandler = function($scope) {
   var self = this;
   return function(minX, maxX, minY, maxY) {
     $scope.$apply(function() {
@@ -157,7 +158,6 @@ AppMetricPanel.prototype.highlightsUpdatedHandler = function() {
     if (self.chart) {
       var highlightThisChart = (self.ctrl.data.id == self.ctrl.highlights.metricId);
       self.chart.highlight({
-        colorMap: highlightThisChart ? self.ctrl.data.dataColorMap : false,
         thisChart: highlightThisChart
       });
     }

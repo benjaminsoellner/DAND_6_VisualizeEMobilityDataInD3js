@@ -470,7 +470,8 @@ angular.module("app-dand6", ["ngRoute"])
           xlabel: 'time',
           xunit: 's',
           ylabel: this.data.label,
-          yunit: this.data.unit
+          yunit: this.data.unit,
+          colorMap: this.data.dataColorMap
         };
         panelOptions = {
           ctrl: this,
