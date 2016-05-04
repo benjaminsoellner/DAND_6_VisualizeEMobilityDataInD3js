@@ -5,5 +5,11 @@
     "dataFile": "sample-scenario.json",
     "schematicsFile": "sample-scenario.svg",
     "storiesFile": "sample-stories.json"
+  },
+  {
+    "id": "MeasBoostNSlowEMode",
+    "label": "First Real Battery",
+    "dataFile": "MeasBoostNSlowEMode_data_out.json",
+    "schematicsFile": "PB2_00.svg"
   }
 ]

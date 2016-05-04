@@ -24,6 +24,7 @@
           dir="{{appExplore.dataDir}}"
         )
       app-stories(
+          ng-if="appExplore.stories"
           stories="appExplore.stories",
           story="appExplore.selectedStory"
           highlights="appExplore.highlights",

@@ -7,9 +7,9 @@ AppHelper = {};
 AppHelper.getSeriesDataTransformer = function(xKey, yKey) {
   return function(data) {
     return data.serieses.map(function(series) {
-        series.values = series[xKey].map(function(t, i) {
-            return { x: t, y: series[yKey][i] };
-          });
+        series.values = [];
+        for (var i = 0; i < series[xKey].length; i++)
+          series.values.push({ x: series[xKey][i], y: series[yKey][i] });
         return series;
       });
   }
@@ -159,16 +159,17 @@ angular.module("app-dand6", ["ngRoute"])
     this.selectedScenarioChangedHandler = function() {
       var self = this;
       return function() {
+        self.metrics = undefined;
+        self.stories = undefined;
+        self.selectedMetrics = [];
+        self.serieses = [];
         self.resetHighlights();
         if (self.selectedScenario !== undefined)
           $location.search("scenarioId", self.selectedScenario.id);
         if (self.selectedScenario) {
           self.loadMetrics(self.dataDir + "/" + self.selectedScenario.dataFile);
-          self.loadStories(self.dataDir + "/" + self.selectedScenario.storiesFile);
-        } else if (self.selectedScenario === undefined) {
-          self.metrics = undefined;
-          self.selectedMetrics = [];
-          self.serieses = [];
+          if (self.selectedScenario.storiesFile)
+            self.loadStories(self.dataDir + "/" + self.selectedScenario.storiesFile);
         }
       };
     };

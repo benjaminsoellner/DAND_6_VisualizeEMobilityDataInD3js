@@ -38,8 +38,8 @@ AppChartPanel.prototype.fitChart = function() {
   var minX = undefined, maxX = undefined,
       minY = undefined, maxY = undefined,
       minXRange = undefined, maxXRange = undefined,
-      extentX = this.chart.getXExtent(0.5),
-      extentY = this.chart.getYExtent(0.5);
+      extentX = this.chart.getXExtent(0.2),
+      extentY = this.chart.getYExtent(0.2);
   if (this.ctrl.highlights.timeRange) {
     minXRange = this.ctrl.highlights.timeRange[0];
     maxXRange = this.ctrl.highlights.timeRange[1];

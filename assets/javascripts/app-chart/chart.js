@@ -14,6 +14,7 @@ AppChart = function(containerNode, options) {
 }
 
 AppChart.prototype.setup = function() {
+
   var self = this;
   this.y = d3.scale.linear();
   this.x = d3.scale.linear();
@@ -115,26 +116,30 @@ AppChart.prototype.getSeriesFromId = function(seriesId) {
       return this.serieses[i];
 }
 
-AppChart.prototype.getXExtent = function(padding) {
-  if (padding === undefined) padding = 0.0;
+AppChart.prototype.getXExtent = function(whitespace) {
+  if (whitespace === undefined) whitespace = 0.0;
   var minX = undefined, maxX = undefined;
   for (i in this.serieses) {
     extentX = d3.extent(this.serieses[i].values, function(d) { return d.x; });
     if (minX === undefined || extentX[0] < minX) minX = extentX[0];
     if (maxX === undefined || extentX[1] > maxX) maxX = extentX[1];
   }
-  return [minX - padding, maxX + padding];
+  if (minX === undefined) minX = 0.0;
+  if (maxX === undefined) maxX = 1.0;
+  return [minX - whitespace * (maxX-minX), maxX + whitespace * (maxX-minX)];
 }
 
-AppChart.prototype.getYExtent = function(padding) {
-  if (padding === undefined) padding = 0.0;
+AppChart.prototype.getYExtent = function(whitespace) {
+  if (whitespace === undefined) whitespace = 0.0;
   var minY = undefined, maxY = undefined;
   for (i in this.serieses) {
     extentY = d3.extent(this.serieses[i].values, function(d) { return d.y; });
     if (minY === undefined || extentY[0] < minY) minY = extentY[0];
     if (maxY === undefined || extentY[1] > maxY) maxY = extentY[1];
   }
-  return [minY - padding, maxY + padding];
+  if (minY === undefined) minY = 0.0;
+  if (maxY === undefined) maxY = 1.0;
+  return [minY - whitespace * (maxY-minY), maxY + whitespace * (maxY-minY)];
 }
 
 AppChart.prototype.dimensions = function(minX, maxX, minY, maxY) {
@@ -327,27 +332,54 @@ AppChart.prototype.drawSerieses = function() {
         .on("mouseleave", function(d) { self.handleSeriesUnhighlighted(d.id); })
         .selectAll("path")
         .data(function(d, i) {
-              color = (self.colors instanceof Array ? self.colors[i] : self.colors);
-              data = AppChart.quad(AppChart.sample(self.line(d.values), 8))
-                  .map(function (value) {
-                        value.color = color;
-                        return value;
-                      });
-              return data;
-            })
-        .enter().append("path");
-    this.pathNode
+              return self.subsampleLinPath(d.values, 2, 10);
+            });
+    this.pathNode.enter().append("path")
         .style("fill", function(d) {
-            return d.color ? d.color(self.y.invert(d.p[1])) : "black";
+            var color = (self.colors instanceof Array ? self.colors[i] : self.colors);
+            return color ? color(d.point.y) : "black";
+            //return d.color ? d.color(self.y.invert(d.p[1])) : "black";
           })
         .style("stroke", function(d) {
-            return d.color ? d.color(self.y.invert(d.p[1])) : "black";
+            var color = (self.colors instanceof Array ? self.colors[i] : self.colors);
+            return color ? color(d.point.y) : "black";
+            //return d.color ? d.color(self.y.invert(d.p[1])) : "black";
           })
         .attr("d", function(d) {
-            return AppChart.lineJoin(d[0], d[1], d[2], d[3], 2);
+            return self.line(d.line);
+            //return AppChart.lineJoin(d[0], d[1], d[2], d[3], 2);
           });
+    this.pathNode.exit().remove();
+
   }
   this.graphLayer.call(d3.behavior.zoom().x(this.x).y(this.y).on("zoom", this.zoomHandler()));
+}
+
+AppChart.prototype.subsampleLinPath = function(values, pixelsPerSegment, maxNumSegments) {
+  segments = [];
+  for (i = 0; i < values.length-1; i++) {
+    if (i == values.length) break;
+    currentVal = values[i];
+    nextVal    = values[i+1];
+    deltaX   = nextVal.x - currentVal.x;
+    deltaY   = nextVal.y - currentVal.y;
+    segmentHeight = this.y ? this.y.invert(pixelsPerSegment)-this.y.invert(0) : deltaY;
+    segmentCount  = Math.min(Math.max(Math.ceil(Math.abs(deltaY/segmentHeight)), 1), maxNumSegments);
+    heightSafe = deltaY/segmentCount;
+    widthSafe = deltaX/segmentCount;
+    currentSegmentX = currentVal.x;
+    currentSegmentY = currentVal.y;
+    for (s = 0; s < segmentCount; s++)
+      segments.push({
+          line: [
+            {x: currentVal.x+s*widthSafe,     y: currentVal.y+s*heightSafe},
+            {x: currentVal.x+(s+1)*widthSafe, y: currentVal.y+(s+1)*heightSafe}
+          ],
+          point:
+            {x: currentVal.x+(s+0.5)*widthSafe, y: currentVal.y+(s+0.5)*heightSafe}
+        });
+  }
+  return segments;
 }
 
 AppChart.prototype.getValuesForX = function(x) {
@@ -394,20 +426,22 @@ AppChart.prototype.drawHighlights = function() {
       yText = this.highlightXNode.selectAll("text.y").data([datum]);
       xText.exit().remove();
       yText.exit().remove();
-      xText.enter().append("text").attr("class", "x");
-      yText.enter().append("text").attr("class", "y");
-      xText.text(function(d) {
-              return format(d.x) + (self.options.xunit ? self.options.xunit : "");
-            })
-          .attr("x", function(d) { return self.x(d.x); })
-          .attr("y", function(d) { return self.y(d.y)+20; })
-          .attr("text-anchor", "middle");
-      yText.text(function(d) {
-              return format(d.y) + (self.options.yunit ? self.options.yunit : "");
-            })
-          .attr("x", function(d) { return self.x(d.x)-10; })
-          .attr("y", function(d) { return self.y(d.y)+3; })
-          .attr("text-anchor", "end");
+      if (datum) {
+        xText.enter().append("text").attr("class", "x");
+        yText.enter().append("text").attr("class", "y");
+        xText.text(function(d) {
+                return format(d.x) + (self.options.xunit ? self.options.xunit : "");
+              })
+            .attr("x", function(d) { return self.x(d.x); })
+            .attr("y", function(d) { return self.y(d.y)+20; })
+            .attr("text-anchor", "middle");
+        yText.text(function(d) {
+                return format(d.y) + (self.options.yunit ? self.options.yunit : "");
+              })
+            .attr("x", function(d) { return self.x(d.x)-10; })
+            .attr("y", function(d) { return self.y(d.y)+3; })
+            .attr("text-anchor", "end");
+      }
     } else {
       this.highlightXNode.selectAll("text.x").remove();
       this.highlightXNode.selectAll("text.y").remove();
@@ -440,6 +474,7 @@ AppChart.quad = function(points) {
 }
 
 AppChart.sample = function(d, precision) {
+
   var path = document.createElementNS(d3.ns.prefix.svg, "path");
   path.setAttribute("d", d);
   var n = path.getTotalLength(), t = [0], i = 0, dt = precision;

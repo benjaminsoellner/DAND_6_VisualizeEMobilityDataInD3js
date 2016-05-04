@@ -15,7 +15,7 @@
     </div>
     <div ng-if="appExplore.selectedScenario.schematicsFile" class="app-view-content">
       <app-schematics svg="appExplore.selectedScenario.schematicsFile" serieses="appExplore.serieses" highlights="appExplore.highlights" dir="{{appExplore.dataDir}}"></app-schematics>
-      <app-stories stories="appExplore.stories" story="appExplore.selectedStory" highlights="appExplore.highlights" metricsselector="appExplore.selectMetricsById(metrics)" homeurl="#!/explain"></app-stories>
+      <app-stories ng-if="appExplore.stories" stories="appExplore.stories" story="appExplore.selectedStory" highlights="appExplore.highlights" metricsselector="appExplore.selectMetricsById(metrics)" homeurl="#!/explain"></app-stories>
     </div>
   </div>
   <div class="app-view-col-2">
