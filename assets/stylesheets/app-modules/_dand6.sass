@@ -3,6 +3,10 @@ app-schematics
     max-height: 50vh
     width: 100%
     margin: auto
+    .show-yes
+      display: block
+    .show-no
+      display: none
   g.app-series
     &.app-with-metrics *
       cursor: pointer
@@ -64,9 +68,9 @@ app-metric
   width: 100%
   height: 100%
 
-.app-metric .unhighlighted.app-chart
-  .serieses.layer path, .highlight.layer circle
-    stroke: black !important
+// .app-metric .unhighlighted.app-chart
+//   .serieses.layer path, .highlight.layer circle
+//     stroke: black !important
 
 
 /* all other elements should scale to height: 100% */

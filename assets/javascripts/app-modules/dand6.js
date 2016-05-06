@@ -326,95 +326,12 @@ angular.module("app-dand6", ["ngRoute"])
           }
         }
         // initialize
-        $scope.$watch("appSchematics.highlights.seriesesValues", this.seriesesValuesChangedHandler(), true);
+        $scope.$watch("appSchematics.highlights.seriesesValues", this.seriesesValuesChangedHandler());
       }
     };
   }])
 
-  .directive("appSeries", ["$compile", function($compile) {
-    return {
-      require: ["^^appSchematics"],
-      transclude: true,
-      restrict: "A",
-      templateUrl: "assets/templates/app-modules/series.html",
-      scope: true,
-      bindToController: {
-        series: "@appSeries"
-      },
-      controllerAs: "appSeries",
-      controller: function($scope, $element) {
-        this.hasMetrics = function() {
-          serieses = this.schematics.getSerieses();
-          for (i in serieses)
-            if (serieses[i].id == this.series)
-                return true;
-          return false;
-        }
-        this.isHighlighted = function() {
-          return (this.series == this.schematics.getHighlightedSerId());
-        }
-        this.highlightSeries = function() {
-          this.schematics.setHighlightedSerId(this.series);
-        }
-        this.unhighlightSeries = function() {
-          this.schematics.setHighlightedSerId(false);
-        }
-        this.seriesesValuesChangedHandler = function() {
-          var self = this;
-          return function($event, values) {
-            var value = undefined;
-            for (i in values)
-              if (values[i].id == self.series)
-                value = values[i];
-            if (value && value.color) {
-              self.style.fill = value.color;
-            } else {
-              self.style.fill = undefined;
-            }
-          };
-        }
-        // initialization
-        this.style = {fill: undefined};
-        $scope.$on("seriesesValuesChanged", this.seriesesValuesChangedHandler());
-      },
-      link: function($scope, $element, $attrs, $controllers) {
-        $scope.appSeries.schematics = $controllers[0];
-        updatedChilds = $element.children().first().find("*")
-          .attr("app-style","appSeries.style");
-        $compile(updatedChilds)($scope);
-      }
-    };
-  }])
-
-  .directive("appStyle", [function() {
-    return {
-      restrict: "A",
-      scope: true,
-      bindToController: {
-        style: "=appStyle"
-      },
-      controllerAs: "appStyle",
-      priority: 100,
-      controller: function($scope, $element) {
-        this.styleChangedHandler = function() {
-          var self = this;
-          return function(style) {
-            for (k in style) {
-              if (style[k] === undefined && self.oldStyle[k]) {
-                $element.css(k, self.oldStyle[k]);
-              } else {
-                $element.css(k, style[k]);
-              }
-            }
-          };
-        }
-        // initialization
-        this.oldStyle = {};
-        for (k in this.style) this.oldStyle[k] = $element[0].style[k];
-        $scope.$watch("appStyle.style", this.styleChangedHandler(), true);
-      }
-    }
-  }])
+  .directive("appSeries", [AppSeriesDirective.factory])
 
   .directive("appMetrics", [function() {
     return {

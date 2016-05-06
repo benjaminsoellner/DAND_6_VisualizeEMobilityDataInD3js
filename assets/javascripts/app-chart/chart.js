@@ -1,16 +1,22 @@
 // Constructor
 
 AppChart = function(containerNode, options) {
+  var colorDomain = function(d) { return d[0]; };
+  var colorRange = function(d) { return d[1]; };
   var self = this;
   this.containerNode = containerNode;
   // read options
   this.options = options || {};
   this.colorMap = this.options.colorMap;
+  if (this.colorMap)
+    this.colorMap = d3.scale.linear()
+      .domain(this.colorMap.map(colorDomain))
+      .range(this.colorMap.map(colorRange));
   this.padding = {
     top:    this.options.title  ? 30 : 10,
     right:  20,
-    bottom: this.options.xlabel ? 30 : 40,
-    left:   this.options.ylabel ? 40 : 20,
+    bottom: this.options.xlabel ? 60 : 40,
+    left:   this.options.ylabel ? 60 : 40,
   };
   this.setup();
 }
@@ -28,14 +34,16 @@ AppChart.prototype.setup = function() {
   // grid layer
   this.gridLayer = this.layers.append("g")
       .attr("class", "grid layer");
+  this.xTicksNode = this.gridLayer.append("g")
+      .attr("class", "x ticks");
+  this.yGuideNode = this.gridLayer.append("g")
+      .attr("class", "y guide");
+  this.yTicksNode = this.gridLayer.append("g")
+      .attr("class", "y ticks");
   this.xAxisNode = this.gridLayer.append("line")
       .attr("class", "x axis");
   this.yAxisNode = this.gridLayer.append("line")
       .attr("class", "y axis")
-  this.xTicksNode = this.gridLayer.append("g")
-      .attr("class", "x ticks");
-  this.yTicksNode = this.gridLayer.append("g")
-      .attr("class", "y ticks");
   if (this.options.title)
     this.titleNode = this.gridLayer.append("text")
         .attr("class", "title")
@@ -153,10 +161,10 @@ AppChart.prototype.getValuesForX = function(x) {
   for (i in this.serieses) {
     series = this.serieses[i]
     p = AppChart.findForX(series.values, x);
-    color = (this.colors instanceof Array ? this.colors[i] : this.colors);
     hash[series.id] = {
         id: series.id, x: p.x, y: p.y,
-        color: color ? color(p.y) : false
+        colorVal: this.colorMap ? this.colorMap(p.y) : false,
+        color: series.color ? series.color : false
       };
   }
   return hash;
@@ -266,13 +274,17 @@ AppChart.prototype.scaleHandler = function() {
     self.yAxisNode
         .attr("y1", 0)
         .attr("y2", self.size.height);
+    self.yGuideNode
+        .attr("x", self.padding.left-10)
+        .attr("width", 10)
+        .attr(self.size.height);
     if (self.xLabelNode)
       self.xLabelNode
           .attr("x", self.size.width/2)
           .attr("y", self.size.height+5);
     if (self.yLabelNode)
       self.yLabelNode
-          .attr("transform", "translate("+-30+" "+self.size.height/2+") rotate(-90)");
+          .attr("transform", "translate("+-40+" "+self.size.height/2+") rotate(-90)");
     if (self.titleNode)
       self.titleNode
           .attr("x", self.size.width/2);
@@ -325,7 +337,7 @@ AppChart.prototype.drawGrid = function() {
   var self = this;
   var tx = function(d) { return "translate(" + self.x(d) + ", 0)"; },
       ty = function(d) { return "translate(0, " + self.y(d) + ")"; };
-  var zeros = function(d) { return d ? "" : "zero"; },
+  var lg = function(d) { return "long " + (d ? "" : "zero"); },
       fx = this.x.tickFormat(10),
       fy = this.y.tickFormat(10);
   // Regenerate x-ticks
@@ -334,20 +346,22 @@ AppChart.prototype.drawGrid = function() {
       .attr("transform", tx);
   var gxe = gx.enter().insert("g", "a")
       .attr("transform", tx);
-  gxe.append("line")
-      .attr("class", zeros)
+  gxe.append("line").attr("class", "short");
+  gxe.append("line").attr("class", lg);
   gxe.append("text")
       .attr("dy", "1em")
       .attr("text-anchor", "middle")
       .text(fx);
   gx.exit().remove();
   // scaling
-  gx.selectAll("line")
-      .attr("z", 5)
-      .attr("y1", this.size.height)
-      .attr("y2", this.size.height+5);
   gx.selectAll("text")
       .attr("y", this.size.height+5);
+  gx.selectAll("line.long")
+      .attr("y1", 0)
+      .attr("y2", this.size.height);
+  gx.selectAll("line.short")
+      .attr("y1", this.size.height)
+      .attr("y2", this.size.height+5);
   // Regenerate y-ticks
   var gy = this.yTicksNode.selectAll("g")
       .data(this.y.ticks(10), String)
@@ -355,8 +369,15 @@ AppChart.prototype.drawGrid = function() {
   gy.select("text").text(fy);
   var gye = gy.enter().insert("g", "a")
       .attr("transform", ty);
-  gye.append("line")
-      .attr("class", zeros)
+  gye.append("line").attr("class", "short");
+  gye.append("line").attr("class", lg);
+  // scaling
+  gy.selectAll("line.short")
+      .attr("x1", -5)
+      .attr("x2", 0);
+  gy.selectAll("line.long")
+      .attr("x1", 0)
+      .attr("x2", this.size.width);
   gye.append("text")
       .attr("dy", ".35em")
       .attr("text-anchor", "end")
@@ -364,35 +385,33 @@ AppChart.prototype.drawGrid = function() {
   gy.exit().remove();
   // scaling
   gy.selectAll("line")
-      .attr("x1", -5)
-      .attr("x2", 0);
   gy.selectAll("text")
       .attr("x", -5);
+  // Regenerate y-guide
+  if (this.colorMap) {
+    var numGuides = self.size.height / 5,
+        guideTicks = this.y.ticks(numGuides);
+    guideRects = []
+    for (i in guideTicks)
+      guideRects.push([i == 0 ? guideTicks[i] : guideTicks[i-1], guideTicks[i]]);
+    guideRects.push([guideTicks[guideTicks.length-1], this.y.invert(0)]);
+    gg = this.yGuideNode.selectAll("rect")
+        .data(guideRects)
+    gg.exit().remove();
+    gge = gg.enter().append("rect");
+    gg.attr("transform", function(d) { return "translate(-5, " + (self.y(d[1])) + ")"; })
+      .attr("height", function(d) { return self.y(d[0])-self.y(d[1])+1; })
+      .attr("fill", function(d) { return self.colorMap(d[1]); })
+      .attr("width", "5");
+  };
 }
 
 AppChart.prototype.drawSerieses = function() {
   var self = this;
-  var colorDomain = function(d) { return d[0]; };
-  var colorRange = function(d) { return d[1]; };
   this.line = d3.svg.line()
     .interpolate("linear")
     .x(function(d,i) { return this.x(d.x); })
     .y(function(d,i) { return this.y(d.y); });
-  this.colors = [];
-  if (!this.colorMap)
-    for (i in this.serieses)
-      if (this.serieses[i].dataColorMap)
-        this.colors.push(
-              d3.scale.linear()
-                .domain(this.serieses[i].dataColorMap.map(colorDomain))
-                .range(this.serieses[i].dataColorMap.map(colorRange))
-            );
-      else
-        this.colors.push(false);
-  else
-    this.colors = d3.scale.linear()
-        .domain(this.colorMap.map(colorDomain))
-        .range(this.colorMap.map(colorRange));
   if (this.seriesNode) {
     this.seriesNode
         .on("mousemove", self.mouseMovedHandler())
@@ -401,25 +420,11 @@ AppChart.prototype.drawSerieses = function() {
     this.pathNode = this.seriesNode
         .on("mouseenter", function(d) { self.handleSeriesHighlighted(d.id); })
         .on("mouseleave", function(d) { self.handleSeriesUnhighlighted(d.id); })
-        .selectAll("path")
-        .data(function(d, i) {
-              data = self.subsampleLinPath(d.values, 2, 10, {index: i});
-              return data;
-            });
-    this.pathNode.enter().append("path")
-        .style("fill", function(d, i) {
-            var color = (self.colors instanceof Array ? self.colors[d.tag.index] : self.colors);
-            return color ? color(d.point.y) : "black";
-          })
-        .style("stroke", function(d, i) {
-            var color = (self.colors instanceof Array ? self.colors[d.tag.index] : self.colors);
-            return color ? color(d.point.y) : "black";
-          })
-        .attr("d", function(d) {
-            return self.line(d.line);
-          });
-    this.pathNode.exit().remove();
-
+        .append("path")
+        .attr("d", function(d) { return self.line(d.values); })
+        .attr("vector-effect", "non-scaling-stroke")
+        .style("fill", "transparent")
+        .style("stroke", function(d) { return d.color ? d.color : "black"; });
   }
   this.graphLayer.call(d3.behavior.zoom().x(this.x).y(this.y).on("zoom", this.zoomHandler()));
 }
@@ -438,14 +443,18 @@ AppChart.prototype.drawHighlights = function() {
     circles.enter().append("circle")
         .attr("r", "5");
     circles
-        .attr("class", function (d) { return d.id == self.highlightedSeries ? "highlighted" : ""; })
+        .attr("class", function (d) {
+            return (d.id == self.highlightedSeries ? "highlighted" : "") + " " +
+                   (d.colorVal ? "with-color-map" : "");
+          })
         .attr("cx", function (d) {
             return self.x(d.x);
           })
         .attr("cy", function (d) {
             return self.y(d.y);
           })
-        .attr("stroke", function (d) { return d.color ? d.color : "black"; })
+        .attr("stroke", function (d) { return d.color ? d.color : d.colorVal ? d.colorVal : "black"; })
+        .attr("fill", function (d) { return d.colorVal ? d.colorVal : "transparent"; })
         .on("mouseenter", function(d) { self.handleSeriesHighlighted(d.id); })
         .on("mouseleave", function(d) { self.handleSeriesUnhighlighted(d.id); });
     if (data.length > 0 && this.highlightedSeries) {

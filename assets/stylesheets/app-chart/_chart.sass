@@ -1,16 +1,23 @@
 g.app-chart
   g.grid.layer
     text.x.label
+      font-size: 10pt
     text.y.label
+      font-size: 10pt
     line.axis
       stroke: black
       stroke-width: 1
     g.ticks g
-      line
+      line.short
         stroke: black
         &.zero
           stroke: black
           stroke-width: 2
+      line.long
+        display: none
+        &.zero
+          display: block
+          stroke: #ddd
       text
   svg.graph.layer
     cursor: all-scroll
@@ -25,9 +32,10 @@ g.app-chart
   g.highlight.layer
     circle
       stroke-width: 1
-      fill: transparent
     circle.highlighted
       stroke-width: 2
+    circle.with-color-map.highlighted
+      stroke: black
     text
       font-weight: bold
   rect.interact

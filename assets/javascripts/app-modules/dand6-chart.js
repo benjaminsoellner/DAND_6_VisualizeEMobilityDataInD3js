@@ -167,10 +167,20 @@ AppMetricPanel.prototype.highlightsUpdatedHandler = function() {
 AppChartPanel.prototype.seriesesValuesUpdatedHandler = function() {
   var self = this;
   return function() {
-    if (self.ctrl.highlights.time !== undefined &&
-        self.ctrl.highlights.metricId === self.ctrl.data.id) {
-      values = self.chart.getValuesForX(self.ctrl.highlights.time);
-      self.ctrl.highlights.seriesesValues = values;
+    anyTimeHighlighted = self.ctrl.highlights.time;
+    thisMetricHighlighted = (self.ctrl.highlights.metricId === self.ctrl.data.id);
+    if (!anyTimeHighlighted)
+      self.ctrl.highlights.seriesesValues = {};
+    else {
+      var serieses = self.ctrl.data.serieses,
+          values = self.chart.getValuesForX(self.ctrl.highlights.time),
+          currentValues = self.ctrl.highlights.seriesesValues;
+          newValues = {};
+      for (seriesId in currentValues)
+        newValues[seriesId] = currentValues[seriesId];
+      for (seriesId in values)
+        newValues[seriesId] = values[seriesId];
+      self.ctrl.highlights.seriesesValues = newValues;
     }
   };
 };
@@ -190,7 +200,7 @@ AppMetricPanel.prototype.metricUnhighlightedHandler = function($scope) {
   var self = this;
   return function() {
     $scope.$apply(function() {
-      self.ctrl.highlights.metricId = false;
+      self.ctrl.highlights.metricId = undefined;
       if (self.ctrl.highlights.looseness < 1)
         self.ctrl.highlights.looseness = 1;
     });

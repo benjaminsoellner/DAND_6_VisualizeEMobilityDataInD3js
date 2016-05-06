@@ -1,0 +1,421 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 744.09448819 1052.3622047"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="PB2_00_new.svg">
+  <defs
+     id="defs4">
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 526.1811 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="744.09449 : 526.1811 : 1"
+       inkscape:persp3d-origin="372.04724 : 350.7874 : 1"
+       id="perspective4892" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.979899"
+     inkscape:cx="179.45083"
+     inkscape:cy="906.49096"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1536"
+     inkscape:window-height="801"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Ebene 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="opacity:1;fill:none;stroke:#999999;stroke-width:1.5;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:7.5;fill-opacity:1"
+       id="rect3338"
+       width="239.40616"
+       height="119.198"
+       x="56.568542"
+       y="100.79851"
+       rx="5"
+       ry="5" />
+    <svg
+       id="svg3400"
+       version="1.1"
+       height="107.77386"
+       inkscape:version="0.91 r13725"
+       width="229.82901"
+       x="61.60965"
+       y="106.61518"
+       viewBox="0 0 100 100"
+       preserveAspectRatio="none">
+      <rect
+         id="rect4418"
+         app-series="{height:'soc'}"
+         width="100"
+         height="0"
+         transform="scale(1,-1) translate(0,-100)"
+         x="0"
+         y="0"
+         style="fill:#cccccc" />
+    </svg>
+    <rect
+       style="opacity:1;fill:none;stroke:#999999;stroke-width:1.5;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect3388"
+       width="39.651745"
+       height="12.201227"
+       x="244.72656"
+       y="88.491219"
+       ry="0" />
+    <rect
+       style="opacity:1;fill:none;stroke:#999999;stroke-width:1.5;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:6.62573481"
+       id="rect3388-2"
+       width="39.651745"
+       height="12.201227"
+       x="68.562485"
+       y="88.636978"
+       ry="0" />
+    <rect
+       style="opacity:1;fill:none;stroke:#999999;stroke-width:1.5;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:3.3909297"
+       id="rect3388-2-4"
+       width="10.031013"
+       height="12.632535"
+       x="71.124748"
+       y="219.9937"
+       ry="0" />
+    <rect
+       style="opacity:1;fill:none;stroke:#999999;stroke-width:1.5;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:3.3909297"
+       id="rect3388-2-4-3"
+       width="10.031013"
+       height="12.632535"
+       x="277.32214"
+       y="219.9937"
+       ry="0" />
+    <g
+       id="g5084"
+       app-series="{show:'voltage_battery'}">
+      <path
+         inkscape:connector-curvature="0"
+         id="path4919"
+         d="m 81.862966,83.544692 0,-12.374369 18.687824,0"
+         style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+      <path
+         inkscape:connector-curvature="0"
+         id="path4919-9"
+         d="m 257.49369,83.415885 0,-12.374369 -18.68782,0"
+         style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+      <text
+         sodipodi:linespacing="125%"
+         id="text4936"
+         y="76.302307"
+         x="106.08632"
+         style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;line-height:125%;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+           y="76.302307"
+           x="106.08632"
+           id="tspan4938"
+           sodipodi:role="line">Voltage:</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text4936-8"
+         y="74.939941"
+         x="217.62825"
+         style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;text-align:end;letter-spacing:0px;word-spacing:0px;text-anchor:end;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"
+         app-series="{text:'voltage_battery'}"><tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;line-height:125%;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';text-align:end;writing-mode:lr-tb;text-anchor:end"
+           y="74.939941"
+           x="217.62825"
+           id="tspan4938-2"
+           sodipodi:role="line">0</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text4936-8-2"
+         y="75.166992"
+         x="231.77539"
+         style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;text-align:end;letter-spacing:0px;word-spacing:0px;text-anchor:end;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;line-height:125%;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';text-align:end;writing-mode:lr-tb;text-anchor:end"
+           y="75.166992"
+           x="231.77539"
+           id="tspan4938-2-9"
+           sodipodi:role="line">V</tspan></text>
+    </g>
+    <g
+       id="g5094"
+       app-series="{show:'voltage_cutoff'}">
+      <text
+         sodipodi:linespacing="125%"
+         id="text4936-80"
+         y="58.771343"
+         x="106.0126"
+         style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;line-height:125%;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#999999"
+           y="58.771343"
+           x="106.0126"
+           id="tspan4938-7"
+           sodipodi:role="line">Cut-off:</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text4936-8-3"
+         y="57.408978"
+         x="217.55453"
+         style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;text-align:end;letter-spacing:0px;word-spacing:0px;text-anchor:end;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"
+         app-series="{text:'voltage_cutoff'}"><tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;line-height:125%;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';text-align:end;writing-mode:lr-tb;text-anchor:end;fill:#999999"
+           y="57.408978"
+           x="217.55453"
+           id="tspan4938-2-4"
+           sodipodi:role="line">0</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text4936-8-2-6"
+         y="57.636028"
+         x="231.70169"
+         style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;text-align:end;letter-spacing:0px;word-spacing:0px;text-anchor:end;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;line-height:125%;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';text-align:end;writing-mode:lr-tb;text-anchor:end;fill:#999999"
+           y="57.636028"
+           x="231.70169"
+           id="tspan4938-2-9-6"
+           sodipodi:role="line">V</tspan></text>
+    </g>
+    <g
+       id="g5307"
+       app-series="{show:'temperature_1'}">
+      <g
+         app-series="{fill:'temperature_1'}"
+         id="g5280"
+         style="stroke-width:1.5;stroke-miterlimit:4;stroke-dasharray:none;stroke:none">
+        <rect
+           style="opacity:1;fill:none;stroke:none;stroke-width:1.5;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:7.5"
+           id="rect3341 "
+           width="65.215385"
+           height="80.105141"
+           x="65.810127"
+           y="111.05025"
+           rx="5.0046463"
+           ry="4.025383"
+           app-series="{fill:'temperature_1'}" />
+      </g>
+      <text
+         app-series="{text:'temperature_1'}"
+         sodipodi:linespacing="125%"
+         id="text4936-8-28"
+         y="211.36195"
+         x="100.39181"
+         style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;text-align:end;letter-spacing:0px;word-spacing:0px;text-anchor:end;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;line-height:125%;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';text-align:end;writing-mode:lr-tb;text-anchor:end"
+           y="211.36195"
+           x="100.39181"
+           id="tspan4938-2-0"
+           sodipodi:role="line">0</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text4936-8-2-9"
+         y="211.589"
+         x="122.53895"
+         style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;text-align:end;letter-spacing:0px;word-spacing:0px;text-anchor:end;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;line-height:125%;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';text-align:end;writing-mode:lr-tb;text-anchor:end"
+           y="211.589"
+           x="122.53895"
+           id="tspan4938-2-9-3"
+           sodipodi:role="line">°C</tspan></text>
+    </g>
+    <g
+       id="g5315"
+       app-series="{show:'temperature_2'}">
+      <rect
+         app-series="{fill:'temperature_2'}"
+         ry="4.025383"
+         rx="5.0046463"
+         y="111.45688"
+         x="143.17896"
+         height="80.105141"
+         width="65.215385"
+         id="rect3340-9"
+         style="opacity:1;fill:none;stroke:none;stroke-width:1.5;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:7.5" />
+      <text
+         app-series="{text:'temperature_2'}"
+         sodipodi:linespacing="125%"
+         id="text4936-8-28-7"
+         y="211.36195"
+         x="179.2847"
+         style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;text-align:end;letter-spacing:0px;word-spacing:0px;text-anchor:end;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;line-height:125%;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';text-align:end;writing-mode:lr-tb;text-anchor:end"
+           y="211.36195"
+           x="179.2847"
+           id="tspan4938-2-0-0"
+           sodipodi:role="line">0</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text4936-8-2-9-3"
+         y="211.589"
+         x="201.43184"
+         style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;text-align:end;letter-spacing:0px;word-spacing:0px;text-anchor:end;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;line-height:125%;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';text-align:end;writing-mode:lr-tb;text-anchor:end"
+           y="211.589"
+           x="201.43184"
+           id="tspan4938-2-9-3-5"
+           sodipodi:role="line">°C</tspan></text>
+    </g>
+    <g
+       id="g5322"
+       app-series="{show:'temperature_3'}">
+      <rect
+         app-series="{fill:'temperature_3'}"
+         ry="4.025383"
+         rx="5.0046463"
+         y="111.05025"
+         x="221.01266"
+         height="80.105141"
+         width="65.215385"
+         id="rect3340-5"
+         style="opacity:1;fill:none;stroke:none;stroke-width:1.5;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:7.5" />
+      <text
+         app-series="{text:'temperature_3'}"
+         sodipodi:linespacing="125%"
+         id="text4936-8-28-8"
+         y="211.36195"
+         x="255.61469"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;line-height:125%;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';text-align:end;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:end;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;line-height:125%;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';text-align:end;writing-mode:lr-tb;text-anchor:end"
+           y="211.36195"
+           x="255.61469"
+           id="tspan4938-2-0-5"
+           sodipodi:role="line">0</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text4936-8-2-9-2"
+         y="211.589"
+         x="277.76184"
+         style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;text-align:end;letter-spacing:0px;word-spacing:0px;text-anchor:end;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;line-height:125%;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';text-align:end;writing-mode:lr-tb;text-anchor:end"
+           y="211.589"
+           x="277.76184"
+           id="tspan4938-2-9-3-3"
+           sodipodi:role="line">°C</tspan></text>
+    </g>
+    <g
+       id="g5264"
+       app-series="{show:'current'}">
+      <g
+         id="g5261"
+         style="stroke:none;stroke-width:1.5;stroke-miterlimit:4;stroke-dasharray:none">
+        <path
+           style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.5;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           d="m 268.52285,82.718479 0,-23.528981 -6.23666,-0.03275 7.62914,-6.587356 7.62913,-6.587348 7.36649,6.663727 7.36646,6.665089 -6.99099,-0.03548 0,23.443057 -16.76357,0 z"
+           id="rect4910-1"
+           inkscape:connector-curvature="0"
+           app-series="{fill:'current'}" />
+      </g>
+      <text
+         sodipodi:linespacing="125%"
+         id="text4936-80-5"
+         y="24.744036"
+         x="250.09204"
+         style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;line-height:125%;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#000000"
+           y="24.744036"
+           x="250.09204"
+           id="tspan4938-7-1"
+           sodipodi:role="line">Current:</tspan></text>
+      <text
+         app-series="{'text':'current'}"
+         sodipodi:linespacing="125%"
+         id="text4936-8-3-6"
+         y="38.049187"
+         x="286.33701"
+         style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;text-align:end;letter-spacing:0px;word-spacing:0px;text-anchor:end;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;line-height:125%;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';text-align:end;writing-mode:lr-tb;text-anchor:end;fill:#000000"
+           y="38.049187"
+           x="286.33701"
+           id="tspan4938-2-4-1"
+           sodipodi:role="line">0</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text4936-8-2-6-8"
+         y="38.276237"
+         x="300.48416"
+         style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;text-align:end;letter-spacing:0px;word-spacing:0px;text-anchor:end;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;line-height:125%;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';text-align:end;writing-mode:lr-tb;text-anchor:end;fill:#000000"
+           y="38.276237"
+           x="300.48416"
+           id="tspan4938-2-9-6-6"
+           sodipodi:role="line">A</tspan></text>
+      <g
+         transform="matrix(0.4126164,0,0,-0.44301599,167.66779,273.85298)"
+         id="g5261-2-7"
+         style="stroke:#f03b20;stroke-width:3.50839353;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    </g>
+  </g>
+  <text
+     sodipodi:linespacing="125%"
+     id="text4936-1"
+     y="248.82892"
+     x="86.00074"
+     style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     xml:space="preserve"><tspan
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.5px;line-height:125%;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#999999"
+       y="248.82892"
+       x="86.00074"
+       id="tspan4938-6"
+       sodipodi:role="line">Cooling</tspan></text>
+  <g
+     transform="matrix(0.4126164,0,0,0.44301599,-37.864816,216.60355)"
+     id="g5261-2"
+     style="stroke:#ffd984;stroke-width:3.50839353;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1">
+    <path
+       style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:#ffd984;stroke-width:3.50839353;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 268.52285,82.718479 0,-23.528981 -6.23666,-0.03275 7.62914,-6.587356 7.62913,-6.587348 7.36649,6.663727 7.36646,6.665089 -6.99099,-0.03548 0,23.443057 -16.76357,0 z"
+       id="rect4910-1-3"
+       inkscape:connector-curvature="0" />
+  </g>
+  <path
+     style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:#fca146;stroke-width:1.5;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     d="m 278.39431,237.28971 0,10.42371 -2.57335,0.0145 3.14791,2.9183 3.14791,2.9183 3.03953,-2.95213 3.03952,-2.95274 -2.88459,0.0157 0,-10.38565 -6.91693,0 z"
+     id="rect4910-1-3-8"
+     inkscape:connector-curvature="0" />
+</svg>
