@@ -10,6 +10,6 @@
     "id": "MeasBoostNSlowEMode",
     "label": "Battery Charging Cycle",
     "dataFile": "MeasBoostNSlowEMode_data.json",
-    "schematicsFile": "PB2_00_new.svg"
+    "schematicsFile": "PB2_00_cells.svg"
   }
 ]

@@ -317,6 +317,7 @@ angular.module("app-dand6", ["ngRoute"])
         this.loaded = function() {
           svg = $element.find("svg");
           AppHelper.trimSvg(svg);
+          $scope.$broadcast("seriesesValuesChanged", {});
         }
         this.seriesesValuesChangedHandler = function(values) {
           return function(values) {

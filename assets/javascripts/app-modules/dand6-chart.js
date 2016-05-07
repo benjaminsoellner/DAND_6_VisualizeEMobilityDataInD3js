@@ -58,7 +58,10 @@ AppChartPanel.prototype.fitChart = function() {
     minX = extentX[0];
     maxX = extentX[1];
   }
-  this.chart.dimensions(minX, maxX, extentY[0], extentY[1]);
+  if (extentY[0] == extentY[1])
+    this.chart.dimensions(minX, maxX, extentY[0]-1, extentY[1]+1);
+  else
+    this.chart.dimensions(minX, maxX, extentY[0], extentY[1]);
 };
 
 AppChartPanel.prototype.timeRangeUpdatedHandler = function() {

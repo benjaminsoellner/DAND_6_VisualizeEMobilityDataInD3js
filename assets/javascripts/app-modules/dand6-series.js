@@ -25,12 +25,12 @@ AppSeriesTextManipulator.prototype.retrieveDefaults = function() {
   this.defaultText = this.headElement.children().first()[0].textContent;
 }
 
-AppSeriesTextManipulator.prototype.setFromSeriesValue = function(seriesValue) {
+AppSeriesTextManipulator.prototype.setFromSeriesValue = function(seriesValue, highlight) {
   var value;
   if (seriesValue === undefined)
     value = this.defaultText;
   else
-    value = seriesValue.y
+    value = Math.round(seriesValue.y*10)/10.0;
   this.headElement.children().first()[0].textContent = value;
 }
 
@@ -42,7 +42,7 @@ AppSeriesDimensionManipulator.prototype.retrieveDefaults = function() {
   this.defaultValue = this.headElement[0].getAttribute(self.property);
 }
 
-AppSeriesDimensionManipulator.prototype.setFromSeriesValue = function(seriesValue) {
+AppSeriesDimensionManipulator.prototype.setFromSeriesValue = function(seriesValue, highlight) {
   if (seriesValue === undefined)
     value = this.defaultValue;
   else
@@ -58,7 +58,7 @@ AppSeriesColorManipulator.prototype.retrieveDefaults = function() {
   this.defaultColor = this.headElement[0].style[self.property];
 }
 
-AppSeriesColorManipulator.prototype.setFromSeriesValue = function(seriesValue) {
+AppSeriesColorManipulator.prototype.setFromSeriesValue = function(seriesValue, highlight) {
   if (seriesValue === undefined)
     value = this.defaultColor;
   else
@@ -74,13 +74,20 @@ AppSeriesClassManipulator = function(headElement, className) {
 AppSeriesClassManipulator.prototype.retrieveDefaults = function() {
 }
 
-AppSeriesClassManipulator.prototype.setFromSeriesValue = function(seriesValue) {
+AppSeriesClassManipulator.prototype.setFromSeriesValue = function(seriesValue, highlight) {
   if (seriesValue) {
     $(this.headElement).addClass(this.className + "-yes");
     $(this.headElement).removeClass(this.className + "-no");
   } else {
     $(this.headElement).removeClass(this.className + "-yes");
     $(this.headElement).addClass(this.className + "-no");
+  }
+  if (highlight) {
+    $(this.headElement).addClass("highlight-yes");
+    $(this.headElement).removeClass("highlight-no");
+  } else {
+    $(this.headElement).removeClass("highlight-yes");
+    $(this.headElement).addClass("highlight-no");
   }
 }
 
@@ -112,13 +119,13 @@ AppSeriesDirective.prototype.controller = function($scope, $element) {
   this.invokeManipulatorsHandler = function() {
     var self = this;
     return function($event, seriesValues) {
+      highlightedSeriesId = self.schematics.getHighlightedSerId();
       for (seriesId in self.seriesesToManipulators) {
         manipulator = self.seriesesToManipulators[seriesId];
-        manipulator.setFromSeriesValue(seriesValues[seriesId]);
+        manipulator.setFromSeriesValue(seriesValues[seriesId], seriesId == highlightedSeriesId);
       }
     };
   }
-  $scope.$on("seriesesValuesChanged", this.invokeManipulatorsHandler());
 }
 
 AppSeriesDirective.prototype.link = function( $scope, $element, $attrs, $controllers, $transclude ) {
@@ -126,5 +133,7 @@ AppSeriesDirective.prototype.link = function( $scope, $element, $attrs, $control
       $element.empty();
       $element.append(clone);
   });
+  $scope.appSeries.schematics = $controllers[0];
   $scope.appSeries.setupManipulators($element);
+  $scope.$on("seriesesValuesChanged", $scope.appSeries.invokeManipulatorsHandler());
 }
