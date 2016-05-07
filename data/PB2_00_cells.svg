@@ -60,10 +60,10 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.979899"
-     inkscape:cx="304.67031"
+     inkscape:cx="326.13605"
      inkscape:cy="877.88533"
      inkscape:document-units="px"
-     inkscape:current-layer="g5188"
+     inkscape:current-layer="g5221"
      showgrid="false"
      inkscape:window-width="1536"
      inkscape:window-height="801"
@@ -347,7 +347,8 @@
          height="17.499996"
          width="33.929001"
          id="rect4281"
-         style="fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:1.5;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+         style="fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:1.5;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         app-series="{fill:'temp_min'}" />
       <text
          sodipodi:linespacing="125%"
          id="text4303"
@@ -396,7 +397,8 @@
          height="17.5"
          width="33.928577"
          id="rect4281-6"
-         style="fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:1.5;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+         style="fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:1.5;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         app-series="{fill:'temp_max'}" />
       <text
          sodipodi:linespacing="125%"
          id="text4303-2"
@@ -445,7 +447,8 @@
          height="17.5"
          width="33.929001"
          id="rect4281-0"
-         style="fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:1.5;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+         style="fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:1.5;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         app-series="{fill:'temp_mean'}" />
       <text
          sodipodi:linespacing="125%"
          id="text4303-4"
@@ -903,6 +906,7 @@
        inkscape:connector-curvature="0"
        id="rect4910-1-3-8"
        d="m 278.39431,259.28971 0,10.42371 -2.57335,0.0145 3.14791,2.9183 3.14791,2.9183 3.03953,-2.95213 3.03952,-2.95274 -2.88459,0.0157 0,-10.38565 -6.91693,0 z"
-       style="opacity:1;fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:1.5;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+       style="opacity:1;fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:1.5;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       app-series="{fill:'temp_outlet'}" />
   </g>
 </svg>

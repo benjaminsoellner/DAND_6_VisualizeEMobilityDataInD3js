@@ -8,7 +8,7 @@
   },
   {
     "id": "MeasBoostNSlowEMode",
-    "label": "Battery Charging Cycle",
+    "label": "Boost & Slow Scenario",
     "dataFile": "MeasBoostNSlowEMode_data.json",
     "schematicsFile": "PB2_00_cells.svg"
   }
