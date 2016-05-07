@@ -1,15 +1,20 @@
 [
   {
-    "id": "sample",
-    "label": "Sample Scenario",
-    "dataFile": "sample-scenario.json",
-    "schematicsFile": "sample-scenario.svg",
-    "storiesFile": "sample-stories.json"
+    "id": "MeasBoostNSlowEMode",
+    "label": "Sportive Driving (Boost & Slow + WLTP Cycle)",
+    "dataFile": "MeasBoostNSlowEMode_data.json",
+    "schematicsFile": "PB2_00_cells.svg"
   },
   {
-    "id": "MeasBoostNSlowEMode",
-    "label": "Boost & Slow Scenario",
-    "dataFile": "MeasBoostNSlowEMode_data.json",
+    "id": "NEFZ",
+    "label": "Normal Driving + Range (NEFZ Certification Cycle)",
+    "dataFile": "NEFZ_data_out.json",
+    "schematicsFile": "PB2_00_cells.svg"
+  },
+  {
+    "id": "M15",
+    "label": "Harsh Winter Conditions (M15 Cycle)",
+    "dataFile": "M15_data_out.json",
     "schematicsFile": "PB2_00_cells.svg"
   }
 ]

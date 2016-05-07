@@ -39,8 +39,8 @@ STRING_MAP = [
 IGNORE_SERIESES = ["temp_meanRef", "BatHW_T_BatTpMeanRef"]
 
 METRIC_COLOR_MAP = {
-    "Temperatures": [[50,"#ffeda0"], [60,"#feb24c"], [75,"#f03b20"]],
-    "TemperaturesCells": [[50,"#ffeda0"], [60,"#feb24c"], [75,"#f03b20"]],
+    "Temperatures": [[-50,"#4575b4"],[0,"#e0f3f8"],[50,"#ffeda0"], [60,"#feb24c"], [75,"#f03b20"]],
+    "TemperaturesCells": [[-50,"#4575b4"],[0,"#e0f3f8"],[50,"#ffeda0"], [60,"#feb24c"], [75,"#f03b20"]],
     "Currents": [[-3390,"#762a83"], [-2000, "#e7d4e8"], [+2000, "#d9f0d3"], [+3390, "#1b7837"]],
     "Voltages": [[650,"#bdc9e1"], [930,"#045a8d"]]
 }
