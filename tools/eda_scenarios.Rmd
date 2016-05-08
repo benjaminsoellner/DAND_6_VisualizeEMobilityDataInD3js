@@ -1,0 +1,47 @@
+---
+title: "Data Analyst Project 5 - Visualize Battery Performance in D3.js - EDA"
+author: "Benjamin Söllner"
+date: "8. Mai 2016"
+output: html_document
+---
+
+```{r, warning=FALSE, message=FALSE, error=FALSE, echo=FALSE}
+# Load data
+setwd("h:/Dokumente/GitHub/DAND_6_VisualizeEMobilityDataInD3js/tools/")
+m15 <- read.csv("../rawdata/M15_data.csv")
+m15$scenario = "M15"
+mbnsem <- read.csv("../rawdata/MeasBoostNSlowEMode_data.csv")
+mbnsem$scenario = "MeasBoostNSlowEMode"
+nefz <- read.csv("../rawdata/NEFZ_data.csv")
+nefz$scenario <- "NEFZ"
+scenarios <- rbind(m15,mbnsem,nefz)
+# Libraries
+library(ggplot2)
+# Functions
+
+plot_correll <- function(d, xvar, yvar, xlabel, ylabel, title) {
+  e <- environment()
+  return(
+    ggplot(aes(x=d[,xvar], y=d[,yvar],color=scenario), data=d, environment=e) +
+      geom_point(alpha=0.3) +
+      theme_bw() + 
+      ylab(ylabel) + xlab(xlabel) + ggtitle(title) +
+      scale_color_brewer(name="Scenario", type="qual", palette=6)
+      
+  )
+}
+```
+
+# Warmer Batteries Perform Better
+```{r, warning=FALSE, message=FALSE, error=FALSE, echo=FALSE}
+plot_correll(scenarios, "Temperatures.temp_mean", "Powers.power_bat",
+            "Temperature in °C", "Battery Power in kW", 
+            "Corellation Battery Power by Temperature")
+```
+
+# Batteries with higher State-of-Charge Perform Better
+```{r, warning=FALSE, message=FALSE, error=FALSE, echo=FALSE}
+plot_correll(scenarios, "SOCs.soc", "Powers.power_bat",
+            "State of Charge in %", "Battery Power in kW",
+            "Corellation Battery Power by State of Charge")
+```

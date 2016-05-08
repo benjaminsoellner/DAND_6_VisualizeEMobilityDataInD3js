@@ -163,12 +163,21 @@ def scenarioToDataFrame(scenario):
             dataFrame = dataFrame.join(newDataFrame, how="outer")
     return dataFrame
 
-def deriveAndFilterMetrics(scenario):
+def scenarioToExtendedDataFrame(scenario):
     df = scenarioToDataFrame(scenario)
     df["Powers.power_int"] = df["Currents.current_bat"] * df["Voltages.voltage_oc"] / 1000
     df["Powers.power_bat"] = df["Currents.current_bat"] * df["Voltages.voltage_bat"] / 1000
     df["Resistances.resistance_int"] = (df["Voltages.voltage_bat"]-df["Voltages.voltage_oc"]) / df["Currents.current_bat"]
     df["Efficiencies.efficiency"] = df["Powers.power_int"]/df["Powers.power_bat"] * 100
+    for i in range(0, NUM_CELLS/NUM_CELL_SEGMENTS):
+        dfcol = df["TemperaturesCells.cells_" + str(i)] = pd.Series(index=df.index).fillna(0.)
+        for j in range(0, NUM_CELL_SEGMENTS):
+            dfcol += df["TemperaturesCells.cell_" + str(i+j+1)]
+        dfcol /= NUM_CELL_SEGMENTS
+        addSeries(scenario, "TemperaturesCells", "cells_" + str(i), dfcol.dropna())
+    return df
+
+def extendAndRemoveMetrics(scenario, df):
     addMetric(scenario, "Powers", "Powers (P = U·I)", "kW")
     addSeries(scenario, "Powers", "power_int", df["Powers.power_int"].dropna())
     addSeries(scenario, "Powers", "power_bat", df["Powers.power_bat"].dropna())
@@ -179,24 +188,18 @@ def deriveAndFilterMetrics(scenario):
     for metric in scenario:
         if metric["id"] == "TemperaturesCells":
             metric["serieses"] = []
-    for i in range(0, NUM_CELLS/NUM_CELL_SEGMENTS):
-        dfcol = df["TemperaturesCells.cells_" + str(i)] = pd.Series(index=df.index).fillna(0.)
-        for j in range(0, NUM_CELL_SEGMENTS):
-            dfcol += df["TemperaturesCells.cell_" + str(i+j+1)]
-        dfcol /= NUM_CELL_SEGMENTS
-        addSeries(scenario, "TemperaturesCells", "cells_" + str(i), dfcol.dropna())
     return scenario
 
-
-def wrangleScenarioFile(sourceFile, targetFile):
-    with open(sourceFile, "r") as sourceJson:
+def wrangleScenarioFile(sourceJsonName, targetJsonName, targetCsvName):
+    with open(sourceJsonName, "r") as sourceJson:
         sourceScenario = json.load(sourceJson)
-    targetScenario = repairScenario(sourceScenario)
-    deriveAndFilterMetrics(targetScenario)
-    with open(targetFile, "wb") as targetJson:
+    repairedScenario = repairScenario(sourceScenario)
+    targetDataFrame = scenarioToExtendedDataFrame(repairedScenario)
+    targetScenario = extendAndRemoveMetrics(repairedScenario, targetDataFrame)
+    targetDataFrame.to_csv(targetCsvName)
+    with open(targetJsonName, "wb") as targetJson:
         json.dump(targetScenario, targetJson, encoding="utf-8")
 
 if __name__ == '__main__':
-    sourceFile = sys.argv[1]
-    targetFile = sys.argv[2]
-    wrangleScenarioFile(sourceFile, targetFile)
+    fileName = sys.argv[1]
+    wrangleScenarioFile(fileName + ".json", fileName + "_out.json", fileName + ".csv")
