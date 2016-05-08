@@ -11,7 +11,7 @@
       <div class="app-hand-right">
         <div class="glyphicon glyphicon-hand-right"></div>
       </div>
-      <p>Select a battery type and test scenario! we will show you how it looks like and how it performed in this area! </p>
+      <p>Select a battery test scenario! we will show you how it looks like and how it performed in this area! </p>
     </div>
     <div ng-if="appExplore.selectedScenario.schematicsFile" class="app-view-content">
       <app-schematics svg="appExplore.selectedScenario.schematicsFile" serieses="appExplore.serieses" highlights="appExplore.highlights" dir="{{appExplore.dataDir}}"></app-schematics>
@@ -27,6 +27,12 @@
       <app-metrics metrics="appExplore.selectedMetrics" highlights="appExplore.highlights">
         <app-metric metric="metric" highlights="appExplore.highlights"></app-metric>
       </app-metrics>
+    </div>
+    <div ng-if="appExplore.selectedScenario &amp;&amp; !appExplore.selectedMetrics.length" class="app-view-content app-view-empty">
+      <div class="app-hand-up">
+        <div class="glyphicon glyphicon-hand-up"></div>
+      </div>
+      <p>Select one or more metrics you would like to explore!</p>
     </div>
   </div>
 </div>

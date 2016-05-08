@@ -174,7 +174,7 @@ def scenarioToExtendedDataFrame(scenario):
         for j in range(0, NUM_CELL_SEGMENTS):
             dfcol += df["TemperaturesCells.cell_" + str(i+j+1)]
         dfcol /= NUM_CELL_SEGMENTS
-        addSeries(scenario, "TemperaturesCells", "cells_" + str(i), dfcol.dropna())
+        df["TemperaturesCells.cells_" + str(i)] = dfcol
     return df
 
 def extendAndRemoveMetrics(scenario, df):
@@ -188,6 +188,8 @@ def extendAndRemoveMetrics(scenario, df):
     for metric in scenario:
         if metric["id"] == "TemperaturesCells":
             metric["serieses"] = []
+    for i in range(0, NUM_CELLS/NUM_CELL_SEGMENTS):
+        addSeries(scenario, "TemperaturesCells", "cells_" + str(i), df["TemperaturesCells.cells_" + str(i)].dropna())
     return scenario
 
 def wrangleScenarioFile(sourceJsonName, targetJsonName, targetCsvName):

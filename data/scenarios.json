@@ -2,7 +2,7 @@
   {
     "id": "MeasBoostNSlowEMode",
     "label": "Sportive Driving (Boost & Slow + WLTP Cycle)",
-    "dataFile": "MeasBoostNSlowEMode_data.json",
+    "dataFile": "MeasBoostNSlowEMode_data_out.json",
     "schematicsFile": "PB2_00_cells.svg"
   },
   {

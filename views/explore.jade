@@ -15,7 +15,7 @@
         .glyphicon.glyphicon-hand-up
       .app-hand-right
         .glyphicon.glyphicon-hand-right
-      p Select a battery type and test scenario! we will show you how it looks like and how it performed in this area! 
+      p Select a battery test scenario! we will show you how it looks like and how it performed in this area! 
     .app-view-content(ng-if="appExplore.selectedScenario.schematicsFile")
       app-schematics(
           svg="appExplore.selectedScenario.schematicsFile",
@@ -53,3 +53,7 @@
           highlights="appExplore.highlights"
         )
         app-metric(metric="metric",highlights="appExplore.highlights")
+    .app-view-content.app-view-empty(ng-if="appExplore.selectedScenario && !appExplore.selectedMetrics.length")
+        .app-hand-up
+          .glyphicon.glyphicon-hand-up
+        p Select one or more metrics you would like to explore!
