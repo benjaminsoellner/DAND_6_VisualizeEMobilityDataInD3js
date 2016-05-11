@@ -25,7 +25,7 @@ def summaryDfToJson(dataFrame):
     y = "SOCs.soc"
     for seriesId, seriesLabel, seriesColor in \
             zip(SERIESES, SERIESES_LABELS, SCENARIO_COLORS):
-        subdf = dataFrame[[x,y]].dropna()
+        subdf = dataFrame[dataFrame["scenario"] == seriesId][[x,y]].dropna()
         targetSeries = {
                 "id": seriesId,
                 "label": seriesLabel,

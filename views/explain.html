@@ -1,7 +1,12 @@
 
 <div id="app-explain" class="app-view">
-  <h1 class="app-summary-title">Explore the Potential of Electric Car Batteries </h1>
-  <div ng-if="appExplain.summary" class="app-summary-chart">
-    <app-summary data="appExplain.summary[0]" highlights="appExplain.highlights"></app-summary>
+  <h1 class="app-summary-title">What does Influence Electric Car Battery Performance? </h1>
+  <div class="col-md-8">
+    <div ng-if="appExplain.summary" class="app-summary-chart">
+      <app-summary data="appExplain.summary[0]" highlights="appExplain.highlights"></app-summary>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <app-stories ng-if="appExplain.stories" stories="appExplain.stories" story="appExplain.selectedStory" highlights="appExplain.highlights"></app-stories>
   </div>
 </div>

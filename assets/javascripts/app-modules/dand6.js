@@ -1,6 +1,7 @@
 var DATA_DIR = "data";
 var SCENARIOS_FILE = "scenarios.json";
 var SUMMARY_FILE = "summary.json";
+var SUMMARY_STORIES_FILE = "summary-stories.json"
 
 AppHelper = {};
 
@@ -435,7 +436,7 @@ angular.module("app-dand6", ["ngRoute"])
           var self = this;
           return function() {
             if (self.highlights.looseness < 2 && self.story) {
-              if (self.story.metrics)
+              if (self.story.metrics && self.metricsselector)
                 self.metricsselector({metrics: self.story.metrics});
               if (self.story.xRange)
                 self.highlights.xRange = self.story.xRange;
@@ -465,6 +466,19 @@ angular.module("app-dand6", ["ngRoute"])
       this.highlights.xRange = [undefined, undefined];
       this.highlights.looseness = 0;
     };
+    this.loadStories = function(storiesUrl) {
+      $http.get(storiesUrl).success(this.storiesLoadedHandler());
+    }
+    this.storiesLoadedHandler = function() {
+      var self = this;
+      return function(data) {
+        self.stories = data;
+        if (data.length > 0) {
+          self.selectedStory = data[0];
+          self.highlights.looseness = 0;
+        }
+      };
+    }
     this.loadSummary = function(summaryUrl) {
       $http.get(summaryUrl).success(this.summaryLoadedHandler());
     };
@@ -476,8 +490,11 @@ angular.module("app-dand6", ["ngRoute"])
       };
     };
     // initialization
+    self.stories = undefined;
+    self.selectedStory = undefined;
     this.dataDir = DATA_DIR;
     this.loadSummary(DATA_DIR + "/" + SUMMARY_FILE);
+    this.loadStories(DATA_DIR + "/" + SUMMARY_STORIES_FILE);
     this.resetHighlights();
   }])
 
@@ -490,14 +507,15 @@ angular.module("app-dand6", ["ngRoute"])
         data: "=",
         highlights: "=",
       },
-      controllerAs: "appChart",
+      controllerAs: "appSummary",
       controller: function($scope, $element) {
         chartOptions = {
           xlabel: this.data.xlabel,
           xunit: this.data.xunit,
           ylabel: this.data.ylabel,
           yunit: this.data.yunit,
-          graphType: "scatter"
+          graphType: "scatter",
+          alpha: 0.05
         };
         panelOptions = {
           ctrl: this,

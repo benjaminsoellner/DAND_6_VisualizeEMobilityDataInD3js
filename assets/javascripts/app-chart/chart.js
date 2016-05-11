@@ -70,34 +70,19 @@ AppScatterGraph.prototype.getNearest = function(values, x, y) {
 AppScatterGraph.prototype.drawSeries = function(seriesNode) {
   AppGraphStrategy.drawSeries.call(this, seriesNode);
   var self = this;
-  points = seriesNode
-      .selectAll("circle")
-      .data(
-          function (d) {
-            return d.values.map(function (v) {
-                v.parent = d;
-                return v;
-              });
-          },
-          function (v) {
-            return v.t;
-          }
-      );
-  points.exit().remove();
-  points.enter().append("circle")
-      .attr("r", "3")
-      .attr("opacity", "0.5");
-  seriesNode.selectAll("circle")
-      .style("fill", function (v) {
-        return v.parent.color ? v.parent.color : "black";
-      })
-  points
-      .attr("cx", function (v) {
-        return self.chart.x(v.x);
-      })
-      .attr("cy", function (v) {
-        return self.chart.y(v.y);
-      });
+  seriesNode.each(function(d) {
+      g = d3.select(this);
+      circles = g.selectAll("circle").data(d.values);
+      opacity = self.chart.options.alpha ? self.chart.options.alpha : 1.0;
+      circles.exit().remove();
+      circles.enter().append("circle")
+          .attr("r", "3")
+          .attr("opacity", opacity);
+      circles
+          .style("fill", function (v) { return d.color ? d.color : "black"; })
+          .attr("cx", function (v) { return self.chart.x(v.x); })
+          .attr("cy", function (v) { return self.chart.y(v.y); });
+    });
 }
 
 // App Chart constructor

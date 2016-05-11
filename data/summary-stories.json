@@ -1,0 +1,28 @@
+[
+  {
+    "id": "intro",
+    "label": "Temperature influences electric car battery performance.",
+    "desc": "Electric Cars are awesome because they will help us save the planet from burning through more dinosaur juice! But under which conditions can an electric car battery perform best? One example: the ability to re-charge an electric car battery is highly corellated with the battery's temperature. ",
+    "next": "acceleratenbreak"
+  },
+  {
+    "id": "acceleratenbreak",
+    "label": "Driving sportively",
+    "desc": "If you have a hybrid car, during sportive driving, your fossil fuel engine and energy supplied when slowing down is used to recharge the battery and re-fill its state-of-charge. The battery heats up.",
+    "prev": "intro",
+    "next": "rangecert"
+  },
+  {
+    "id": "rangecert",
+    "label": "Driving long-range",
+    "desc": "During long-range driving, the car will mostly drive electrically and the battery will discharge slowly. Getting a high milage out of a single charge is key, so the State-of-Charge should remain constant as long as possible.",
+    "prev": "acceleratenbreak",
+    "next": "winter"
+  },
+  {
+    "id": "winter",
+    "label": "Driving in the winter",
+    "desc": "The harshest test for a battery is driving in the winter. A cold battery cannot re-charge but will need to warm up first. It can do so by discharging while driving, but any energy fed back while breaking will be lost.",
+    "prev": "outro"
+  }
+]
