@@ -5,16 +5,16 @@ AppChartPanel = function($scope, panelOptions, chartOptions) {
   this.chart = new AppChart(panelOptions.chartContainer, this.chartOptions);
   this.chart.attachSeriesHighlightedHandler(this.seriesHighlightedHandler($scope));
   this.chart.attachSeriesUnhighlightedHandler(this.seriesUnhighlightedHandler($scope));
-  this.chart.attachMouseLeaveHandler(this.timeUnhighlightedHandler($scope));
-  this.chart.attachMouseMovedHandler(this.timeHighlightedHandler($scope));
+  this.chart.attachMouseLeaveHandler(this.xyUnhighlightedHandler($scope));
+  this.chart.attachMouseMovedHandler(this.xyHighlightedHandler($scope));
   this.chart.attachZoomedPannedHandler(this.zoomedPannedHandler($scope));
   this.highlightsUpdatedHandler()();
   this.dataUpdated(panelOptions.dataTransformer);
   this.fitChart();
   this.chart.draw();
   n = panelOptions.ctrlName;
-  $scope.$watch(n + ".highlights.time", this.highlightsUpdatedHandler());
-  $scope.$watch(n + ".highlights.time", this.seriesesValuesUpdatedHandler());
+  $scope.$watch(n + ".highlights.x", this.highlightsUpdatedHandler());
+  $scope.$watch(n + ".highlights.x", this.seriesesValuesUpdatedHandler());
   $scope.$watch(n + ".highlights.seriesId", this.highlightsUpdatedHandler());
 }
 
@@ -28,7 +28,8 @@ AppChartPanel.prototype.highlightsUpdatedHandler = function() {
   return function() {
     if (self.chart) {
       self.chart.highlight({
-        x: self.ctrl.highlights.time,
+        x: self.ctrl.highlights.x,
+        y: self.ctrl.highlights.y,
         seriesId: self.ctrl.highlights.seriesId,
       });
     }
@@ -41,18 +42,18 @@ AppChartPanel.prototype.fitChart = function() {
       minXRange = undefined, maxXRange = undefined,
       extentX = this.chart.getXExtent(0.2),
       extentY = this.chart.getYExtent(0.2);
-  if (this.ctrl.highlights.timeRange) {
-    minXRange = this.ctrl.highlights.timeRange[0];
-    maxXRange = this.ctrl.highlights.timeRange[1];
+  if (this.ctrl.highlights.xRange) {
+    minXRange = this.ctrl.highlights.xRange[0];
+    maxXRange = this.ctrl.highlights.xRange[1];
   }
   if (minXRange !== undefined && maxXRange !== undefined) {
     minX = minXRange;
     maxX = maxXRange;
     if (this.ctrl.highlights.looseness > 1) {
       if (minX === undefined || extentX[0] < minX)
-        this.ctrl.highlights.timeRange[0] = minX = extentX[0];
+        this.ctrl.highlights.xRange[0] = minX = extentX[0];
       if (maxX === undefined || extentY[1] > maxX)
-        this.ctrl.highlights.timeRange[1] = maxX = extentX[1];
+        this.ctrl.highlights.xRange[1] = maxX = extentX[1];
     }
   } else {
     minX = extentX[0];
@@ -64,12 +65,12 @@ AppChartPanel.prototype.fitChart = function() {
     this.chart.dimensions(minX, maxX, extentY[0], extentY[1]);
 };
 
-AppChartPanel.prototype.timeRangeUpdatedHandler = function() {
+AppChartPanel.prototype.xRangeUpdatedHandler = function() {
   var self = this;
   return function() {
-    if (self.ctrl.highlights.timeRange) {
-      minX = self.ctrl.highlights.timeRange[0];
-      maxX = self.ctrl.highlights.timeRange[1];
+    if (self.ctrl.highlights.xRange) {
+      minX = self.ctrl.highlights.xRange[0];
+      maxX = self.ctrl.highlights.xRange[1];
       self.chart.dimensions(minX, maxX, undefined, undefined);
     }
   }
@@ -101,29 +102,30 @@ AppChartPanel.prototype.zoomedPannedHandler = function($scope) {
   var self = this;
   return function(minX, maxX, minY, maxY) {
     $scope.$apply(function() {
-      self.ctrl.highlights.timeRange = [minX, maxX];
+      self.ctrl.highlights.xRange = [minX, maxX];
       if (self.ctrl.highlights.looseness < 3)
         self.ctrl.highlights.looseness = 3;
     });
   };
 };
 
-AppChartPanel.prototype.timeHighlightedHandler = function($scope) {
+AppChartPanel.prototype.xyHighlightedHandler = function($scope) {
   var self = this;
   return function(x, y) {
     $scope.$apply(function() {
-        self.ctrl.highlights.time = x;
+        self.ctrl.highlights.x = x;
+        self.ctrl.highlights.y = y;
         if (self.ctrl.highlights.looseness < 1)
           self.ctrl.highlights.looseness = 1;
       });
   };
 };
 
-AppChartPanel.prototype.timeUnhighlightedHandler = function($scope) {
+AppChartPanel.prototype.xyUnhighlightedHandler = function($scope) {
   var self = this;
   return function() {
     $scope.$apply(function() {
-        self.ctrl.highlights.time = false;
+        self.ctrl.highlights.x = false;
         self.ctrl.highlights.seriesesValues = {};
         if (self.ctrl.highlights.looseness < 1)
           self.ctrl.highlights.looseness = 1;
@@ -135,7 +137,7 @@ AppChartPanel.prototype.loosenessUpdatedHandler = function() {
   var self = this;
   return function() {
     if (self.ctrl.highlights.looseness == 2) {
-      self.ctrl.highlights.timeRange = [undefined, undefined];
+      self.ctrl.highlights.xRange = [undefined, undefined];
       self.fitChart();
     }
   }
@@ -147,7 +149,7 @@ AppMetricPanel = function($scope, panelOptions, chartOptions) {
   this.chart.attachMouseLeaveHandler(this.metricUnhighlightedHandler($scope));
   $scope.$watch(n + ".highlights.metricId", this.highlightsUpdatedHandler());
   $scope.$watch(n + ".highlights.metricId", this.seriesesValuesUpdatedHandler());
-  $scope.$watch(n + ".highlights.timeRange", this.timeRangeUpdatedHandler());
+  $scope.$watch(n + ".highlights.xRange", this.xRangeUpdatedHandler());
   $scope.$watch(n + ".highlights.looseness", this.loosenessUpdatedHandler());
 };
 
@@ -170,13 +172,13 @@ AppMetricPanel.prototype.highlightsUpdatedHandler = function() {
 AppChartPanel.prototype.seriesesValuesUpdatedHandler = function() {
   var self = this;
   return function() {
-    anyTimeHighlighted = self.ctrl.highlights.time;
+    anyPointHighlighted = self.ctrl.highlights.x;
     thisMetricHighlighted = (self.ctrl.highlights.metricId === self.ctrl.data.id);
-    if (!anyTimeHighlighted)
+    if (!anyPointHighlighted)
       self.ctrl.highlights.seriesesValues = {};
     else {
       var serieses = self.ctrl.data.serieses,
-          values = self.chart.getValuesForX(self.ctrl.highlights.time),
+          values = self.chart.getNearest(self.ctrl.highlights.x, self.ctrl.highlights.y),
           currentValues = self.ctrl.highlights.seriesesValues;
           newValues = {};
       for (seriesId in currentValues)

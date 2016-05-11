@@ -1,4 +1,106 @@
-// Constructor
+// Helper Classes
+
+AppGraphStrategy = function(chart) {
+  this.chart = chart;
+}
+
+AppGraphStrategy.factory = function(chart, graphType) {
+  switch (graphType) {
+    case "line": return new AppLineGraph(chart);
+    case "scatter": return new AppScatterGraph(chart);
+  }
+}
+
+AppGraphStrategy.drawSeries = function(seriesNode) {
+  var self = this;
+  seriesNode
+      .on("mousemove", this.chart.mouseMovedHandler())
+      .on("mouseenter", function(d) { self.chart.handleSeriesHighlighted(d.id); })
+      .on("mouseleave", function(d) { self.chart.handleSeriesUnhighlighted(d.id); });
+}
+
+AppLineGraph = function(chart) {
+  AppGraphStrategy.call(this, chart);
+}
+
+AppLineGraph.prototype.getNearest = function(seriesValues, x, y) {
+  seriesValues.sort(function(a, b) { return a.x - b.x; });
+  var bisect = d3.bisector(function(d) { return d.x; }).left,
+      i = bisect(seriesValues, x, 1),
+      d0 = seriesValues[i - 1],
+      d1 = seriesValues[i],
+      d = (d1 === undefined ? d0 : (x-d0.x > d1.x-x ? d1 : d0));
+  return d;
+}
+
+AppLineGraph.prototype.drawSeries = function(seriesNode) {
+  AppGraphStrategy.drawSeries.call(this, seriesNode);
+  var self = this;
+  seriesNode
+      .selectAll("path")
+      .remove();
+  seriesNode
+      .append("path")
+      .attr("d", function(d) { return self.chart.line(d.values); })
+      .attr("vector-effect", "non-scaling-stroke")
+      .style("fill", "transparent")
+      .style("stroke", function(d) { return d.color ? d.color : "black"; });
+}
+
+AppScatterGraph = function(chart) {
+  AppGraphStrategy.call(this, chart);
+}
+
+AppScatterGraph.prototype.getNearest = function(values, x, y) {
+  // seriesValues must be an array of points in the form [x, y]
+  var mindist = undefined, r = undefined,
+      xscaled = this.chart.x(x), yscaled = this.chart.y(y)
+  for (i in values) {
+    value = values[i];
+    dist = Math.sqrt(Math.pow(this.chart.x(value.x)-xscaled,2) +
+                     Math.pow(this.chart.y(value.y)-yscaled,2));
+    if (mindist === undefined || dist < mindist) {
+      r = value;
+      mindist = dist;
+    }
+  }
+  return r;
+}
+
+AppScatterGraph.prototype.drawSeries = function(seriesNode) {
+  AppGraphStrategy.drawSeries.call(this, seriesNode);
+  var self = this;
+  points = seriesNode
+      .selectAll("circle")
+      .data(
+          function (d) {
+            return d.values.map(function (v) {
+                v.parent = d;
+                return v;
+              });
+          },
+          function (v) {
+            return v.t;
+          }
+      );
+  points.exit().remove();
+  points.enter().append("circle")
+      .attr("r", "3")
+      .attr("opacity", "0.5");
+  seriesNode.selectAll("circle")
+      .style("fill", function (v) {
+        return v.parent.color ? v.parent.color : "black";
+      })
+  points
+      .attr("cx", function (v) {
+        return self.chart.x(v.x);
+      })
+      .attr("cy", function (v) {
+        return self.chart.y(v.y);
+      });
+}
+
+// App Chart constructor
 
 AppChart = function(containerNode, options) {
   var colorDomain = function(d) { return d[0]; };
@@ -12,6 +114,7 @@ AppChart = function(containerNode, options) {
     this.colorMap = d3.scale.linear()
       .domain(this.colorMap.map(colorDomain))
       .range(this.colorMap.map(colorRange));
+  this.graphStrategy = AppGraphStrategy.factory(this, options.graphType)
   this.padding = {
     top:    this.options.title  ? 30 : 10,
     right:  20,
@@ -90,7 +193,7 @@ AppChart.prototype.setup = function() {
       .on("touchend.drag", this.mouseReleasedHandler());
   // graph layer
   // highlight layer
-  this.highlightXNode = this.highlightLayer.append("g");
+  this.highlightXYNode = this.highlightLayer.append("g");
   this.draggingX = Math.NaN;
   this.draggingY = Math.NaN;
   this.highlightThis = false;
@@ -156,11 +259,11 @@ AppChart.prototype.getYExtent = function(whitespace) {
   return [minY - whitespace * (maxY-minY), maxY + whitespace * (maxY-minY)];
 }
 
-AppChart.prototype.getValuesForX = function(x) {
+AppChart.prototype.getNearest = function(x, y) {
   hash = {};
   for (i in this.serieses) {
     series = this.serieses[i]
-    p = AppChart.findForX(series.values, x);
+    p = this.graphStrategy.getNearest(series.values, x, y);
     hash[series.id] = {
         id: series.id, x: p.x, y: p.y,
         colorVal: this.colorMap ? this.colorMap(p.y) : false,
@@ -168,17 +271,6 @@ AppChart.prototype.getValuesForX = function(x) {
       };
   }
   return hash;
-}
-
-AppChart.findForX = function(seriesValues, x) {
-  // seriesValues must be an array of points in the form [x, y]
-  seriesValues.sort(function(a, b) { return a.x - b.x; });
-  var bisect = d3.bisector(function(d) { return d.x; }).left,
-      i = bisect(seriesValues, x, 1),
-      d0 = seriesValues[i - 1],
-      d1 = seriesValues[i],
-      d = (d1 === undefined ? d0 : (x-d0.x > d1.x-x ? d1 : d0));
-  return d;
 }
 
 AppChart.prototype.subsampleLinPath = function(values, pixelsPerSegment, maxNumSegments, tagObject) {
@@ -311,6 +403,10 @@ AppChart.prototype.highlight = function(changedHighlights) {
     this.highlightedX = changedHighlights.x;
     highlightsDirty = true;
   }
+  if (changedHighlights.y || changedHighlights.y === false) {
+    this.highlightedY = changedHighlights.y;
+    highlightsDirty = true;
+  }
   if (changedHighlights.thisChart !== undefined) {
     this.highlightThis = changedHighlights.thisChart;
     highlightsDirty = true;
@@ -412,32 +508,20 @@ AppChart.prototype.drawSerieses = function() {
     .interpolate("linear")
     .x(function(d,i) { return this.x(d.x); })
     .y(function(d,i) { return this.y(d.y); });
-  if (this.seriesNode) {
-    this.seriesNode
-        .on("mousemove", self.mouseMovedHandler())
-        .selectAll("path")
-        .remove();
-    this.pathNode = this.seriesNode
-        .on("mouseenter", function(d) { self.handleSeriesHighlighted(d.id); })
-        .on("mouseleave", function(d) { self.handleSeriesUnhighlighted(d.id); })
-        .append("path")
-        .attr("d", function(d) { return self.line(d.values); })
-        .attr("vector-effect", "non-scaling-stroke")
-        .style("fill", "transparent")
-        .style("stroke", function(d) { return d.color ? d.color : "black"; });
-  }
+  if (this.seriesNode)
+    this.graphStrategy.drawSeries(this.seriesNode)
   this.graphLayer.call(d3.behavior.zoom().x(this.x).y(this.y).on("zoom", this.zoomHandler()));
 }
 
 AppChart.prototype.drawHighlights = function() {
   var self = this;
-  if (this.highlightedX || this.highlightedX === 0.0) {
-    this.highlightXNode.attr("class", "show");
-    hash = this.getValuesForX(this.highlightedX);
+  if (this.highlightedX !== undefined || this.highlightedY !== undefined) {
+    this.highlightXYNode.attr("class", "show");
+    hash = this.getNearest(this.highlightedX, this.highlightedY);
     data = [];
     for (k in hash)
       data.push(hash[k]);
-    circles = this.highlightXNode
+    circles = this.highlightXYNode
         .selectAll("circle")
         .data(data, function (d) { return d.id; });
     circles.enter().append("circle")
@@ -462,8 +546,8 @@ AppChart.prototype.drawHighlights = function() {
       for (i in data)
         if (data[i].id == this.highlightedSeries)
           datum = data[i];
-      xText = this.highlightXNode.selectAll("text.x").data([datum]);
-      yText = this.highlightXNode.selectAll("text.y").data([datum]);
+      xText = this.highlightXYNode.selectAll("text.x").data([datum]);
+      yText = this.highlightXYNode.selectAll("text.y").data([datum]);
       xText.exit().remove();
       yText.exit().remove();
       if (datum) {
@@ -483,11 +567,11 @@ AppChart.prototype.drawHighlights = function() {
             .attr("text-anchor", "end");
       }
     } else {
-      this.highlightXNode.selectAll("text.x").remove();
-      this.highlightXNode.selectAll("text.y").remove();
+      this.highlightXYNode.selectAll("text.x").remove();
+      this.highlightXYNode.selectAll("text.y").remove();
     }
   } else if (this.highlightedX === false) {
-    this.highlightXNode.attr("class", "hide");
+    this.highlightXYNode.attr("class", "hide");
   }
   this.layers.attr("class", (this.highlightThis ? "highlighted" : "unhighlighted") + " app-chart");
   if (this.seriesNode)
@@ -552,7 +636,7 @@ AppChart.prototype.mouseMovedHandler = function() {
   return function() {
     var p = d3.mouse(self.layers[0][0]),
         x = self.x.invert(p[0]),
-        y = self.x.invert(p[1]);
+        y = self.y.invert(p[1]);
     self.handleMouseMoved(x, y);
     return false;
   };

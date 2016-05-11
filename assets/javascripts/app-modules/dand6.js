@@ -4,16 +4,22 @@ var SUMMARY_FILE = "summary.json";
 
 AppHelper = {};
 
-AppHelper.getSeriesDataTransformer = function(xKey, yKey) {
+AppHelper.getSeriesDataTransformer = function(xKey, yKey, tKey) {
   return function(data) {
     return data.serieses.map(function(series) {
         series.values = [];
-        for (var i = 0; i < series[xKey].length; i++)
-          series.values.push({ x: series[xKey][i], y: series[yKey][i] });
+        for (var i = 0; i < series[xKey].length; i++) {
+          value = { x: series[xKey][i], y: series[yKey][i] }
+          if (tKey !== undefined)
+            value.t = series[tKey][i];
+          series.values.push(value);
+        }
         return series;
       });
   }
 };
+
+
 
 AppHelper.trimSvg = function(svg) {
   bbox = svg[0].getBBox();
@@ -120,8 +126,8 @@ angular.module("app-dand6", ["ngRoute"])
       if (!this.highlights) this.highlights = {};
       this.highlights.seriesId = undefined;
       this.highlights.metric = undefined;
-      this.highlights.time = undefined;
-      this.highlights.timeRange = [undefined, undefined];
+      this.highlights.x = undefined;
+      this.highlights.xRange = [undefined, undefined];
       this.highlights.looseness = 0;
       this.highlights.seriesesValues = {};
     };
@@ -389,7 +395,8 @@ angular.module("app-dand6", ["ngRoute"])
           xunit: 's',
           ylabel: this.data.label,
           yunit: this.data.unit,
-          colorMap: this.data.dataColorMap
+          colorMap: this.data.dataColorMap,
+          graphType: "line"
         };
         panelOptions = {
           ctrl: this,
@@ -430,14 +437,16 @@ angular.module("app-dand6", ["ngRoute"])
             if (self.highlights.looseness < 2 && self.story) {
               if (self.story.metrics)
                 self.metricsselector({metrics: self.story.metrics});
-              if (self.story.timeRange)
-                self.highlights.timeRange = self.story.timeRange;
+              if (self.story.xRange)
+                self.highlights.xRange = self.story.xRange;
               if (self.story.series)
                 self.highlights.seriesId = self.story.series;
               if (self.story.metric)
                 self.highlights.metricId = self.story.metric;
-              if (self.story.time)
-                self.highlights.time = self.story.time;
+              if (self.story.x)
+                self.highlights.x = self.story.x;
+              if (self.story.y)
+                self.highlights.y = self.story.y;
             }
           }
         }
@@ -452,8 +461,8 @@ angular.module("app-dand6", ["ngRoute"])
     this.resetHighlights = function() {
       if (!this.highlights) this.highlights = {};
       this.highlights.seriesId = undefined;
-      this.highlights.time = undefined;
-      this.highlights.timeRange = [undefined, undefined];
+      this.highlights.x = undefined;
+      this.highlights.xRange = [undefined, undefined];
       this.highlights.looseness = 0;
     };
     this.loadSummary = function(summaryUrl) {
@@ -472,54 +481,31 @@ angular.module("app-dand6", ["ngRoute"])
     this.resetHighlights();
   }])
 
-  .directive("appBubble", [function() {
-    return {
-      restrict: "E",
-      templateUrl: "assets/templates/app-modules/bubble.html",
-      scope: true,
-      controllerAs: "appBubble",
-      bindToController: {
-        svg: "@",
-        color: "@",
-        outlinecolor: "@",
-        label: "@",
-        buttonlink: "@",
-        buttontext: "@",
-        dir: "@"
-      },
-      controller: function($scope, $element) {
-        this.svgUrl = this.dir + "/" + this.svg;
-      }
-    }
-  }])
-
-  .directive("appChart", [function() {
+  .directive("appSummary", [function() {
     return {
       restrict: "E",
       scope: true,
+      templateUrl: "assets/templates/app-modules/summary.html",
       bindToController: {
         data: "=",
         highlights: "=",
-        xlabel: "@",
-        ylabel: "@",
-        xunit: "@",
-        yunit: "@"
       },
       controllerAs: "appChart",
       controller: function($scope, $element) {
         chartOptions = {
-          xlabel: this.xlabel,
-          xunit: this.xunit,
-          yunit: this.yunit,
-          ylabel: this.ylabel
+          xlabel: this.data.xlabel,
+          xunit: this.data.xunit,
+          ylabel: this.data.ylabel,
+          yunit: this.data.yunit,
+          graphType: "scatter"
         };
         panelOptions = {
           ctrl: this,
-          ctrlName: "appChart",
-          chartContainer: $element[0],
-          dataTransformer: AppHelper.getSeriesDataTransformer("x", "y")
+          ctrlName: "appSummary",
+          chartContainer: $element.children().first()[0],
+          dataTransformer: AppHelper.getSeriesDataTransformer("x", "y", "time")
         };
-        this.panel = new AppChartPanel($scope, panelOptions, chartOptions);
+        this.panel = new AppMetricPanel($scope, panelOptions, chartOptions);
       }
     }
   }]);

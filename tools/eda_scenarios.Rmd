@@ -8,13 +8,13 @@ output: html_document
 ```{r, warning=FALSE, message=FALSE, error=FALSE, echo=FALSE}
 # Load data
 setwd("h:/Dokumente/GitHub/DAND_6_VisualizeEMobilityDataInD3js/tools/")
-m15 <- read.csv("../rawdata/M15_data.csv")
-m15$scenario = "M15"
-mbnsem <- read.csv("../rawdata/MeasBoostNSlowEMode_data.csv")
-mbnsem$scenario = "MeasBoostNSlowEMode"
-nefz <- read.csv("../rawdata/NEFZ_data.csv")
-nefz$scenario <- "NEFZ"
-scenarios <- rbind(m15,mbnsem,nefz)
+winter <- read.csv("../rawdata/scenario-winter.csv")
+winter$scenario = "winter"
+acceleratenbreak <- read.csv("../rawdata/scenario-acceleratenbreak.csv")
+acceleratenbreak$scenario = "acceleratenbreak"
+rangecert <- read.csv("../rawdata/scenario-rangecert.csv")
+rangecert$scenario <- "rangecert"
+scenarios <- rbind(winter,acceleratenbreak,rangecert)
 # Libraries
 library(ggplot2)
 # Functions
@@ -44,4 +44,10 @@ plot_correll(scenarios, "Temperatures.temp_mean", "Powers.power_bat",
 plot_correll(scenarios, "SOCs.soc", "Powers.power_bat",
             "State of Charge in %", "Battery Power in kW",
             "Corellation Battery Power by State of Charge")
+```
+
+```{r, warning=FALSE, message=FALSE, error=FALSE, echo=FALSE}
+write.csv(scenarios[c("X","scenario","SOCs.soc",
+                      "Temperatures.temp_mean","Powers.power_bat")], 
+          file="../rawdata/summary.csv",row.names=F)
 ```

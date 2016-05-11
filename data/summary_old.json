@@ -1,0 +1,31 @@
+{
+  "serieses": [
+     {
+       "x": [1.0,2.0,3.0,4.0],
+       "y": [1.0,2.0,3.0,2.0],
+       "id": "id_1",
+       "schematicsUrl": "sample-scenario.svg",
+       "exploreUrl": "#!/explore?scenarioId=sample",
+       "color": "red",
+       "label": "One Battery"
+     },
+     {
+       "x": [1.0,2.0,3.0,4.0],
+       "y": [2.0,3.0,4.0,5.0],
+       "id": "id_2",
+       "schematicsUrl": "sample-scenario.svg",
+       "exploreUrl": "#!/explore?scenarioId=sample",
+       "color": "blue",
+       "label": "Another Battery"
+     },
+     {
+       "x": [1.0,2.0,3.0,4.0],
+       "y": [3.0,4.0,5.0,6.0],
+       "id": "id_3",
+       "schematicsUrl": "sample-scenario.svg",
+       "exploreUrl": "#!/explore?scenarioId=sample",
+       "color": "green",
+       "label": "A Third Battery"
+     }
+  ]
+}
