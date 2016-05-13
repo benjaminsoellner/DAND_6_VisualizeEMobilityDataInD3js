@@ -1,19 +1,31 @@
 //output: explain.html
 .app-view#app-explain
 
-  h1.app-summary-title What does Influence Electric Car Battery Performance? 
-  
-  .col-md-8
+  .app-view-column-left
+    h2.app-summary-title Heat and State-of-Charge Development of Hybrid Car Batteries in Different Conditions 
     .app-summary-chart(ng-if="appExplain.summary")
       app-summary(
           data="appExplain.summary[0]",
           highlights="appExplain.highlights",
         )
   
-  .col-md-4
+  .app-view-column-right
     app-stories(
         ng-if="appExplain.stories"
         stories="appExplain.stories",
         story="appExplain.selectedStory",
-        highlights="appExplain.highlights"
+        highlights="appExplain.highlights",
+        autohide="false",
+        explore="true"
       )
+    .app-summary-explore(ng-if="appExplain.stories && appExplain.highlights.looseness == 2")
+      h3 Explore the following battery simulation data sets:
+      div
+        p Sportive Driving (Accelerate & Break + WLTP Cycle)
+        a.btn.btn-lg.btn-default(style="color: #33a02c",ng-href="#!explore?scenarioId=acceleratenbreak") Explore
+      div
+        p Normal Driving + Range (NEFZ Certification Cycle)
+        a.btn.btn-lg.btn-default(style="color: #e31a1c",ng-href="#!explore?scenarioId=rangecert") Explore
+      div
+        p Harsh Winter Conditions
+        a.btn.btn-lg.btn-default(style="color: #1f78b4",ng-href="#!explore?scenarioId=winter") Explore

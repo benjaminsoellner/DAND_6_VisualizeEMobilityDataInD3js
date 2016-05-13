@@ -11,78 +11,134 @@ AppGraphStrategy.factory = function(chart, graphType) {
   }
 }
 
-AppGraphStrategy.drawSeries = function(seriesNode) {
+AppGraphStrategy.prototype.getNearest = function(seriesValues, x, accessor) {
+  seriesValues.sort(function(a, b) { return accessor(a) - accessor(b); });
+  var bisect = d3.bisector(function(d) { return accessor(d); }).left,
+      i = bisect(seriesValues, x, 1),
+      d0 = seriesValues[i - 1],
+      d1 = seriesValues[i],
+      d = (d1 === undefined ? d0 : (x-accessor(d0) > accessor(d1)-x ? d1 : d0));
+  return d;
+};
+
+AppGraphStrategy.prototype.drawMarkers = function(seriesesNode, accessor) {
+  var self = this;
+  seriesesNode.each(function(d) {
+      if (d.markers) {
+        g = d3.select(this);
+        values = d.markers.map(function(marker) {
+            value = self.getNearest(d.values, accessor(marker));
+            value.coords = marker.coords;
+            return value;
+          });
+        self.chart.drawMarkers(values, g);
+      }
+    });
+};
+
+AppGraphStrategy.prototype.drawAnnotations = function(seriesesNode) {
+  var self = this;
+  seriesesNode.each(function(d) {
+      if (d.annotations) {
+        g = d3.select(this);
+        self.chart.drawAnnotations(d.annotations, g);
+      }
+    });
+}
+
+AppGraphStrategy.prototype.drawSerieses = function(seriesNode) {
   var self = this;
   seriesNode
       .on("mousemove", this.chart.mouseMovedHandler())
       .on("mouseenter", function(d) { self.chart.handleSeriesHighlighted(d.id); })
       .on("mouseleave", function(d) { self.chart.handleSeriesUnhighlighted(d.id); });
-}
+};
 
 AppLineGraph = function(chart) {
   AppGraphStrategy.call(this, chart);
-}
+};
+
+AppLineGraph.prototype = Object.create(AppGraphStrategy.prototype);
 
 AppLineGraph.prototype.getNearest = function(seriesValues, x, y) {
-  seriesValues.sort(function(a, b) { return a.x - b.x; });
-  var bisect = d3.bisector(function(d) { return d.x; }).left,
-      i = bisect(seriesValues, x, 1),
-      d0 = seriesValues[i - 1],
-      d1 = seriesValues[i],
-      d = (d1 === undefined ? d0 : (x-d0.x > d1.x-x ? d1 : d0));
-  return d;
+  return AppGraphStrategy.prototype.getNearest.call(this, seriesValues, x, function (d) { return d.x; });
+};
+
+AppLineGraph.prototype.drawMarkers = function(seriesesNode) {
+  AppGraphStrategy.prototype.drawMarkers.call(this, seriesesNode,
+      function (d) { return d.x; }
+    );
 }
 
-AppLineGraph.prototype.drawSeries = function(seriesNode) {
-  AppGraphStrategy.drawSeries.call(this, seriesNode);
+AppLineGraph.prototype.drawSerieses = function(seriesesNode) {
+  AppGraphStrategy.prototype.drawSerieses.call(this, seriesesNode);
   var self = this;
-  seriesNode
+  seriesesNode
       .selectAll("path")
       .remove();
-  seriesNode
+  seriesesNode
       .append("path")
       .attr("d", function(d) { return self.chart.line(d.values); })
       .attr("vector-effect", "non-scaling-stroke")
       .style("fill", "transparent")
       .style("stroke", function(d) { return d.color ? d.color : "black"; });
-}
+  this.drawMarkers(seriesesNode);
+  this.drawAnnotations(seriesesNode);
+};
 
 AppScatterGraph = function(chart) {
   AppGraphStrategy.call(this, chart);
-}
+};
 
-AppScatterGraph.prototype.getNearest = function(values, x, y) {
-  // seriesValues must be an array of points in the form [x, y]
-  var mindist = undefined, r = undefined,
-      xscaled = this.chart.x(x), yscaled = this.chart.y(y)
-  for (i in values) {
-    value = values[i];
-    dist = Math.sqrt(Math.pow(this.chart.x(value.x)-xscaled,2) +
-                     Math.pow(this.chart.y(value.y)-yscaled,2));
-    if (mindist === undefined || dist < mindist) {
-      r = value;
-      mindist = dist;
+AppScatterGraph.prototype = Object.create(AppGraphStrategy.prototype);
+
+AppScatterGraph.prototype.getNearest = function(values, x_or_t, y) {
+  if (y === undefined) {
+    var t = x_or_t;
+    return AppGraphStrategy.prototype.getNearest.call(this, values, t,
+      function (d) { return d.t; } );
+  } else {
+    // seriesValues must be an array of points in the form [x, y]
+    var x = x_or_t, mindist = undefined, r = undefined,
+        xscaled = this.chart.x(x), yscaled = this.chart.y(y)
+    for (i in values) {
+      value = values[i];
+      dist = Math.sqrt(Math.pow(this.chart.x(value.x)-xscaled,2) +
+                       Math.pow(this.chart.y(value.y)-yscaled,2));
+      if (mindist === undefined || dist < mindist) {
+        r = value;
+        mindist = dist;
+      }
     }
+    return r;
   }
-  return r;
+};
+
+AppScatterGraph.prototype.drawMarkers = function(seriesesNode) {
+  AppGraphStrategy.prototype.drawMarkers.call(this, seriesesNode,
+      function (d) { return d.t; }
+    );
 }
 
-AppScatterGraph.prototype.drawSeries = function(seriesNode) {
-  AppGraphStrategy.drawSeries.call(this, seriesNode);
+AppScatterGraph.prototype.drawSerieses = function(seriesesNode) {
+  AppGraphStrategy.prototype.drawSerieses.call(this, seriesesNode);
   var self = this;
-  seriesNode.each(function(d) {
+  seriesesNode.each(function(d) {
       g = d3.select(this);
-      circles = g.selectAll("circle").data(d.values);
+      circles = g.selectAll("circle.point").data(d.values);
       opacity = self.chart.options.alpha ? self.chart.options.alpha : 1.0;
       circles.exit().remove();
       circles.enter().append("circle")
           .attr("r", "3")
-          .attr("opacity", opacity);
+          .attr("opacity", opacity)
+          .attr("class", "point");
       circles
           .style("fill", function (v) { return d.color ? d.color : "black"; })
           .attr("cx", function (v) { return self.chart.x(v.x); })
           .attr("cy", function (v) { return self.chart.y(v.y); });
     });
+  this.drawMarkers(seriesesNode);
+  this.drawAnnotations(seriesesNode);
 }
 
 // App Chart constructor
@@ -161,13 +217,17 @@ AppChart.prototype.setup = function() {
       .on("touchstart.drag", self.draggingYStartedHandler());
   // inner layers
   this.graphLayer = this.layers.append("svg")
-      .attr("class", "graph layer")
+      .attr("class", "graph layer " + this.options.graphType)
       .on("mousemove", self.mouseMovedHandler())
       .call(d3.behavior.zoom().x(this.x).y(this.y).on("zoom", this.zoomHandler()));
   this.interactGraph = this.graphLayer.append("rect")
       .attr("class", "interact graph")
   this.seriesesLayer = this.graphLayer.append("g")
       .attr("class", "serieses layer");
+  this.markerLayer = this.graphLayer.append("g")
+      .attr("class", "marker layer");
+  this.annotationLayer = this.graphLayer.append("g")
+      .attr("class", "annotation layer");
   this.highlightLayer = this.graphLayer.append("g")
       .attr("class", "highlight layer");
   // listeners
@@ -207,7 +267,7 @@ AppChart.prototype.bind = function(serieses, buildSeriesTransform) {
       .attr("left", 0)
       .attr("id", function(d) { return d.id; });
   series.exit().remove();
-  this.seriesNode = series;
+  this.seriesesNode = series;
 }
 
 // Helper Functions
@@ -244,13 +304,13 @@ AppChart.prototype.getYExtent = function(whitespace) {
   return [minY - whitespace * (maxY-minY), maxY + whitespace * (maxY-minY)];
 }
 
-AppChart.prototype.getNearest = function(x, y) {
+AppChart.prototype.getNearest = function(x, y, t) {
   hash = {};
   for (i in this.serieses) {
-    series = this.serieses[i]
-    p = this.graphStrategy.getNearest(series.values, x, y);
+    series = this.serieses[i];
+    p = this.graphStrategy.getNearest(series.values, x, y, t);
     hash[series.id] = {
-        id: series.id, x: p.x, y: p.y,
+        id: series.id, x: p.x, y: p.y, t: p.t,
         colorVal: this.colorMap ? this.colorMap(p.y) : false,
         color: series.color ? series.color : false
       };
@@ -493,74 +553,123 @@ AppChart.prototype.drawSerieses = function() {
     .interpolate("linear")
     .x(function(d,i) { return this.x(d.x); })
     .y(function(d,i) { return this.y(d.y); });
-  if (this.seriesNode)
-    this.graphStrategy.drawSeries(this.seriesNode)
+  if (this.seriesesNode)
+    this.graphStrategy.drawSerieses(this.seriesesNode);
   this.graphLayer.call(d3.behavior.zoom().x(this.x).y(this.y).on("zoom", this.zoomHandler()));
+}
+
+AppChart.prototype.drawAnnotations = function(data, container) {
+  var self = this;
+  textSel = container.selectAll("text.annotation");
+  text = textSel.data(data);
+  text.exit().remove();
+  textEnter = text.enter().append("text").attr("class", "annotation");
+  text.attr("transform", function (d) { return "translate(" + self.x(d.x) + "," + self.y(d.y) + ")" });
+  textLines = textEnter
+      .attr("fill", function (d) { return d.color ? d.color : ""; })
+      .attr("text-anchor", function (d) { return d.anchor ? d.anchor : ""; })
+      .selectAll("tspan")
+      .data(function (d) {
+        return d.lines;
+      });
+  textLines.exit().remove();
+  textLines.enter().append("tspan")
+      .attr("dy", "1.2em")
+      .attr("x", "0")
+      .text(function (d) { return d; });
+}
+
+AppChart.prototype.drawMarkers = function(data, container, highlightedSeries) {
+  var self = this, format = d3.format(".2f");
+  circleSel = container.selectAll("circle.marker");
+  xTextSel = container.selectAll("text.x");
+  yTextSel = container.selectAll("text.y");
+  tTextSel = container.selectAll("text.t");
+  circles = circleSel.data(data);
+  circles.exit().remove();
+  circles.enter().append("circle").attr("r", "5");
+  circles
+      .attr("class", function (d) {
+          return (highlightedSeries === true || d.id == highlightedSeries ?
+                    "highlighted" : "") +
+                  " " + (d.colorVal ? "with-color-map" : "") +
+                  " marker";
+        })
+      .attr("cx", function (d) { return self.x(d.x); })
+      .attr("cy", function (d) { return self.y(d.y); })
+      .attr("stroke", function (d) { return d.color ? d.color : d.colorVal ? d.colorVal : "black"; })
+      .attr("fill", function (d) { return d.colorVal ? d.colorVal : "transparent"; })
+      .on("mouseenter", function(d) { self.handleSeriesHighlighted(d.id); })
+      .on("mouseleave", function(d) { self.handleSeriesUnhighlighted(d.id); });
+  if (xTextSel) {
+    xTexts = xTextSel.data(data);
+    xTexts.exit().remove();
+    xTexts.enter().append("text").attr("class", "x");
+    xTexts.text(function(d) {
+            if ((d.coords && d.coords.indexOf("x") == -1) || d.x === undefined) return "";
+            return format(d.x) + (self.options.xunit ? self.options.xunit : "");
+          })
+        .attr("x", function(d) { return self.x(d.x); })
+        .attr("y", function(d) { return self.y(d.y)+20; })
+        .attr("text-anchor", "middle")
+        .attr("class", function (d) {
+            return (highlightedSeries === true || d.id == highlightedSeries ?
+                      "highlighted " : "") + "x";
+          });
+  }
+  if (yTextSel) {
+    yTexts = yTextSel.data(data);
+    yTexts.exit().remove();
+    yTexts.enter().append("text").attr("class", "y");
+    yTexts.text(function(d) {
+            if ((d.coords && d.coords.indexOf("y") == -1) || d.y === undefined) return "";
+            return format(d.y) + (self.options.yunit ? self.options.yunit : "");
+          })
+        .attr("x", function(d) { return self.x(d.x)-10; })
+        .attr("y", function(d) { return self.y(d.y)+3; })
+        .attr("text-anchor", "end")
+        .attr("class", function (d) {
+            return (highlightedSeries === true || d.id == highlightedSeries ?
+                      "highlighted " : "") + "y";
+          });
+  }
+  if (tTextSel) {
+    tTexts = tTextSel.data(data);
+    tTexts.exit().remove();
+    tTexts.enter().append("text").attr("class", "t");
+    tTexts.text(function(d) {
+            if ((d.coords && d.coords.indexOf("t") == -1) || d.t === undefined) return "";
+            return format(d.t) + (self.options.tunit ? self.options.tunit : "");
+          })
+        .attr("x", function(d) { return self.x(d.x)+10; })
+        .attr("y", function(d) { return self.y(d.y)+3; })
+        .attr("class", function (d) {
+            return (highlightedSeries === true || d.id == highlightedSeries ?
+                      "highlighted " : "") + "t";
+          });
+  }
 }
 
 AppChart.prototype.drawHighlights = function() {
   var self = this;
-  if (this.highlightedX !== undefined || this.highlightedY !== undefined) {
-    this.highlightXYNode.attr("class", "show");
-    hash = this.getNearest(this.highlightedX, this.highlightedY);
-    data = [];
-    for (k in hash)
-      data.push(hash[k]);
-    circles = this.highlightXYNode
-        .selectAll("circle")
-        .data(data, function (d) { return d.id; });
-    circles.enter().append("circle")
-        .attr("r", "5");
-    circles
-        .attr("class", function (d) {
-            return (d.id == self.highlightedSeries ? "highlighted" : "") + " " +
-                   (d.colorVal ? "with-color-map" : "");
-          })
-        .attr("cx", function (d) {
-            return self.x(d.x);
-          })
-        .attr("cy", function (d) {
-            return self.y(d.y);
-          })
-        .attr("stroke", function (d) { return d.color ? d.color : d.colorVal ? d.colorVal : "black"; })
-        .attr("fill", function (d) { return d.colorVal ? d.colorVal : "transparent"; })
-        .on("mouseenter", function(d) { self.handleSeriesHighlighted(d.id); })
-        .on("mouseleave", function(d) { self.handleSeriesUnhighlighted(d.id); });
-    if (data.length > 0 && this.highlightedSeries) {
-      var datum = undefined, format = d3.format(".2f");
-      for (i in data)
-        if (data[i].id == this.highlightedSeries)
-          datum = data[i];
-      xText = this.highlightXYNode.selectAll("text.x").data([datum]);
-      yText = this.highlightXYNode.selectAll("text.y").data([datum]);
-      xText.exit().remove();
-      yText.exit().remove();
-      if (datum) {
-        xText.enter().append("text").attr("class", "x");
-        yText.enter().append("text").attr("class", "y");
-        xText.text(function(d) {
-                return format(d.x) + (self.options.xunit ? self.options.xunit : "");
-              })
-            .attr("x", function(d) { return self.x(d.x); })
-            .attr("y", function(d) { return self.y(d.y)+20; })
-            .attr("text-anchor", "middle");
-        yText.text(function(d) {
-                return format(d.y) + (self.options.yunit ? self.options.yunit : "");
-              })
-            .attr("x", function(d) { return self.x(d.x)-10; })
-            .attr("y", function(d) { return self.y(d.y)+3; })
-            .attr("text-anchor", "end");
-      }
-    } else {
-      this.highlightXYNode.selectAll("text.x").remove();
-      this.highlightXYNode.selectAll("text.y").remove();
-    }
+  // highlight points
+  hash = this.getNearest(this.highlightedX, this.highlightedY);
+  data = [];
+  for (k in hash)
+    data.push(hash[k]);
+  if (this.highlightedX !== false) {
+    this.drawMarkers(data, this.highlightXYNode, this.highlightedSeries);
   } else if (this.highlightedX === false) {
-    this.highlightXYNode.attr("class", "hide");
+    this.drawMarkers([], this.highlightXYNode, this.highlightedSeries);
   }
+  // highlight this
   this.layers.attr("class", (this.highlightThis ? "highlighted" : "unhighlighted") + " app-chart");
+  // highlight series
   if (this.seriesNode)
-    this.seriesNode.attr("class", function(d) { return (d.id == self.highlightedSeries ? "highlighted " : "unhighlighted") + " series"; })
+    this.seriesNode.attr("class", function(d) {
+        return (d.id == self.highlightedSeries ?
+                "highlighted " : "unhighlighted") + " series";
+      });
 }
 
 // Functions consuming events (potentially regenerating for external listeners)
