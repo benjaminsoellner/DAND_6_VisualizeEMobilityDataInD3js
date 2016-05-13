@@ -151,6 +151,7 @@ AppChart = function(containerNode, options) {
   // read options
   this.options = options || {};
   this.colorMap = this.options.colorMap;
+  this.metricId = this.options.metricId;
   if (this.colorMap)
     this.colorMap = d3.scale.linear()
       .domain(this.colorMap.map(colorDomain))
@@ -221,9 +222,11 @@ AppChart.prototype.setup = function() {
       .on("mousemove", self.mouseMovedHandler())
       .call(d3.behavior.zoom().x(this.x).y(this.y).on("zoom", this.zoomHandler()));
   this.interactGraph = this.graphLayer.append("rect")
-      .attr("class", "interact graph")
+      .attr("class", "interact graph");
+  this.hotspotLayer = this.graphLayer.append("g")
+      .attr("class", "hotspot layer");
   this.seriesesLayer = this.graphLayer.append("g")
-      .attr("class", "serieses layer");
+  .attr("class", "serieses layer");
   this.markerLayer = this.graphLayer.append("g")
       .attr("class", "marker layer");
   this.annotationLayer = this.graphLayer.append("g")
@@ -456,6 +459,10 @@ AppChart.prototype.highlight = function(changedHighlights) {
     this.highlightThis = changedHighlights.thisChart;
     highlightsDirty = true;
   }
+  if (changedHighlights.hotspots !== undefined) {
+    this.highlightHotspots = changedHighlights.hotspots;
+    highlightsDirty = true;
+  }
   if (highlightsDirty) this.drawHighlights();
 }
 
@@ -650,6 +657,25 @@ AppChart.prototype.drawMarkers = function(data, container, highlightedSeries) {
   }
 }
 
+AppChart.prototype.drawHotspots = function(data, container) {
+  var self = this;
+  hotspotSel = container.selectAll("rect.hotspot")
+  if (!data) data = [];
+  if (this.seriesId)
+    data = data.filter(function (d) { return (d.seriesId == self.seriesId); });
+  hotspots = hotspotSel.data(data);
+  hotspots.exit().remove();
+  hotspots.enter().append("rect")
+    .attr("class", "hotspot")
+    .attr("rx", "5")
+    .attr("ry", "5");
+  hotspots
+    .attr("x", function (d) { return self.x(d.x0); })
+    .attr("y", function (d) { return self.y(d.y1); })
+    .attr("width", function (d) { return self.x(d.x1)-self.x(d.x0); })
+    .attr("height", function (d) { return self.y(d.y0)-self.y(d.y1); });
+}
+
 AppChart.prototype.drawHighlights = function() {
   var self = this;
   // highlight points
@@ -670,6 +696,8 @@ AppChart.prototype.drawHighlights = function() {
         return (d.id == self.highlightedSeries ?
                 "highlighted " : "unhighlighted") + " series";
       });
+  // highlight hotspots
+  this.drawHotspots(this.highlightHotspots, this.hotspotLayer);
 }
 
 // Functions consuming events (potentially regenerating for external listeners)

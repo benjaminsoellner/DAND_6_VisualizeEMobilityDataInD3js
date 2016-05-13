@@ -31,12 +31,16 @@ g.app-chart
           stroke-width: 4
     &.scatter g.highlight.layer circle
       display: none
+    g.hotspot.layer
+      rect.hotspot
+        fill: #aaaaaa
+        opacity: 0.25
+        animation: pulse 2s infinite
 
     g.highlight.layer ~ g.serieses.layer
       fill: yellow !important
       circle.marker, text.x, text.y, text.t
         display: none
-
     g.highlight.layer
       circle
         stroke-width: 1
@@ -59,3 +63,12 @@ g.app-chart
       cursor: ew-resize
     &.y.axis
       cursor: ns-resize
+
+
+@keyframes pulse
+  0%
+    fill: transparent
+  25%
+    fill: #aaaaaa
+  100%
+    fill: transparent

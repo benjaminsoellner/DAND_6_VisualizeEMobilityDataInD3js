@@ -14,6 +14,7 @@ AppChartPanel = function($scope, panelOptions, chartOptions) {
   this.chart.draw();
   n = panelOptions.ctrlName;
   $scope.$watch(n + ".highlights.x", this.highlightsUpdatedHandler());
+  $scope.$watch(n + ".highlights.hotspots", this.highlightsUpdatedHandler())
   $scope.$watch(n + ".highlights.x", this.seriesesValuesUpdatedHandler());
   $scope.$watch(n + ".highlights.seriesId", this.highlightsUpdatedHandler());
 }
@@ -31,6 +32,7 @@ AppChartPanel.prototype.highlightsUpdatedHandler = function() {
         x: self.ctrl.highlights.x,
         y: self.ctrl.highlights.y,
         seriesId: self.ctrl.highlights.seriesId,
+        hotspots: self.ctrl.highlights.hotspots
       });
     }
   }

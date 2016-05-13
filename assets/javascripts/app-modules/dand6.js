@@ -386,7 +386,7 @@ angular.module("app-dand6", ["ngRoute"])
       scope: true,
       bindToController: {
         data: "=metric",
-        highlights: "="
+        highlights: "=",
       },
       controllerAs: "appMetric",
       controller: function($scope, $element) {
@@ -395,6 +395,7 @@ angular.module("app-dand6", ["ngRoute"])
           xunit: 's',
           ylabel: this.data.label,
           yunit: this.data.unit,
+          metricId: this.data.id,
           colorMap: this.data.dataColorMap,
           graphType: "line"
         };
@@ -449,6 +450,12 @@ angular.module("app-dand6", ["ngRoute"])
                 self.highlights.x = self.story.x;
               if (self.story.y)
                 self.highlights.y = self.story.y;
+              if (self.story.hotspots)
+                self.highlights.hotspots = self.story.hotspots;
+              else
+                self.highlights.hotspots = [];
+            } else if (self.highlights.looseness > 2 && self.story) {
+              self.highlights.hotspots = false;
             }
           }
         }
@@ -531,7 +538,7 @@ angular.module("app-dand6", ["ngRoute"])
       templateUrl: "assets/templates/app-modules/summary.html",
       bindToController: {
         data: "=",
-        highlights: "=",
+        highlights: "="
       },
       controllerAs: "appSummary",
       controller: function($scope, $element) {
@@ -540,6 +547,7 @@ angular.module("app-dand6", ["ngRoute"])
           xunit: this.data.xunit,
           ylabel: this.data.ylabel,
           yunit: this.data.yunit,
+          seriesId: this.data.id,
           tlabel: "time",
           tunit: "s",
           graphType: "scatter",
