@@ -103,8 +103,6 @@ AppChartPanel.prototype.zoomedPannedHandler = function($scope) {
   return function(minX, maxX, minY, maxY) {
     $scope.$apply(function() {
       self.ctrl.highlights.xRange = [minX, maxX];
-      if (self.ctrl.highlights.looseness < 3)
-        self.ctrl.highlights.looseness = 3;
     });
   };
 };
@@ -187,6 +185,18 @@ AppChartPanel.prototype.seriesesValuesUpdatedHandler = function() {
         newValues[seriesId] = values[seriesId];
       self.ctrl.highlights.seriesesValues = newValues;
     }
+  };
+};
+
+AppMetricPanel.prototype.zoomedPannedHandler = function($scope) {
+  var superHandler = AppChartPanel.prototype.zoomedPannedHandler.call(this, $scope);
+  var self = this;
+  return function(minX, maxX, minY, maxY) {
+    superHandler(minX, maxX, minY, maxY);
+    $scope.$apply(function() {
+      if (self.ctrl.highlights.looseness < 3)
+        self.ctrl.highlights.looseness = 3;
+    });
   };
 };
 

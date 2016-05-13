@@ -1,6 +1,6 @@
 
 <div id="app-explore" class="app-view">
-  <div class="app-view-col-2">
+  <div class="app-view-column">
     <div class="app-view-control btn-group">
       <app-dropdown placeholder="Select Battery and Test Scenario" list="appExplore.scenarios" selected="appExplore.selectedScenario" property="label" type="radio"></app-dropdown>
     </div>
@@ -18,7 +18,7 @@
       <app-stories ng-if="appExplore.stories" stories="appExplore.stories" story="appExplore.selectedStory" highlights="appExplore.highlights" metricsselector="appExplore.selectMetricsById(metrics)" homeurl="#!/explain"></app-stories>
     </div>
   </div>
-  <div class="app-view-col-2">
+  <div class="app-view-column">
     <div ng-if="appExplore.metrics.length" class="app-view-control btn-group">
       <app-dropdown placeholder="Select Metrics" list="appExplore.metrics" selected="appExplore.selectedMetrics" changed="appExplore.highlights.looseness = (appExplore.highlights.looseness &lt; 2 ? 2 : appExplore.highlights.looseness)" property="label" type="checkbox"></app-dropdown>
       <button ng-if="appExplore.highlights.looseness &gt; 2" ng-click="appExplore.highlights.looseness = 2" class="btn"><span class="glyphicon glyphicon-fullscreen"></span><span class="app-label">&nbsp; Re-Fit to View </span></button>

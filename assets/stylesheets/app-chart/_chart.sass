@@ -29,15 +29,27 @@ g.app-chart
         path
           opacity: 1.0
           stroke-width: 4
-  g.highlight.layer
-    circle
-      stroke-width: 1
-    circle.highlighted
-      stroke-width: 2
-    circle.with-color-map.highlighted
-      stroke: black
-    text
-      font-weight: bold
+    &.scatter g.highlight.layer circle
+      display: none
+
+    g.highlight.layer ~ g.serieses.layer
+      fill: yellow !important
+      circle.marker, text.x, text.y, text.t
+        display: none
+
+    g.highlight.layer
+      circle
+        stroke-width: 1
+      circle.highlighted
+        display: block
+        stroke-width: 2
+      circle.with-color-map.highlighted
+        stroke: black
+      text
+        display: none
+        font-weight: bold
+      text.highlighted
+        display: block
   rect.interact
     stroke: transparent
     fill: transparent

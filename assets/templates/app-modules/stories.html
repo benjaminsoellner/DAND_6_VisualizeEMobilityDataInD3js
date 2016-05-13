@@ -5,16 +5,18 @@
       <button type="button" ng-click="appStories.highlights.looseness = 2" class="close">&times;</button>
       <div class="modal-title btn-group">
         <app-dropdown placeholder="Select Story" list="appStories.stories" selected="appStories.story" property="label" type="radio"></app-dropdown>
-        <button ng-if="appStories.highlights.looseness &gt; 0" ng-click="appStories.highlights.looseness = 0" class="btn"><span class="glyphicon glyphicon-screenshot"></span><span class="app-label">&nbsp; Show me Again! </span></button>
+        <button ng-if="appStories.highlights.looseness &gt; 0 &amp;&amp; (appStory.story.metricId || appStory.story.x || appStory.story.y)" ng-click="appStories.highlights.looseness = 0" class="btn"><span class="glyphicon glyphicon-screenshot"></span><span class="app-label">&nbsp; Show me Again! </span></button>
       </div>
     </div>
     <div class="modal-body"> 
       <p>{{appStories.story.desc}}</p>
     </div>
-    <div class="modal-footer"><a ng-if="!appStories.story.prev" ng-href="{{appStories.homeurl}}" class="btn btn-default"><span class="glyphicon glyphicon-home"></span><span class="app-label">&nbsp; Back to Overview</span></a>
+    <div class="modal-footer">
+      <button ng-if="appStories.story.next &amp;&amp; appStories.explore" ng-click="appStories.highlights.looseness = 2" class="btn btn-default"><span class="app-label">Explore &nbsp; </span><span class="glyphicon glyphicon-glass"></span></button><a ng-if="!appStories.story.prev &amp;&amp; appStories.homeurl" ng-href="{{appStories.homeurl}}" class="btn btn-default"><span class="glyphicon glyphicon-home"></span><span class="app-label">&nbsp; Back to Overview</span></a>
       <button ng-if="appStories.story.prev" ng-click="appStories.goToStory(appStories.story.prev)" class="btn btn-default"><span class="glyphicon glyphicon-menu-left"></span><span class="app-label">&nbsp; Back</span></button>
-      <button ng-if="appStories.story.next" ng-click="appStories.goToStory(appStories.story.next)" class="btn btn-primary"><span class="app-label">Proceed &nbsp;</span><span class="glyphicon glyphicon-menu-right"></span></button><a ng-if="!appStories.story.next" ng-href="{{appStories.homeurl}}" class="btn btn-primary"><span class="glyphicon glyphicon-home"></span><span class="app-label">&nbsp; Return to Overview</span></a>
+      <button ng-if="appStories.story.next" ng-click="appStories.goToStory(appStories.story.next)" class="btn btn-primary"><span class="app-label">Proceed &nbsp;</span><span class="glyphicon glyphicon-menu-right"></span></button><a ng-if="!appStories.story.next &amp;&amp; appStories.homeurl" ng-href="{{appStories.homeurl}}" class="btn btn-primary"><span class="glyphicon glyphicon-home"></span><span class="app-label">&nbsp; Return to Overview</span></a>
+      <button ng-if="!appStories.story.next &amp;&amp; appStories.explore" ng-click="appStories.highlights.looseness = 2" class="btn btn-primary"><span class="app-label">Explore! &nbsp; </span><span class="glyphicon glyphicon-glass">&nbsp;</span><span class="glyphicon glyphicon-menu-right"></span></button>
     </div>
   </div>
-  <button ng-click="appStories.highlights.looseness = 0" class="app-story-button btn-primary btn"><span class="glyphicon glyphicon-book"></span><span class="app-label">&nbsp; Return to Guided Tour</span></button>
+  <button ng-click="appStories.highlights.looseness = 0" class="app-story-button btn"><span class="glyphicon glyphicon-book"></span><span class="app-label">&nbsp; Return to Guided Tour</span></button>
 </div>

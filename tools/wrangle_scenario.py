@@ -49,7 +49,7 @@ METRIC_COLOR_MAP = {
 }
 
 SERIES_CORRECT_FACTOR = {
-    "BatHW_I_BatCur": 0.5
+    "BatHW_I_BatCur": 1.0
 }
 
 SERIES_COLORS = {

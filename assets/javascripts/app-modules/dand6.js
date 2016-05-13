@@ -20,8 +20,6 @@ AppHelper.getSeriesDataTransformer = function(xKey, yKey, tKey) {
   }
 };
 
-
-
 AppHelper.trimSvg = function(svg) {
   bbox = svg[0].getBBox();
   vbox = [bbox.x, bbox.y, bbox.width, bbox.height].join(" ");
@@ -40,6 +38,7 @@ angular.module("app-dand6", ["ngRoute"])
         templateUrl: "views/explain.html",
         controller: "appExplain",
         controllerAs: "appExplain",
+        reloadOnSearch: false,
         name: "Introduction to E-Mobility",
         id: "explain"
       })
@@ -421,7 +420,9 @@ angular.module("app-dand6", ["ngRoute"])
         story: "=",
         highlights: "=",
         homeurl: "@",
-        metricsselector: "&"
+        autohide: "@",
+        metricsselector: "&",
+        explore: "@"
       },
       controllerAs: "appStories",
       controller: function($scope, $element) {
@@ -452,13 +453,15 @@ angular.module("app-dand6", ["ngRoute"])
           }
         }
         // initialization
+        if (this.autohide === undefined) this.autohide = true;
+        if (this.explore === undefined) this.explore = false;
         $scope.$watch("appStories.highlights.looseness", this.tellStoryHandler());
         $scope.$watch("appStories.story", this.tellStoryHandler());
       }
     };
   }])
 
-  .controller("appExplain", ["$http", function($http) {
+  .controller("appExplain", ["$scope", "$http", "$location", function($scope, $http, $location) {
     this.resetHighlights = function() {
       if (!this.highlights) this.highlights = {};
       this.highlights.seriesId = undefined;
@@ -477,6 +480,7 @@ angular.module("app-dand6", ["ngRoute"])
           self.selectedStory = data[0];
           self.highlights.looseness = 0;
         }
+        self.processUrlShowStories();
       };
     }
     this.loadSummary = function(summaryUrl) {
@@ -489,6 +493,26 @@ angular.module("app-dand6", ["ngRoute"])
         self.resetHighlights();
       };
     };
+    this.processUrlShowStories = function() {
+      this.showStories = ($location.search().showStories != 0);
+      if (this.showStories) {
+        this.highlights.looseness = 0;
+      } else if (this.highlights.looseness < 2) {
+        this.highlights.looseness = 2;
+      }
+    };
+    this.loosenessChangedHandler = function() {
+      var self = this;
+      return function() {
+        $location.search("showStories", self.highlights.looseness >= 2 ? 0 : 1);
+      }
+    }
+    this.processUrlHandler = function() {
+      var self = this;
+      return function($event, $args) {
+        self.processUrlShowStories();
+      }
+    };
     // initialization
     self.stories = undefined;
     self.selectedStory = undefined;
@@ -496,6 +520,8 @@ angular.module("app-dand6", ["ngRoute"])
     this.loadSummary(DATA_DIR + "/" + SUMMARY_FILE);
     this.loadStories(DATA_DIR + "/" + SUMMARY_STORIES_FILE);
     this.resetHighlights();
+    $scope.$on("$locationChangeSuccess", this.processUrlHandler());
+    $scope.$watch("appExplain.highlights.looseness", this.loosenessChangedHandler());
   }])
 
   .directive("appSummary", [function() {
@@ -514,6 +540,8 @@ angular.module("app-dand6", ["ngRoute"])
           xunit: this.data.xunit,
           ylabel: this.data.ylabel,
           yunit: this.data.yunit,
+          tlabel: "time",
+          tunit: "s",
           graphType: "scatter",
           alpha: 0.05
         };
@@ -523,7 +551,7 @@ angular.module("app-dand6", ["ngRoute"])
           chartContainer: $element.children().first()[0],
           dataTransformer: AppHelper.getSeriesDataTransformer("x", "y", "time")
         };
-        this.panel = new AppMetricPanel($scope, panelOptions, chartOptions);
+        this.panel = new AppChartPanel($scope, panelOptions, chartOptions);
       }
     }
   }]);
