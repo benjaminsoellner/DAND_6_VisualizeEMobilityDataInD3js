@@ -1,0 +1,48 @@
+[
+  {
+    "id": "soc",
+    "label": "Slow Decline of State of Charge",
+    "desc": "During this simulation, the car drives normally over 196s. At the end of the cycle, the battery state of charge fell from 98.7% to 96.6%.",
+    "metrics": ["SOCs"],
+    "x": 196,
+    "series": "soc",
+    "next": "current"
+  },
+  {
+    "id": "current",
+    "label": "Steady Discharging Current",
+    "desc": "A very nominal discharging pattern with some local minima of negative currents (e.g. -232A at 103s) is shown.",
+    "metrics": ["Currents"],
+    "x": 103,
+    "series": "current_bat",
+    "prev": "soc",
+    "next": "temperature"
+  },
+  {
+    "id": "temperature",
+    "label": "Temperature Decreasing",
+    "desc": "The battery keeps a uniform and monotonic heat; when starting the cooling cycle at 62s, the battery cools further.",
+    "metrics": ["Temperatures"],
+    "x": 62,
+    "series": "temp_outlet",
+    "prev": "current",
+    "next": "temperature_cells"
+  },
+  {
+    "id": "temperature_cells",
+    "label": "Strange Behaviour in Individual Cells",
+    "desc": "The heat distribution in the single cell packs do not match the overall temperature data; the 'hottest cell' is usually reported below 65°C while all the cell packs mean temperature is generally over 71°C. There might be an error in the data.",
+    "metrics": ["TemperaturesCells","Temperatures"],
+    "x": 62,
+    "series": "temp_outlet",
+    "prev": "temperature",
+    "next": "your_turn"
+  },
+  {
+    "id": "your_turn",
+    "label": "Now It's Your Turn!",
+    "desc": "Do you want to explore more about this scenario? For example, about it's power or voltage development over time? Just select one or more other metrics from the dropdown.",
+    "metrics": [],
+    "prev": "temperature_cells"
+  }
+]

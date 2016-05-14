@@ -48,6 +48,8 @@ METRIC_COLOR_MAP = {
     "Voltages": [[680,"#bdc9e1"], [1200,"#045a8d"]]
 }
 
+METRICS_ORDER = ["SOCs", "Currents", "Voltages", "Powers", "Efficiencies", "Temperatures", "TemperaturesCells"]
+
 SERIES_CORRECT_FACTOR = {
     "BatHW_I_BatCur": 1.0
 }
@@ -202,12 +204,21 @@ def extendAndRemoveMetrics(scenario, df):
         addSeries(scenario, "TemperaturesCells", "cells_" + str(i), df["TemperaturesCells.cells_" + str(i)].dropna())
     return scenario
 
+def orderMetrics(sourceScenario):
+    targetScenario = []
+    for metricId in METRICS_ORDER:
+        for metric in sourceScenario:
+            if metric["id"] == metricId:
+                targetScenario.append(metric)
+    return targetScenario
+
 def wrangleScenarioFile(sourceJsonName, targetJsonName, targetCsvName):
     with open(sourceJsonName, "r") as sourceJson:
         sourceScenario = json.load(sourceJson)
     repairedScenario = repairScenario(sourceScenario)
     targetDataFrame = scenarioToExtendedDataFrame(repairedScenario)
-    targetScenario = extendAndRemoveMetrics(repairedScenario, targetDataFrame)
+    extendedScenario = extendAndRemoveMetrics(repairedScenario, targetDataFrame)
+    targetScenario = orderMetrics(extendedScenario)
     targetDataFrame.to_csv(targetCsvName,index=True)
     with open(targetJsonName, "wb") as targetJson:
         json.dump(targetScenario, targetJson, encoding="utf-8")

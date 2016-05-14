@@ -1,16 +1,17 @@
 [
   {
+    "id": "rangecert",
+    "label": "Normal Driving + Range (NEFZ Certification Cycle)",
+    "dataFile": "scenario-rangecert.json",
+    "schematicsFile": "PB2_00_cells_rev.svg",
+    "storiesFile": "scenario-rangecert-stories.json"
+  },
+  {
     "id": "acceleratenbreak",
     "label": "Sportive Driving (Accelerate & Break + WLTP Cycle)",
     "dataFile": "scenario-acceleratenbreak.json",
     "schematicsFile": "PB2_00_cells_rev.svg",
     "storiesFile": "scenario-acceleratenbreak-stories.json"
-  },
-  {
-    "id": "rangecert",
-    "label": "Normal Driving + Range (NEFZ Certification Cycle)",
-    "dataFile": "scenario-rangecert.json",
-    "schematicsFile": "PB2_00_cells_rev.svg"
   },
   {
     "id": "winter",
