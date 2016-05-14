@@ -5,7 +5,7 @@
       <button type="button" ng-click="appStories.highlights.looseness = 2" class="close">&times;</button>
       <div class="modal-title btn-group">
         <app-dropdown placeholder="Select Story" list="appStories.stories" selected="appStories.story" property="label" type="radio"></app-dropdown>
-        <button ng-if="appStories.highlights.looseness &gt; 0 &amp;&amp; (appStory.story.metricId || appStory.story.x || appStory.story.y)" ng-click="appStories.highlights.looseness = 0" class="btn"><span class="glyphicon glyphicon-screenshot"></span><span class="app-label">&nbsp; Show me Again! </span></button>
+        <button ng-if="appStories.highlights.looseness &gt; 0 &amp;&amp; (appStories.story.metricId || appStories.story.x || appStories.story.y)" ng-click="appStories.highlights.looseness = 0" class="btn"><span class="glyphicon glyphicon-screenshot"></span><span class="app-label">&nbsp; Show me Again! </span></button>
       </div>
     </div>
     <div class="modal-body"> 

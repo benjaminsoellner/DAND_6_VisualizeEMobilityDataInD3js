@@ -3,7 +3,8 @@
     "id": "acceleratenbreak",
     "label": "Sportive Driving (Accelerate & Break + WLTP Cycle)",
     "dataFile": "scenario-acceleratenbreak.json",
-    "schematicsFile": "PB2_00_cells_rev.svg"
+    "schematicsFile": "PB2_00_cells_rev.svg",
+    "storiesFile": "scenario-acceleratenbreak-stories.json"
   },
   {
     "id": "rangecert",

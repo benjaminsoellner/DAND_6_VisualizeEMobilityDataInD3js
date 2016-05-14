@@ -438,6 +438,7 @@ angular.module("app-dand6", ["ngRoute"])
           var self = this;
           return function() {
             if (self.highlights.looseness < 2 && self.story) {
+              self.highlights.seriesesValues = [];
               if (self.story.metrics && self.metricsselector)
                 self.metricsselector({metrics: self.story.metrics});
               if (self.story.xRange)
@@ -474,7 +475,6 @@ angular.module("app-dand6", ["ngRoute"])
       this.highlights.seriesId = undefined;
       this.highlights.x = undefined;
       this.highlights.xRange = [undefined, undefined];
-      this.highlights.looseness = 0;
     };
     this.loadStories = function(storiesUrl) {
       $http.get(storiesUrl).success(this.storiesLoadedHandler());
@@ -506,6 +506,8 @@ angular.module("app-dand6", ["ngRoute"])
         this.highlights.looseness = 0;
       } else if (this.highlights.looseness < 2) {
         this.highlights.looseness = 2;
+      } else if (this.highlights.looseness === undefined) {
+        this.highlights.looseness = 2;
       }
     };
     this.loosenessChangedHandler = function() {
@@ -527,6 +529,7 @@ angular.module("app-dand6", ["ngRoute"])
     this.loadSummary(DATA_DIR + "/" + SUMMARY_FILE);
     this.loadStories(DATA_DIR + "/" + SUMMARY_STORIES_FILE);
     this.resetHighlights();
+    this.processUrlShowStories();
     $scope.$on("$locationChangeSuccess", this.processUrlHandler());
     $scope.$watch("appExplain.highlights.looseness", this.loosenessChangedHandler());
   }])

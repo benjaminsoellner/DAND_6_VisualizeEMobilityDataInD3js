@@ -1,0 +1,69 @@
+[
+  {
+    "id": "soc",
+    "label": "Recharging the Battery on Sportive Driving",
+    "desc": "During this simulation, the car is accelerated and slowed down 6 times from 0 to 100 km/h. For the first 23s, the battery is used, however, the breaking process and the subsequent continued stress on the battery leads to the fossil fuel engine kicking in. The internal generator starts and re-charges the battery. Move your mouse over the diagram to see the charge in the battery building up.",
+    "metrics": ["SOCs"],
+    "x": 23,
+    "series": "soc",
+    "next": "current"
+  },
+  {
+    "id": "current",
+    "label": "Driving Fast means High Battery Current",
+    "desc": "The electrical current of a battery has an upper safety limit. During this scenario, the current requested from the engine comes close to this a few times. An internal control cirquit lowers the upper current limit in order to keep the battery safe.",
+    "metrics": ["Currents"],
+    "x": 40,
+    "series": "current_bat",
+    "hotspots": [
+      {"metric": "SOCs", "x0": 30, "y0": 1200, "x1": 190, "y1": 1900}
+    ],
+    "prev": "soc",
+    "next": "temperature"
+  },
+  {
+    "id": "temperature",
+    "label": "The Battery is Heating Up",
+    "desc": "Repeated stress leads to the battery cells heating up. At 80s, the hottest cell is 74.1°C hot and the cooling unit starts chilling down the battery cells.",
+    "metrics": ["Temperatures"],
+    "x": 80,
+    "series": "temp_outlet",
+    "prev": "current",
+    "next": "temp_voltage"
+  },
+  {
+    "id": "temp_voltage",
+    "label": "Warmer Battery Means Higher Electro-Chemical Potential",
+    "desc": "A battery has two kinds of voltages: battery voltage is directly measurable and measures the power available to us. 'Open cirquit voltage' is an inner status of the battery describing their electro-chemical 'potential'. It can be observed in simulations, where we know the internal status of the battery. Higher temperature of the battery are correlated with a higher open cirquit voltage.",
+    "metrics": ["Temperatures", "Voltages"],
+    "x": 160,
+    "series": "voltage_oc",
+    "prev": "current",
+    "next": "voltages_powers"
+  },
+  {
+    "id": "voltages_powers",
+    "label": "Higher Electro-Chemical Potential Means Lower Power Loss",
+    "desc": "We define the 'lost power' (P_Loss) of a battery based on the potential drop between battery voltage and open cirquit voltage. A higher electro-chemical potential (remember: a warmer battery) therefore leads to lower power loss.",
+    "metrics": ["Voltages", "Powers"],
+    "x": 160,
+    "series": "power_loss",
+    "prev": "temp_voltage",
+    "next": "temp_cells"
+  },
+  {
+    "id": "temp_cells",
+    "label": "Heat Across the Battery Must be Uniformely Distributed",
+    "desc": "The heat across the battery must be uniformely distributed. Here you can see the heat spread of all 100 cells - 10 adjacent cells always grouped together. Move your mouse over the graph to see the heat development.",
+    "metrics": ["TemperaturesCells"],
+    "prev": "temperature",
+    "next": "your_turn"
+  },
+  {
+    "id": "your_turn",
+    "label": "Now It's Your Turn!",
+    "desc": "We invite you to play around! Select one or more metrics from the dropdown menu, hover or scroll around in the graphs you will find and see if you can find something interesting! - Or return to the overview page and explore another data set.",
+    "metrics": [],
+    "prev": "temp_cells"
+  }
+]

@@ -13,7 +13,7 @@ div(ng-class="['app-stories',{'modal-content': appStories.highlights.looseness <
           type="radio"
         )
         button.btn(
-            ng-if="appStories.highlights.looseness > 0 && (appStory.story.metricId || appStory.story.x || appStory.story.y)",
+            ng-if="appStories.highlights.looseness > 0 && (appStories.story.metricId || appStories.story.x || appStories.story.y)",
             ng-click="appStories.highlights.looseness = 0"
           )
             span.glyphicon.glyphicon-screenshot

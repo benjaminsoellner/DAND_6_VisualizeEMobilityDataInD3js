@@ -670,10 +670,10 @@ AppChart.prototype.drawHotspots = function(data, container) {
     .attr("rx", "5")
     .attr("ry", "5");
   hotspots
-    .attr("x", function (d) { return self.x(d.x0); })
-    .attr("y", function (d) { return self.y(d.y1); })
-    .attr("width", function (d) { return self.x(d.x1)-self.x(d.x0); })
-    .attr("height", function (d) { return self.y(d.y0)-self.y(d.y1); });
+    .attr("x", function (d) { return Math.min(self.x(d.x0),self.x(d.x1)); })
+    .attr("y", function (d) { return Math.min(self.y(d.y0),self.y(d.y1)); })
+    .attr("width", function (d) { return Math.abs(self.x(d.x1)-self.x(d.x0)); })
+    .attr("height", function (d) { return Math.abs(self.y(d.y0)-self.y(d.y1)); });
 }
 
 AppChart.prototype.drawHighlights = function() {
