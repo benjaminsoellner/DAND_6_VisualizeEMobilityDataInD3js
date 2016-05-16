@@ -1,0 +1,34 @@
+[
+  {
+    "id": "temperature",
+    "label": "Heating up the Battery",
+    "desc": "During winter conditions, it takes considerable time to heat up the battery cells. Heating up the cells occurs due to ordinary electrical current and internal electrical resistance in the battery.",
+    "metrics": ["Temperatures"],
+    "next": "temperature_soc"
+  },
+  {
+    "id": "temperature_soc",
+    "label": "SOC falling monotonically",
+    "desc": "While the temperature is raising, the State-of-Charge is declining steadily. There is no gain in state-of-charge from the feed-back from generators during breaking or fossil-fuel powering of the engine. During cold temperatures, the battery simply cannot charge! Move your mouse over the graph to see how the battery discharges while it warms up.",
+    "metrics": ["Temperatures", "SOCs"],
+    "x": 380,
+    "series": "soc",
+    "prev": "temperature",
+    "next": "voltage_current"
+  },
+  {
+    "id": "voltage_current",
+    "label": "Voltages/Currents Quite Steady",
+    "desc": "Both voltage supplied by the battery and currents drawn from the battery are fairly constant during this scenario. Move your mouse over the graph to see the individual values.",
+    "metrics": ["Voltages", "Currents"],
+    "series": "soc",
+    "next": "your_turn"
+  },
+  {
+    "id": "your_turn",
+    "label": "Now it's Your Turn!",
+    "desc": "Maybe you will find additional insights into this data? Just select other metrics and move / scroll / zoom through the graphs to explore them!",
+    "metrics": [],
+    "prev": "voltage_current"
+  }
+]

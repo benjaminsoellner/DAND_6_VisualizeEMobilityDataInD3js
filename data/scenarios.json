@@ -17,7 +17,8 @@
     "id": "winter",
     "label": "Winter Conditions (M15 Cycle)",
     "dataFile": "scenario-winter.json",
-    "schematicsFile": "PB2_00_cells_rev.svg"
+    "schematicsFile": "PB2_00_cells_rev.svg",
+    "storiesFile": "scenario-winter-stories.json"
   }
 
 ]

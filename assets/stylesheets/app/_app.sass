@@ -38,7 +38,7 @@ ng-view, .app-view, .app-grid
     flex-direction: row
     padding: 10px
     height: 40px
-    @include box-shadow(0px 2px 5px 0px rgba(60,60,60,0.5))
+    @include box-shadow(0 1px 3px rgba(0, 0, 0, 0.25))
 
     button
       width: auto
@@ -52,6 +52,24 @@ ng-view, .app-view, .app-grid
       padding-left: 5px
       padding-right: 5px
       white-space: nowrap
+
+    .app-bs
+      float: right
+      color: #aaaaaa
+      img
+        height: 50px
+        width: 50px
+        margin-right: 5px
+        background-size: cover
+        border-radius: 50%
+        float: left
+        @include box-shadow(0 1px 3px rgba(0, 0, 0, 0.25))
+      a
+        margin-top: 10px
+        text-decoration: none
+        color: #aaaaaa
+      a:hover
+        text-decoration: underline
 
   ng-view
     flex-grow: 1
