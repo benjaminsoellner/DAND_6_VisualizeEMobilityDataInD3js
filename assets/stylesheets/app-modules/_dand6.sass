@@ -32,6 +32,10 @@ app-stories
           flex-grow: 1
           button, ul
             width: 100%
+            white-space: normal
+          button
+            overflow: hidden
+            max-height: 2.4em
           .dropdown-toggle, .dropdown-menu
             text-align: left
     .app-story-btn
@@ -41,6 +45,7 @@ app-stories
       display: block
       .app-story-box
         display: block
+        overflow: auto
       .app-story-button
         display: none
 
@@ -93,6 +98,15 @@ app-dropdown
   .btn-group>&:not(:last-child)>.dropdown-toggle
     border-bottom-right-radius: 0
     border-top-right-radius: 0
+  ul.dropdown-menu
+    max-height: 20em
+    overflow-y: auto
+    overflow-x: hidden
+    li
+      a, button
+        white-space: normal
+        max-height: 3.5em
+        overflow: hidden
 
 .app-hide
   display: none

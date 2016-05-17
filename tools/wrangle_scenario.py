@@ -20,8 +20,8 @@ STRING_MAP = [
     ["BatHW_prc_BatSoc", "seriesId", "soc"],
     # temperatures
     ["BatHW_T_BatTpMin", "seriesId", "temp_min"],
-    ["BatHW_T_BatTpMean", "seriesId", "temp_mean"],
-    ["BatHW_T_BatTpMax", "seriesId", "temp_max"],
+    ["BatHW_T_BatTpMean", "seriesId", "temp_max"],
+    ["BatHW_T_BatTpMax", "seriesId", "temp_mean"], # Mean & Max are switched. :(
     ["BatHW_T_CooltOutletTp", "seriesId", "temp_outlet"],
     ["T_Cell_([0-9]+)", "seriesId", "cell_\\1"],
     # labels for metrics
