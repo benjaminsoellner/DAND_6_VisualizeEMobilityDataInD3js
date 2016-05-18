@@ -1,0 +1,16 @@
+app-schematics
+  svg
+    max-height: 50vh
+    width: 100%
+    margin: auto
+    .show-yes
+      display: block
+    .show-no
+      display: none
+    .highlight-yes tspan
+      font-weight: bold !important
+  g.app-series
+    &.app-with-metrics *
+      cursor: pointer
+    &.app-highlighted *
+      stroke-width: 3px !important

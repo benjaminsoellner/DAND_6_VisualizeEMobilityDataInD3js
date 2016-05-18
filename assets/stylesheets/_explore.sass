@@ -1,0 +1,62 @@
+
+// Exploratory View
+.app-view#app-explore
+  padding-left: 10px
+  padding-right: 10px
+
+  .app-view-column
+    width: 50%
+    min-width: 490px
+    margin-left: 5px
+    margin-top: 5px
+    display: flex
+    flex-direction: column
+
+  .app-view-content
+    flex-grow: 1
+    display: flex
+    flex-direction: column
+    overflow: auto
+    position: relative
+
+  .app-view-control
+    display: flex
+    flex-direction: row
+    app-dropdown
+      flex-grow: 1
+      button, ul
+        width: 100%
+      .dropdown-toggle, .dropdown-menu
+        text-align: left
+
+  .app-view-empty
+    text-align: center
+    display: block
+    color: #aaa
+    font-weight: bold
+    .app-hand-up, .app-hand-right
+      font-size: 32px
+      margin: 20px
+    .app-hand-right
+      float: right
+
+  app-schematics
+    display: block
+    position: relative
+    min-height: 200px
+    flex-grow: 1
+    flex-shrink: 1
+    svg
+      max-height: 100%
+      min-height: 100%
+      position: absolute
+
+  app-stories
+    margin-bottom: 10px
+    position: relative
+    flex-grow: 1
+    min-height: 200px
+    .app-stories
+      position: absolute
+      max-height: 100%
+      bottom: 0%

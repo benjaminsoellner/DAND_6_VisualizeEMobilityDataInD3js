@@ -1,0 +1,20 @@
+/* grid layout: column should stretch vertically and contain different rows
+    "body" stretches vertically, if content is too big, it scrolls, it
+    also serves itself as a flex container */
+app-metrics
+  flex-grow: 1
+  overflow: auto
+  display: flex
+  flex-direction: column
+/* every row has a minimum height, grows if possible (flex-grow: 1) and
+    clips (overflow: hidden) if necessary, elements in the row are positioned
+    relative to this row (necessary for overflow: hidden to work with
+    position: absolute children) */
+app-metrics > div
+  overflow: hidden
+  min-height: 200px
+  flex-grow: 1
+  position: relative
+/* all other elements should scale to height: 100% */
+app-metrics div
+  height: 100%

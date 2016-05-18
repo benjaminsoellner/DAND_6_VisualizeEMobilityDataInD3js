@@ -1,0 +1,17 @@
+app-dropdown
+  float: left
+  .btn-group>&:not(:first-child)>.dropdown-toggle
+    border-bottom-left-radius: 0
+    border-top-left-radius: 0
+  .btn-group>&:not(:last-child)>.dropdown-toggle
+    border-bottom-right-radius: 0
+    border-top-right-radius: 0
+  ul.dropdown-menu
+    max-height: 20em
+    overflow-y: auto
+    overflow-x: hidden
+    li
+      a, button
+        white-space: normal
+        max-height: 3.5em
+        overflow: hidden
