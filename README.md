@@ -2,8 +2,16 @@
 
 ![Comic Logo of this Udacity Project](../images/dand6_comic_normal.png)
 
-TODO:
-* introduction + context (<= 4 sentences)
+Hybrid and fully electric cars are awesome because they will help us  
+save the planet from burning through more dinosaur juice! But temperature of
+the battery and the way of driving your car is very important in order
+to have a long-lasting battery with which you can drive over a long range.
+This Data Analyst Nanodegree Visualization Project shows how electric car
+batteries State-of-Charge diminishes or increases and how the temperature of
+such a battery develops during different driving situations. The visualization
+was created with scrambled R&D data from a german car manufacturer and also
+contains options to drill down into an explorative mode which will be used by
+roughly 200 researchers in the field.
 
 # Design
 
@@ -19,6 +27,16 @@ TODO:
 * share with at least 3 other people (Fabian, Carl, Hamid??, Udacity Forum...)
 * include different versions of the visualization (at minimum: initial & final)
 * include all feedback you received from first sketch to the final visualization
+* Carls feedback: Change introductory sentence - it is not clear what is ment
+  with "performance" of batteries
+  * From: "Hybrid and fully electric cars are awesome because they will help us
+    save the planet from burning through more dinosaur juice! But temperature of
+    the battery and the way of driving your car can influence the
+    batteries performance"
+  * To: "Hybrid and fully electric cars are awesome because they will help us  
+    save the planet from burning through more dinosaur juice! But temperature of
+    the battery and the way of driving your car is very important in order
+    to have a long-lasting battery with which you can drive over a long range."
 
 # Why This Project is Different
 
