@@ -108,6 +108,10 @@ define(["AppConstants"], function(AppConstants) {
     var self = this;
     return function(data) {
       self.metrics = data;
+      // load stories, if stories are associated with this scenario
+      if (self.selectedScenario.storiesFile)
+        self.loadStories(self.dataDir + "/" +
+            self.selectedScenario.storiesFile);
     };
   };
 
@@ -142,7 +146,7 @@ define(["AppConstants"], function(AppConstants) {
   /**
    * Returns a callback that should be invoked every time the user changes the
    * selected scenario. The callback updates the URL's search string and loads
-   * all metrics and stories associated with the scenario.
+   * all metrics associated with the scenario.
    */
   AppExploreController.prototype.selectedScenarioChangedHandler = function() {
     var self = this;
@@ -160,9 +164,6 @@ define(["AppConstants"], function(AppConstants) {
         self.$location.search("scenarioId", self.selectedScenario.id);
         // load metrics
         self.loadMetrics(self.dataDir + "/" + self.selectedScenario.dataFile);
-        // load stories, if stories are associated with this scenario
-        if (self.selectedScenario.storiesFile)
-          self.loadStories(self.dataDir + "/" + self.selectedScenario.storiesFile);
       }
     };
   };

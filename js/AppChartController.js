@@ -27,6 +27,8 @@ define(["AppChart"], function(AppChart) {
    *     AppChart class can deal with</li>
    *   <li>ctrlName - the name of the controller object in the AngularJS scope
    *     </li>
+   *   <li>graphType - type of graph ('line' or 'scatter')</li>
+   *   <li>alpha - the alpha value of the data points</li>
    *   </ul>
    */
   AppChartController = function($scope, $element, options) {
@@ -37,7 +39,9 @@ define(["AppChart"], function(AppChart) {
     // only carry over known options
     this.options = {
       dataTransformer: options.dataTransformer,
-      ctrlName: options.ctrlName
+      ctrlName: options.ctrlName,
+      graphType: options.graphType,
+      alpha: options.alpha
     };
     // attach handlers to "highlights" object
     n = options.ctrlName;
@@ -81,8 +85,9 @@ define(["AppChart"], function(AppChart) {
       seriesId: this.data.id,
       tlabel: this.data.tlabel,
       tunit: this.data.tunit,
-      graphType: options.graphType,
-      alpha: options.alpha
+      graphType: this.options.graphType,
+      colorMap: this.data.dataColorMap,
+      alpha: this.options.alpha
     };
     // create AppChart object and wire callbacks from controller to it
     this.chart = new AppChart(this.container, this.chartOptions);

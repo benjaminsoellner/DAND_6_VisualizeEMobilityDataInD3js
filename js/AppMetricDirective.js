@@ -205,8 +205,7 @@ define(["AppHelper", "AppChartController"], function(AppHelper, AppChartControll
   };
 
   /**
-   * Factory to create the controller; used as the .controller member of the
-   * directive.
+   * Factory to create the directive; used as the angularjs.directive call.
    * @static
    */
   AppMetricDirective.factory = function() {

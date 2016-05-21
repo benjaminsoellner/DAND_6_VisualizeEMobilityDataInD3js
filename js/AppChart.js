@@ -537,7 +537,7 @@ define(["d3", "resizeSensor"], function() {
       hash[series.id] = {
           id: series.id, x: p.x, y: p.y, t: p.t,
           // color value based on color map (if any present)
-          colorVal: this.colorMap ? this.colorMap(p.y) : false,
+          colorVal: this.colorMap ? this.colorMap(p.y) : undefined,
           // color value based on color assigned to this series
           color: series.color ? series.color : false
         };
