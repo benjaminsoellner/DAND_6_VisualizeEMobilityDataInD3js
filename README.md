@@ -41,20 +41,40 @@ TODO:
 # Why This Project is Different
 
 TODO:
-* Explain while I "bended" the requirements and did something a little different
+* Explain while I "bended" the requirements a little and added my own touch
 
 # Technical Documentation
 
 TODO:
-* Reference the JSDoc
-* Reference to Project Report:
+* Reference to TBD Whitepaper you should read before reading JSDoc /
+  code comments:
   * Directory Structure
   * Terminology
-  * Data Files JSON Structure
+  * JSON structure of data files
   * Components of the Application
   * Interaction of the Components ("highlights" object, "looseness", broadcasts)
+  * JSDoc
 
 # Ressources
 
+## Interesting Articles / Tutorials / Showcases
+
+* [How to develop D3.js in AngularJS](http://briantford.com/blog/angular-d3)
+* [D3 Reusable Bar Chart with AngularJS](http://bl.ocks.org/biovisualize/5372077)
+* [D3 Example: Zoom, Pan and Axis Rescale](http://bl.ocks.org/stepheneb/1182434)
+* [D3: Continuous Color Scales with Many Color Values](http://stackoverflow.com/questions/17671252/d3-create-a-continous-color-scale-with-many-strings-inputs-for-the-range-and-dy)
+* [Coloring Different Segments of a Line Chart](http://fiddle.jshell.net/4xZwb/3/) (interesting, but I abandoned the idea)
+* [SVG Paths With Percentages as Sizes and Fixed Stroke Widths](http://codepen.io/gionkunz/pen/KDvLj)
+* [Bootstrap Sass](https://www.npmjs.com/package/bootstrap-sass)
+
+## Frameworks Used
+
 TODO:
-* list any sources you consulted to create your visualization
+* Bootstrap
+* jQuery
+* AngularJs
+* D3.js
+* Grunt, Nodejs
+* Requirejs
+* ElementQueries, ResizeSensor
+* Underscore
