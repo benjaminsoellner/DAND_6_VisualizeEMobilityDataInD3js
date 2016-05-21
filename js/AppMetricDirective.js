@@ -187,7 +187,7 @@ define(["AppHelper", "AppChartController"], function(AppHelper, AppChartControll
   AppMetricDirective = function() {
     this.require = ["^^appMetrics"];
     this.restrict = "E";
-    this.templateUrl = "assets/templates/AppMetric.html";
+    this.templateUrl = "templates/AppMetric.html";
     this.scope = true;
     this.bindToController = {
       data: "=metric",

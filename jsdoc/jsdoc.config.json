@@ -7,7 +7,7 @@
   },
   "plugins": ["plugins/markdown"],
   "templates": {
-    "logoFile": "../assets/images/dand6_coldbat_tiny.png",
+    "logoFile": "../images/dand6_coldbat_tiny.png",
     "cleverLinks": false,
     "monospaceLinks": false,
     "dateFormat": "ddd MMM Do YYYY",

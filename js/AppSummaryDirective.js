@@ -19,7 +19,7 @@ define(["AppHelper", "AppChartController"], function(AppHelper, AppChartPanel) {
   AppSummaryDirective = function() {
     this.restrict = "E";
     this.scope = true;
-    this.templateUrl = "assets/templates/AppSummary.html";
+    this.templateUrl = "templates/AppSummary.html";
     this.bindToController = {
       data: "=",
       highlights: "="

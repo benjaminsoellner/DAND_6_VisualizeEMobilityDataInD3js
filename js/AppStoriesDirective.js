@@ -112,7 +112,7 @@ define(["bootstrap"], function() {
   AppStoriesDirective = function() {
     this.require = [];
     this.restrict = "E";
-    this.templateUrl = "assets/templates/AppStories.html";
+    this.templateUrl = "templates/AppStories.html";
     this.scope = true;
     this.bindToController = {
       stories: "=",

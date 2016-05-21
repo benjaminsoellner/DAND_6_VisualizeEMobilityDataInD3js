@@ -1,6 +1,6 @@
 // setup dependencies to external libraries
 require.config({
-  baseUrl: 'assets/scripts',
+  baseUrl: 'js',
   paths: {
     jquery: 'ext/jquery-1.12.2.min',
     bootstrap: 'ext/bootstrap/bootstrap.min',

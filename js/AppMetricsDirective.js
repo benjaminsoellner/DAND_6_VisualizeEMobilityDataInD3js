@@ -36,7 +36,7 @@ define([], function() {
    * @constructor
    */
   AppMetricsDirective = function() {
-    this.templateUrl = "assets/templates/AppMetrics.html";
+    this.templateUrl = "templates/AppMetrics.html";
     this.transclude = true;
     this.restrict = "E";
     this.scope = true;

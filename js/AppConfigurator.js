@@ -36,10 +36,10 @@ define([], function() {
         id: "explore"
       })
       // Project Documentation
-      .when('/report', {
-        templateUrl: "views/report.html",
-        name: "Project Documentation",
-        id: "report"
+      .when('/whitepaper', {
+        templateUrl: "views/whitepaper.html",
+        name: "Technical Whitepaper",
+        id: "whitepaper"
       })
       // Documentation
       .when('/doc', {

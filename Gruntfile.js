@@ -9,17 +9,17 @@ module.exports = function(grunt) {
     requirejs: {
       compile: {
         options: {
-          baseUrl: "assets/scripts",
-          mainConfigFile: "assets/scripts/main.js",
+          baseUrl: "js",
+          mainConfigFile: "js/main.js",
           include: "main.js",
-          out: "assets/scripts/all.min.js",
+          out: "js/all.min.js",
           optimize: "uglify"
         }
       }
     },
     jsdoc : {
       dist : {
-        src: ["assets/scripts/*.js"],
+        src: ["js/*.js"],
         options: {
           destination: "doc",
           configure: "jsdoc/jsdoc.config.json",

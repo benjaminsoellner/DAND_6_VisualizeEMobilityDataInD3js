@@ -112,7 +112,7 @@ define([], function() {
    */
   AppSchematicsDirective = function() {
     this.restrict = "E";
-    this.templateUrl = "assets/templates/AppSchematics.html";
+    this.templateUrl = "templates/AppSchematics.html";
     this.bindToController = {
       svg: "=",
       serieses: "=",

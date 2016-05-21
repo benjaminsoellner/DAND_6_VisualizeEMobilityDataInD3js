@@ -1,4 +1,4 @@
-![Comic Logo of this Udacity Project](../assets/images/dand6_comic_normal.png)
+![Comic Logo of this Udacity Project](../images/dand6_comic_normal.png)
 
 # Welcome
 

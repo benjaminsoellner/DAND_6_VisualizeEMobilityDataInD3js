@@ -105,7 +105,7 @@ define(["underscore", "bootstrap"], function() {
    */
   AppDropdownDirective = function() {
     this.restrict = "E";
-    this.templateUrl = "assets/templates/AppDropdown.html";
+    this.templateUrl = "templates/AppDropdown.html";
     this.scope = true;
     this.bindToController = {
       placeholder: "@",

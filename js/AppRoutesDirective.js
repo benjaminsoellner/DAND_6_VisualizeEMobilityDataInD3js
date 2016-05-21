@@ -34,7 +34,7 @@ define(["bootstrap"], function() {
    */
   AppRoutesDirective = function() {
     this.restrict = "E";
-    this.templateUrl = "assets/templates/AppRoutes.html";
+    this.templateUrl = "templates/AppRoutes.html";
     this.scope = true;
     this.bindToController = {
       current: "=",
