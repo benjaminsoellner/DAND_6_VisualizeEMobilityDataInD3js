@@ -1,15 +1,30 @@
+// app-dropdown angular directive
 app-dropdown
   float: left
+
+  // if the dropdown button is part of a button group, and there are elements
+  // before or after it, don't use round edges
   .btn-group>&:not(:first-child)>.dropdown-toggle
     border-bottom-left-radius: 0
     border-top-left-radius: 0
   .btn-group>&:not(:last-child)>.dropdown-toggle
     border-bottom-right-radius: 0
     border-top-right-radius: 0
+
+  // a little bit of space of the caret from the text
+  .dropdown-toggle .caret
+    margin: 2px
+
+  // make sure that the dropdown menu doesn't exceed a certain height, otherwise
+  // make it scrollable
   ul.dropdown-menu
     max-height: 20em
     overflow-y: auto
     overflow-x: hidden
+
+    // make sure that all individual dropdown items don't exceed a specific
+    // height (allthough word-wrapping is ok); if they exceed maximum height /
+    // width, cut those off.
     li
       a, button
         white-space: normal
