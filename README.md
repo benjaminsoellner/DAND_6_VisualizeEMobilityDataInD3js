@@ -1,8 +1,8 @@
 # Summary
 
-![Comic Logo of this Udacity Project](../images/dand6_comic_normal.png)
+![Comic Logo of this Udacity Project](https://github.com/benjaminsoellner/DAND_6_VisualizeEMobilityDataInD3js/blob/master/images/dand6_comic_normal.png)
 
-Hybrid and fully electric cars are awesome because they will help us  
+Hybrid and fully electric cars are awesome because they will help us
 save the planet from burning through more dinosaur juice! But temperature of
 the battery and the way of driving your car is very important in order
 to have a long-lasting battery with which you can drive over a long range.
