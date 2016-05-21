@@ -1,16 +1,16 @@
+// app-schematics angularjs directive used to display dynamic schematic SVGs
+// whose content changes depending on the value broadcasted to them via angular
+// events
 app-schematics
+
   svg
-    max-height: 50vh
     width: 100%
     margin: auto
+    // classes used to show/hide elements based on broadcasted value
     .show-yes
       display: block
     .show-no
       display: none
+    // class used to differentiate an element where its series is highlighted
     .highlight-yes tspan
       font-weight: bold !important
-  g.app-series
-    &.app-with-metrics *
-      cursor: pointer
-    &.app-highlighted *
-      stroke-width: 3px !important

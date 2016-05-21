@@ -7,22 +7,29 @@
   display: flex
   flex-direction: row
 
+  // Left column: 75% wide (min: 600px) and containing a vertical flex flow
   .app-view-column-left
     width: 75%
     min-width: 600px
     display: flex
     flex-direction: column
-    .app-summary-chart
-      flex-grow: 1
-      position: relative
 
+    // on the top of the flex flow: the chart's title
     .app-summary-title
       position: relative
       text-align: center
 
+    // below it: the chart itself; need position: relative here to position
+    // app-summary absolutely
+    .app-summary-chart
+      flex-grow: 1
+      position: relative
+
+    // workaround fix... - we are missing 5px somewhere
     .app-summary
       margin-top: -5px
 
+  // Right column: 25% wide (min: 400px), with some spacing and a vertical flex
   .app-view-column-right
     width: 25%
     min-width: 400px
@@ -32,26 +39,33 @@
     flex-direction: column
     flex-grow: 1
 
-  .app-stories
-    width: 100%
-    .app-story-button
+    // inside it is either a story box that should cover the whole width
+    .app-stories
       width: 100%
+      // ... this will also apply to the button "Return to Guided Tour" ...
+      .app-story-button
+        width: 100%
 
-  .app-summary-explore
-    display: flex
-    flex-direction: column
-    list-style-type: none
-    justify-content: space-around
-    margin: 0
-    padding: 0
-    flex-basis: 300px
-    div
+    // ... or there will be a list of the datasets to explore (when you
+    // finished the explanatory guided tour)
+    // this component has a vertical flex flow
+    .app-summary-explore
       display: flex
-      flex-direction: row
-      align-items: center
+      flex-direction: column
+      justify-content: space-around
       margin: 0
       padding: 0
-      p
-        flex-grow: 1
-        padding: 0
+      flex-basis: 300px
+      // ... each element of the flex flow is a div that has itself a
+      // horizontal flow (label left + button on the right)
+      div
+        display: flex
+        flex-direction: row
+        align-items: center
         margin: 0
+        padding: 0
+        // the labels (p elements) will take up most of the space
+        p
+          flex-grow: 1
+          padding: 0
+          margin: 0

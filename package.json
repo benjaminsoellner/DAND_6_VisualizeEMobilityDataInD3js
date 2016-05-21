@@ -1,0 +1,11 @@
+{
+  "name": "DAND_6_VisualizeEMobilityDataInD3js",
+  "version": "0.1.0",
+  "devDependencies": {
+    "grunt": "~0.4.5",
+    "uglify-js": "~2.6.2",
+    "grunt-contrib-requirejs": "~1.0.0",
+    "grunt-jsdoc": "~2.0.0",
+    "ink-docstrap": "~1.1.4"
+  }
+}

@@ -1,0 +1,18 @@
+// The documentation view should cover 100% of the surrounding
+// (position: absolute) view area.
+.app-view#app-report, .app-view#app-doc
+  width: 100%
+  height: 100%
+  position: relative
+
+  // the containing I frame should as well cover the whole area, but should
+  // extend downwards if necessary (thats why we have min-height 100%). It
+  // should also blend into the surrounding HTML seamlessly (therefore the
+  // border & outline attributes).
+  iframe
+    flex-grow: 1
+    position: absolute
+    outline: none
+    border: none
+    min-height: 100%
+    width: 100%

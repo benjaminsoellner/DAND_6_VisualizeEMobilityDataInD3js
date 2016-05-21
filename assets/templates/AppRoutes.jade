@@ -1,11 +1,21 @@
 //output: AppRoutes.html
+//- Displays the navigation menu in a modal window 
 .app-nav.modal.fade#app-nav-views(tabindex="-1",role="dialog")
   .modal-dialog(role="document")
     .modal-content
+      //- Header contains close button and title supplied by directive
       .modal-header
         button.close(type="button",data-dismiss="modal") &times;
         h4.modal-title {{appRoutes.title}}
+      //- Body lists all the navigation options
       .modal-body
         ul.nav.nav-pills.nav-stacked(ng-repeat="route in appRoutes.all")
+          //- If the navigation menu entry is the currently active one, add the
+          //- class "active" 
           li(ng-class="{active: appRoutes.current.id==route.id}")
-            a(ng-href="#!{{route.path}}",onclick="$(this).parents('.modal').first().modal('hide');") {{route.name}}
+            //- When the hyperlink is clicked, jump to the correct page but also
+            //- hide the modal 
+            a(
+                ng-href="#!{{route.path}}",
+                onclick="$(this).parents('.modal').first().modal('hide');"
+              ) {{route.name}}

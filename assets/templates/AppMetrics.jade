@@ -1,2 +1,5 @@
 // output: AppMetrics.html
+//- Display all the metrics that the app-metrics directive wants us to show
+//- While we use an isolated scope in this template, the transcluded elements
+//- can access the outside scope (via app-transcope directive)
 div.app-metric(ng-repeat="metric in appMetrics.metrics",app-transcope)

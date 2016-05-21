@@ -1,8 +1,20 @@
 //output: AppDropdown.html
+//-
+//- Bootstrap button that displays the currently selected value
 button.btn.btn-default.dropdown-toggle(type="button",data-toggle="dropdown")
-  span(ng-if="!appDropdown.isPlaceholder") {{appDropdown.display}} 
-  span.ng-placeholder(ng-if="appDropdown.isPlaceholder") {{appDropdown.placeholder}} 
+  //- Display value - if we have something to display, that is
+  span(ng-if="!appDropdown.isPlaceholder") {{appDropdown.display}}
+  //- Otherwise display placeholder 
+  span.ng-placeholder(ng-if="appDropdown.isPlaceholder") {{appDropdown.placeholder}}
+  //- Display caret 
   span.caret
-ul.dropdown-menu.bullet
-  li(ng-repeat="item in appDropdown.list",ng-click="appDropdown.select(item)",ng-class="{active: appDropdown.isSelected(item)}")
+//- Bootstrap dropdown menu
+ul.dropdown-menu
+  //- Interate through items in dropdown list; if an item is clicked, invoke
+  //- select callback n controller; apply class "active" if item is highlighted
+  li(
+      ng-repeat="item in appDropdown.list",
+      ng-click="appDropdown.select(item)",
+      ng-class="{active: appDropdown.isSelected(item)}"
+    )
     a(href="") {{appDropdown.property !== undefined ? item[appDropdown.property] : item}}

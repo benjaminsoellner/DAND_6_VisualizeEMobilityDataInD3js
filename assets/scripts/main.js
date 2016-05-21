@@ -1,3 +1,4 @@
+// setup dependencies to external libraries
 require.config({
   baseUrl: 'assets/scripts',
   paths: {
@@ -19,6 +20,7 @@ require.config({
   }
 });
 
+// pull in all requirejs modules ...
 require(
     ["AppConfigurator", "AppMainController", "AppRoutesDirective",
       "AppExploreController", "AppDropdownDirective",
@@ -32,6 +34,7 @@ require(
           AppTranscopeDirective, AppMetricDirective, AppStoriesDirective,
           AppExplainController, AppSummaryDirective) {
 
+      // ... and create an angular module from them all
       angular.module("app-dand6", ["ngRoute"])
         .config(["$locationProvider", "$routeProvider",
                     AppConfigurator.factory])
@@ -50,6 +53,7 @@ require(
                     AppExplainController.factory])
         .directive("appSummary", [AppSummaryDirective.factory]);
 
+      // use manual bootstrapping to attach the module to the DOM
       angular.bootstrap(document, ['app-dand6']);
 
     }

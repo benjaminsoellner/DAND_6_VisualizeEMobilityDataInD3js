@@ -1,0 +1,30 @@
+{
+  "source": {
+    "excludePattern": "\\.min\\.js$"
+  },
+  "tags": {
+    "allowUnknownTags": true
+  },
+  "plugins": ["plugins/markdown"],
+  "templates": {
+    "logoFile": "../assets/images/dand6_coldbat_tiny.png",
+    "cleverLinks": false,
+    "monospaceLinks": false,
+    "dateFormat": "ddd MMM Do YYYY",
+    "outputSourceFiles": true,
+    "outputSourcePath": true,
+    "systemName": "DAND6 JSDoc",
+    "footer": "",
+    "copyright": "&copy; 2016 benkku.com",
+    "navType": "inline",
+    "theme": "paper",
+    "linenums": true,
+    "collapseSymbols": false,
+    "inverseNav": true,
+    "methodHeadingReturns": false
+  },
+  "markdown": {
+    "parser": "gfm",
+    "hardwrap": true
+  }
+}

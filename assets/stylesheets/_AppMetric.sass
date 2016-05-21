@@ -1,10 +1,14 @@
-/* element should not take up any space in container so it doesn't affect
-    growing / shrinking behaviour, it should also get all the space
-    it can */
+// app-metric angular directive to display a single metric graph, should always
+// be used inside app-metrics directive
 app-metric
+  // element should not add to the flow size of the content of the surrounding
+  // element (position: absolute) so it does not effect display: flex shrinking /
+  // growing behaviour; but it should take up any space in the container it can
+  // take up (width / height 100%)
   position: absolute
   width: 100%
   height: 100%
-/* all other elements should scale to height: 100% */
-app-metric div
-  height: 100%
+
+  /* any div elements inside should occupy full height */
+  div
+    height: 100%

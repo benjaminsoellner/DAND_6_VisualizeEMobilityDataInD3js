@@ -8,7 +8,8 @@
       </div>
       <div class="modal-body">
         <ul ng-repeat="route in appRoutes.all" class="nav nav-pills nav-stacked">
-          <li ng-class="{active: appRoutes.current.id==route.id}"><a ng-href="#!{{route.path}}" onclick="$(this).parents('.modal').first().modal('hide');">{{route.name}}</a></li>
+          <li ng-class="{active: appRoutes.current.id==route.id}"><a ng-href="#!{{route.path}}" onclick="$(this).parents('.modal').first().modal('hide');">{{route.name}}</a>
+          </li>
         </ul>
       </div>
     </div>

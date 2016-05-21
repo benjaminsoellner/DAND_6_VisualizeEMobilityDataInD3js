@@ -46,6 +46,8 @@ def summaryDfToJson(dataFrame):
         "xunit": u'°C',
         "ylabel": "State-of-Charge",
         "yunit": "%",
+        "tlabel": "Time",
+        "tunit": "s",
         "serieses": []
     }
     targetJson.append(targetMetric)

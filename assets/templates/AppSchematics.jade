@@ -1,2 +1,4 @@
 //output: AppSchematics.html
-<ng-include src="appSchematics.getSrcUrl()" data-onload="appSchematics.loaded()" />
+//- app-schematics directive includes an SVG and then manipulates it with the 
+//- controllers "loaded()" function. 
+ng-include(src="appSchematics.getSrcUrl()",data-onload="appSchematics.loaded()")

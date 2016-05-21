@@ -1,7 +1,10 @@
 //output: explore.html
+//- Explore Batteries view
 .app-view#app-explore
 
+  //- Left column lets me pick a battery
   .app-view-column
+    //- On the top, there is a view-control = a dropdown in a button group
     .app-view-control.btn-group
       app-dropdown(
           placeholder="Select Battery and Test Scenario",
@@ -10,19 +13,25 @@
           property="label",
           type="radio"
         )
-    .app-view-content.app-view-empty(ng-if="!appExplore.selectedScenario")
+    //- If there is no selected battery scenario, show a placeholder
+    .app-view-empty(ng-if="!appExplore.selectedScenario")
       .app-hand-up
         .glyphicon.glyphicon-hand-up
       .app-hand-right
         .glyphicon.glyphicon-hand-right
-      p Select a battery test scenario! we will show you how it looks like and how it performed in this area! 
+      p Select a battery test scenario! we will show you how it looks like and how it performed in this area!
+    //- If there is a selected battery scenario... 
     .app-view-content(ng-if="appExplore.selectedScenario.schematicsFile")
+      //- ... show the battery on top using the "app-schematics" directive
+      //- a "highlights" object in the contorller is used to communicate the 
+      //- visualization state between the components.
       app-schematics(
           svg="appExplore.selectedScenario.schematicsFile",
           serieses="appExplore.serieses",
           highlights="appExplore.highlights",
           dir="{{appExplore.dataDir}}"
         )
+      //- Below the schematics, there is a "story box"
       app-stories(
           ng-if="appExplore.stories"
           stories="appExplore.stories",
@@ -32,7 +41,9 @@
           homeurl="#!/explain?showStories=0"
         )
       
+  //- Right column lets me pick a few metrics
   .app-view-column
+    //- Again, on the top there is a view-control with a dropdown
     .app-view-control.btn-group(ng-if="appExplore.metrics.length")
       app-dropdown(
           placeholder="Select Metrics",
@@ -42,18 +53,25 @@
           property="label",
           type="checkbox"
         )
+      //- ... there is also a "Re-Fit to View" button to re-center the view
+      //- if we panned around too much.
       button.btn(
         ng-if="appExplore.highlights.looseness > 2",
         ng-click="appExplore.highlights.looseness = 2")
           span.glyphicon.glyphicon-fullscreen
           span.app-label &nbsp; Re-Fit to View 
+    //- If no metric is selected, a call to action is displayed.
+    .app-view-empty(ng-if="appExplore.selectedScenario && !appExplore.selectedMetrics.length")
+      .app-hand-up
+        .glyphicon.glyphicon-hand-up
+      p Select one or more metrics you would like to explore!
+    //- If a few metrics are selected, those are iterated through here:
+    //- app-metrics exposes a "metric" object to the inner scope
     .app-view-content(ng-if="appExplore.selectedMetrics.length")
       app-metrics(
           metrics="appExplore.selectedMetrics",
           highlights="appExplore.highlights"
         )
+        //- And here we display it as graph
         app-metric(metric="metric",highlights="appExplore.highlights")
-    .app-view-content.app-view-empty(ng-if="appExplore.selectedScenario && !appExplore.selectedMetrics.length")
-        .app-hand-up
-          .glyphicon.glyphicon-hand-up
-        p Select one or more metrics you would like to explore!
+    

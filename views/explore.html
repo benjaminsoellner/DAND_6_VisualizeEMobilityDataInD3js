@@ -4,14 +4,14 @@
     <div class="app-view-control btn-group">
       <app-dropdown placeholder="Select Battery and Test Scenario" list="appExplore.scenarios" selected="appExplore.selectedScenario" property="label" type="radio"></app-dropdown>
     </div>
-    <div ng-if="!appExplore.selectedScenario" class="app-view-content app-view-empty">
+    <div ng-if="!appExplore.selectedScenario" class="app-view-empty">
       <div class="app-hand-up">
         <div class="glyphicon glyphicon-hand-up"></div>
       </div>
       <div class="app-hand-right">
         <div class="glyphicon glyphicon-hand-right"></div>
       </div>
-      <p>Select a battery test scenario! we will show you how it looks like and how it performed in this area! </p>
+      <p>Select a battery test scenario! we will show you how it looks like and how it performed in this area!</p>
     </div>
     <div ng-if="appExplore.selectedScenario.schematicsFile" class="app-view-content">
       <app-schematics svg="appExplore.selectedScenario.schematicsFile" serieses="appExplore.serieses" highlights="appExplore.highlights" dir="{{appExplore.dataDir}}"></app-schematics>
@@ -23,16 +23,16 @@
       <app-dropdown placeholder="Select Metrics" list="appExplore.metrics" selected="appExplore.selectedMetrics" changed="appExplore.highlights.looseness = (appExplore.highlights.looseness &lt; 2 ? 2 : appExplore.highlights.looseness)" property="label" type="checkbox"></app-dropdown>
       <button ng-if="appExplore.highlights.looseness &gt; 2" ng-click="appExplore.highlights.looseness = 2" class="btn"><span class="glyphicon glyphicon-fullscreen"></span><span class="app-label">&nbsp; Re-Fit to View </span></button>
     </div>
-    <div ng-if="appExplore.selectedMetrics.length" class="app-view-content">
-      <app-metrics metrics="appExplore.selectedMetrics" highlights="appExplore.highlights">
-        <app-metric metric="metric" highlights="appExplore.highlights"></app-metric>
-      </app-metrics>
-    </div>
-    <div ng-if="appExplore.selectedScenario &amp;&amp; !appExplore.selectedMetrics.length" class="app-view-content app-view-empty">
+    <div ng-if="appExplore.selectedScenario &amp;&amp; !appExplore.selectedMetrics.length" class="app-view-empty">
       <div class="app-hand-up">
         <div class="glyphicon glyphicon-hand-up"></div>
       </div>
       <p>Select one or more metrics you would like to explore!</p>
+    </div>
+    <div ng-if="appExplore.selectedMetrics.length" class="app-view-content">
+      <app-metrics metrics="appExplore.selectedMetrics" highlights="appExplore.highlights">
+        <app-metric metric="metric" highlights="appExplore.highlights"></app-metric>
+      </app-metrics>
     </div>
   </div>
 </div>

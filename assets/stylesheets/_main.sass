@@ -1,6 +1,17 @@
-// Navigation
+// Navigation window
 
+// This is just a normal modal dialog, but we move it to the
 .app-nav.modal
+  // ... but we move it to the left of the screen, make it really tall (100vh),
+  // 20% width and remove the border radius
+  .modal-content
+    border-radius: 0px
+    position: fixed
+    top: 0px
+    height: 100vh
+    width: 20%
+    min-width: 350px
+  // let's also have some fancy animation when the navigation opens and closes
   &.fade .modal-dialog
     @include notransform()
     .modal-content
@@ -12,40 +23,39 @@
       @include transition-transform(all 0.3s ease-in-out)
       left: 0%
 
-  .modal-content
-    border-radius: 0px
-    position: fixed
-    top: 0px
-    height: 100vh
-    width: 20%
-    min-width: 350px
-
 // Main Grids
 
+// No padding for body except 60px at the top to make room for the header
 body
   padding: 0px
-  padding-top: 60px
+  padding-top: 50px
 
+// Everything griddy should stretch to 100% of it's parent
 ng-view, .app-view, .app-grid
   height: 100%
 
+// Main grid has a vertical flex flow and 50px padding at the bottom for the
+// .app-feedback button put there width position: fixed
 .app-grid
   display: flex
   flex-direction: column
   padding-bottom: 50px
 
+  // On the top of the grid, there is the nav bar / header. It has a horizontal
+  // flex flow.
   nav
     display: flex
     flex-direction: row
     padding: 10px
     height: 40px
     @include box-shadow(0 1px 3px rgba(0, 0, 0, 0.25))
-
+    // ... first, this navbar has a button to show the menu
     button
       width: auto
       padding: 5px
       padding-left: 10px
       padding-right: 10px
+    // ... what follow, is a title
     h1
       flex-grow: 1
       font-size: 30px
@@ -53,13 +63,15 @@ ng-view, .app-view, .app-grid
       padding-left: 5px
       padding-right: 5px
       white-space: nowrap
+      // ... with a small subtitle
       small
         color: #aaaaaa
-
+    // ... and on the far right, a little avatar image with shadow and label
     .app-bs
       float: right
       color: #aaaaaa
       width: 150px
+      // ... the avatar image is sort-of circly (border-radius 50%)
       img
         height: 50px
         width: 50px
@@ -74,32 +86,26 @@ ng-view, .app-view, .app-grid
         color: #aaaaaa
       a:hover
         text-decoration: underline
+    // for screens < 1200px we remove the subtitle
+    @media (max-width: 1200px)
+      h1 small
+        display: none
+      .app-bs
+        width: 55px
+    // for screens < 830px we also remove the avatar + label
+    @media (max-width: 830px)
+      .app-bs
+        display: none
 
-  @media (max-width: 1200px)
-    h1 small
-      display: none
-    .app-bs
-      width: 55px
-  @media (max-width: 830px)
-    .app-bs
-      display: none
-
+  // Below the nav-bar / header (still on the main grid) is the ng-view
+  // element that contains the currently selected view. It has a horizontal flow
   ng-view
     flex-grow: 1
     display: flex
     flex-direction: row
 
-    .app-view
-      &#app-explore
-        display: flex
-        flex-grow: 1
-        flex-direction: row
-
-      .app-view-panel
-        flex-grow: 1
-        overflow: hidden
-        margin-top: 5px
-
+// On the very bottom right, outside of the grid and positioned fixed on the
+// screen there is a button "Give Feedback".
 .app-feedback
   position: fixed
   bottom: 0

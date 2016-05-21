@@ -1,10 +1,20 @@
 //output: AppStories.html
+//- app-stories directive realizes the "storybox" of the visualization
+//- the "modal-content" class is applied if the storytelling is actually in 
+//- progress (signified by the "looseness" attribute being < 2). In this case
+//- CSS will take care that the storybox is shown and the "Return to Guided 
+//- Tour" button is hidden.
+//- The storybox doesn't show up at all if there is no story to tell 
+//- (appStories.stories.length == 0).
 div(ng-class="['app-stories',{'modal-content': appStories.highlights.looseness < 2}]",
     ng-if="appStories.stories.length > 0")
+  //- The actual story box
   .app-story-box
+    //- Header showing the close button ...
     .modal-header
       button.close(type="button",ng-click="appStories.highlights.looseness = 2") &times;
       .modal-title.btn-group
+        //- ... a dropdown to select a story
         app-dropdown(
           placeholder="Select Story",
           list="appStories.stories",
@@ -12,45 +22,61 @@ div(ng-class="['app-stories',{'modal-content': appStories.highlights.looseness <
           property="label",
           type="radio"
         )
+        //- ... and in case we already moved the mouse around a bit (resulting
+        //- to looseness being > 0) and in case there is a point to focus on
+        //- because the stories x and/or y coordinates are set, a button is 
+        //- shown to highlight the point again ("Highlight Point") setting the
+        //- looseness back to 0 and resulting in the story to be re-told. 
         button.btn(
             ng-if="appStories.highlights.looseness > 0 && (appStories.story.metricId || appStories.story.x || appStories.story.y)",
             ng-click="appStories.highlights.looseness = 0"
           )
             span.glyphicon.glyphicon-screenshot
             span.app-label &nbsp; Highlight Point 
+    //- The modal body contains the story's description.
     .modal-body 
       p {{appStories.story.desc}}
+    //- The modal footer contains various buttons...
     .modal-footer
+      //- An default "explore" button in case the "explore" attribute is set for
+      //- the directive and we haven't reached the end of the story-telling yet.
       button.btn.btn-default(
           ng-if="appStories.story.next && appStories.explore"
           ng-click="appStories.highlights.looseness = 2"
         )
           span.app-label Explore &nbsp; 
           span.glyphicon.glyphicon-glass
+      //- A default "home" button if there is still a "next" story to tell.
       a.btn.btn-default(
         ng-if="!appStories.story.prev && appStories.homeurl"
         ng-href="{{appStories.homeurl}}"
       )
         span.glyphicon.glyphicon-home
         span.app-label &nbsp; Back to Overview
+      //- A "prev" button if there is a "previous" story to tell.
       button.btn.btn-default(
           ng-if="appStories.story.prev"
           ng-click="appStories.goToStory(appStories.story.prev)"
         )
           span.glyphicon.glyphicon-menu-left
           span.app-label &nbsp; Back
+      //- A call-to-action "next" button if there is a "next" story to tell.
       button.btn.btn-primary(
           ng-if="appStories.story.next"
           ng-click="appStories.goToStory(appStories.story.next)"
         )
           span.app-label Proceed &nbsp;
           span.glyphicon.glyphicon-menu-right
+      //- A call-to-action "home" button if we have reached the end of the 
+      //- story telling and the homeurl is set.
       a.btn.btn-primary(
           ng-if="!appStories.story.next && appStories.homeurl"
           ng-href="{{appStories.homeurl}}"
         )
         span.glyphicon.glyphicon-home
         span.app-label &nbsp; Return to Overview
+      //- A call-to-action "explore" button if we have reached the end of the 
+      //- story telling and the explore attribute is set.
       button.btn.btn-primary(
           ng-if="!appStories.story.next && appStories.explore"
           ng-click="appStories.highlights.looseness = 2"
@@ -58,7 +84,9 @@ div(ng-class="['app-stories',{'modal-content': appStories.highlights.looseness <
         span.app-label Explore! &nbsp; 
         span.glyphicon.glyphicon-glass &nbsp;
         span.glyphicon.glyphicon-menu-right
-          
+  //- Show the "Return to Guided Tour" button in case the story-telling was
+  //- interrupted by the user while interacting with the graph (resulting in
+  //- looseness to be set to 0)
   button.app-story-button.btn(ng-click="appStories.highlights.looseness = 0")
     span.glyphicon.glyphicon-book
     span.app-label &nbsp; Return to Guided Tour

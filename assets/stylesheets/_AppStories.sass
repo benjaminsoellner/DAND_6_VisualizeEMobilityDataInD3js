@@ -1,17 +1,31 @@
-
+// app-stories angularjs directive - used to present a narrative with some
+// back/forward buttons etc. to the user
 app-stories
   margin-right: 30px
+
   .app-stories
+    // fade-in / fade-out can happen with 0.4s delay
     transition: all 0.4s ease
     display: inline-block
+
+    // actual story box; hide if not also ".modal-content" is applied
     .app-story-box
       display: none
+
+      // close button ("x") in header
       .close
         margin-top: 5px
         margin-left: 10px
+
+      // header button group: contains a dropdown with all the different
+      // stories and potentially a button to focus back on the point mentioned
+      // in the story
       .btn-group
         display: flex
         flex-direction: row
+
+        // dropdown should stretch across 100% of the header, word-wrap, but
+        // not grow vertically
         app-dropdown
           flex-grow: 1
           button, ul
@@ -20,15 +34,18 @@ app-stories
           button
             overflow: hidden
             max-height: 2.4em
+          // all texts of dropdown menu should be left-aligned
           .dropdown-toggle, .dropdown-menu
             text-align: left
-    .app-story-btn
-      display: box
+
+    // Only show story box if .modal-content is applied as well.
     &.modal-content
       box-shadow: 0px 2px 10px 0px gray
       display: block
-      .app-story-box
-        display: block
-        overflow: auto
+      // ... in this case, also hide the button "Return to guided tour"
       .app-story-button
         display: none
+      .app-story-box
+        display: block
+        // we don't want a story box that is too high
+        overflow: auto

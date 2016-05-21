@@ -1,0 +1,1517 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>DAND6 JSDoc Class: AppChartController</title>
+
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<link type="text/css" rel="stylesheet" href="styles/sunlight.default.css">
+
+	<link type="text/css" rel="stylesheet" href="styles/site.paper.css">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top navbar-inverse">
+<div class="container">
+	<div class="navbar-header">
+		<a class="navbar-brand" href="index.html"><img class="branding-logo" src="../assets/images/dand6_coldbat_tiny.png"
+		alt="logo"/>DAND6 JSDoc</a>
+		<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#topNavigation">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+        </button>
+	</div>
+	<div class="navbar-collapse collapse" id="topNavigation">
+		<ul class="nav navbar-nav">
+			
+			<li class="dropdown">
+				<a href="modules.list.html" class="dropdown-toggle" data-toggle="dropdown">Modules<b class="caret"></b></a>
+				<ul class="dropdown-menu inline">
+					<li><a href="module-AppChart.html">AppChart</a></li><li><a href="module-AppChartController.html">AppChartController</a></li><li><a href="module-AppChartPanel.html">AppChartPanel</a></li><li><a href="module-AppConfigurator.html">AppConfigurator</a></li><li><a href="module-AppConstants.html">AppConstants</a></li><li><a href="module-AppDropdownDirective.html">AppDropdownDirective</a></li><li><a href="module-AppExplainController.html">AppExplainController</a></li><li><a href="module-AppHelper.html">AppHelper</a></li><li><a href="module-AppMainController.html">AppMainController</a></li><li><a href="module-AppMetricDirective.html">AppMetricDirective</a></li><li><a href="module-AppMetricsDirective.html">AppMetricsDirective</a></li><li><a href="module-AppRoutesDirective.html">AppRoutesDirective</a></li><li><a href="module-AppSchematicsDirective.html">AppSchematicsDirective</a></li><li><a href="module-AppSeriesDirective.html">AppSeriesDirective</a></li><li><a href="module-AppStoriesDirectives.html">AppStoriesDirectives</a></li><li><a href="module-AppTranscopeDirective.html">AppTranscopeDirective</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
+				<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
+				<ul class="dropdown-menu inline">
+					<li><a href="module-AppChartController-AppChartController.html">AppChartController~AppChartController</a></li><li><a href="module-AppChartPanel-AppSummaryDirective.html">AppChartPanel~AppSummaryDirective</a></li><li><a href="module-AppChart-AppChart.html">AppChart~AppChart</a></li><li><a href="module-AppChart-AppGraphStrategy.html">AppChart~AppGraphStrategy</a></li><li><a href="module-AppChart-AppLineGraph.html">AppChart~AppLineGraph</a></li><li><a href="module-AppChart-AppScatterGraph.html">AppChart~AppScatterGraph</a></li><li><a href="module-AppConfigurator-AppConfigurator.html">AppConfigurator~AppConfigurator</a></li><li><a href="module-AppDropdownDirective-AppDropdownController.html">AppDropdownDirective~AppDropdownController</a></li><li><a href="module-AppDropdownDirective-AppDropdownDirective.html">AppDropdownDirective~AppDropdownDirective</a></li><li><a href="module-AppExplainController-AppExplainController.html">AppExplainController~AppExplainController</a></li><li><a href="module-AppExplainController-AppExploreController.html">AppExplainController~AppExploreController</a></li><li><a href="module-AppHelper-AppHelper.html">AppHelper~AppHelper</a></li><li><a href="module-AppMainController-AppMainController.html">AppMainController~AppMainController</a></li><li><a href="module-AppMetricDirective-AppMetricController.html">AppMetricDirective~AppMetricController</a></li><li><a href="module-AppMetricDirective-AppMetricDirective.html">AppMetricDirective~AppMetricDirective</a></li><li><a href="module-AppMetricsDirective-AppMetricsController.html">AppMetricsDirective~AppMetricsController</a></li><li><a href="module-AppMetricsDirective-AppMetricsDirective.html">AppMetricsDirective~AppMetricsDirective</a></li><li><a href="module-AppRoutesDirective-AppRoutesController.html">AppRoutesDirective~AppRoutesController</a></li><li><a href="module-AppRoutesDirective-AppRoutesDirective.html">AppRoutesDirective~AppRoutesDirective</a></li><li><a href="module-AppSchematicsDirective-AppSchematicsController.html">AppSchematicsDirective~AppSchematicsController</a></li><li><a href="module-AppSchematicsDirective-AppSchematicsDirective.html">AppSchematicsDirective~AppSchematicsDirective</a></li><li><a href="module-AppSeriesDirective-AppSeriesClassManipulator.html">AppSeriesDirective~AppSeriesClassManipulator</a></li><li><a href="module-AppSeriesDirective-AppSeriesColorManipulator.html">AppSeriesDirective~AppSeriesColorManipulator</a></li><li><a href="module-AppSeriesDirective-AppSeriesController.html">AppSeriesDirective~AppSeriesController</a></li><li><a href="module-AppSeriesDirective-AppSeriesDimensionManipulator.html">AppSeriesDirective~AppSeriesDimensionManipulator</a></li><li><a href="module-AppSeriesDirective-AppSeriesDirective.html">AppSeriesDirective~AppSeriesDirective</a></li><li><a href="module-AppSeriesDirective-AppSeriesManipulator.html">AppSeriesDirective~AppSeriesManipulator</a></li><li><a href="module-AppSeriesDirective-AppSeriesTextManipulator.html">AppSeriesDirective~AppSeriesTextManipulator</a></li><li><a href="module-AppStoriesDirectives-AppStoriesController.html">AppStoriesDirectives~AppStoriesController</a></li><li><a href="module-AppStoriesDirectives-AppStoriesDirective.html">AppStoriesDirectives~AppStoriesDirective</a></li><li><a href="module-AppTranscopeDirective-AppTranscopeDirective.html">AppTranscopeDirective~AppTranscopeDirective</a></li>
+				</ul>
+			</li>
+			
+		</ul>
+		<div class="col-sm-3 col-md-3">
+            <form class="navbar-form" role="search">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search" name="q" id="search-input">
+                    <div class="input-group-btn">
+                        <button class="btn btn-default" id="search-submit"><i class="glyphicon glyphicon-search"></i></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+	</div>
+
+</div>
+</div>
+
+
+<div class="container" id="toc-content">
+<div class="row">
+
+	
+	<div class="col-md-8">
+	
+		<div id="main">
+			
+
+	<h1 class="page-title">Class: AppChartController</h1>
+<section>
+
+<header>
+    
+        <h2>
+            <span class="ancestors"><a href="module-AppChartController.html">AppChartController</a>~</span>
+        
+        AppChartController
+        </h2>
+        
+    
+</header>
+
+
+<article>
+    <div class="container-overview">
+    
+        
+<hr>
+<dt>
+    <h4 class="name" id="AppChartController"><span class="type-signature"></span>new AppChartController($scope, $element, options)</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Sets up a controller to glue together the generic AppChart chart drawing<br>component with an AngularJS directive &amp; scope. The directive that uses this<br>controller must bind the following scope variables to the controller: <ul><br>  <li>highlights - the highlights object representing the internal<br>    visualization status</li><br>  <li>data - the data object to visualize</li><br></ul></p>
+    </div>
+    
+
+    
+
+    
+
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>$scope</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the AngularJS scope of the directive where the chart should<br>  be placed.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>$element</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the DOM element of the directive</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>some options that are specific to the directive<br>  implementation. An object with any of the following properties: <ul><br>  <li>dataTransformer - a function supplying a callback to transform<br>    chart data from a raw representation into a representation the<br>    AppChart class can deal with</li><br>  <li>ctrlName - the name of the controller object in the AngularJS scope<br>    </li><br>  </ul></p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="AppChartController.js.html">AppChartController.js</a>,
+				 <a href="AppChartController.js.html#sunlight-1-line-32">line 32</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        <dl>
+            
+<hr>
+<dt>
+    <h4 class="name" id=".getFactory"><span class="type-signature">&lt;static> </span>getFactory(options)</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Returns the factory function of the controller. The factory is used in<br>the directives .controller property. You have to specify some &quot;options&quot;<br>to the factory. The factory callback returned will accept exactly two<br>parameters: $scope and $element.</p>
+    </div>
+    
+
+    
+
+    
+
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>a JSON object with the following properties: <ul><br>  <li>dataTransformer - a function supplying a callback to transform<br>    chart data from a raw representation into a representation the<br>    AppChart class can deal with</li><br>  <li>ctrlName - the name of the controller object in the AngularJS scope<br>    </li><br>  </ul></p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="AppChartController.js.html">AppChartController.js</a>,
+				 <a href="AppChartController.js.html#sunlight-1-line-63">line 63</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id="dataUpdated"><span class="type-signature"></span>dataUpdated()</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>To be called if the data property of the associated data object in the<br>directive / controller is changed or initialized.</p>
+    </div>
+    
+
+    
+
+    
+
+    
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="AppChartController.js.html">AppChartController.js</a>,
+				 <a href="AppChartController.js.html#sunlight-1-line-110">line 110</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id="fitChart"><span class="type-signature"></span>fitChart()</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Initializes the display area (x- and y-axis domain) of the chart based<br>on whether the highlights object specifies an area the chart should<br>navigate to via the xRange property and base on whether the highlight<br>object's &quot;looseness&quot; property dictates that the chart should be re-fit<br>to the maximum viewable area.</p>
+    </div>
+    
+
+    
+
+    
+
+    
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="AppChartController.js.html">AppChartController.js</a>,
+				 <a href="AppChartController.js.html#sunlight-1-line-141">line 141</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id="highlightsUpdatedHandler"><span class="type-signature"></span>highlightsUpdatedHandler()</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Returns a callback that can be invoked if the highlights object supplied<br>to the directive / controller is changed. Will delegate the highlight<br>change to the included AppChart object.</p>
+    </div>
+    
+
+    
+
+    
+
+    
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="AppChartController.js.html">AppChartController.js</a>,
+				 <a href="AppChartController.js.html#sunlight-1-line-120">line 120</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id="link"><span class="type-signature"></span>link()</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>This function must be called when the directive using this controller links<br>the directive to a DOM element. It takes care of actually drawing the<br>chart into the DOM element.</p>
+    </div>
+    
+
+    
+
+    
+
+    
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="AppChartController.js.html">AppChartController.js</a>,
+				 <a href="AppChartController.js.html#sunlight-1-line-74">line 74</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id="loosenessUpdatedHandler"><span class="type-signature"></span>loosenessUpdatedHandler()</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Returns a callback that should be invoked any time the &quot;looseness&quot; value<br>of the highlights object is changed. The &quot;looseness&quot; value specifies<br>which amount of &quot;guiding&quot; the UI should enforce (looseness = 0:<br>storytelling mode, looseness 1 = storytelling mode with user<br>starting to explore the graph, looseness = 2: user has collapsed the<br>storytelling, looseness = 3: user has completely 'gone off on its own' and<br>selected other metrics, zoomed/panned in the graph etc.)</p>
+    </div>
+    
+
+    
+
+    
+
+    
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="AppChartController.js.html">AppChartController.js</a>,
+				 <a href="AppChartController.js.html#sunlight-1-line-286">line 286</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id="seriesHighlightedHandler"><span class="type-signature"></span>seriesHighlightedHandler()</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Returns a callback that should be invoked any time a series is highlighted.<br>The callback accepts exactly one parameter: the seriesId. Will take care<br>that the highlights object (seriesId and looseness) is updated accordingly.</p>
+    </div>
+    
+
+    
+
+    
+
+    
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="AppChartController.js.html">AppChartController.js</a>,
+				 <a href="AppChartController.js.html#sunlight-1-line-201">line 201</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id="seriesUnhighlightedHandler"><span class="type-signature"></span>seriesUnhighlightedHandler()</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Returns a callback that should be invoked any time a series is<br>unhighlighted. The callback accepts exactly one parameter: the seriesId.<br>Will take care that the highlights object (seriesId and looseness) is<br>updated accordingly.</p>
+    </div>
+    
+
+    
+
+    
+
+    
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="AppChartController.js.html">AppChartController.js</a>,
+				 <a href="AppChartController.js.html#sunlight-1-line-218">line 218</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id="xRangeUpdatedHandler"><span class="type-signature"></span>xRangeUpdatedHandler()</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Returns a callback that should be invoked every time the highlights.xRange<br>value is changed. Will take care that all charts scroll uniformely along<br>the x axis.</p>
+    </div>
+    
+
+    
+
+    
+
+    
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="AppChartController.js.html">AppChartController.js</a>,
+				 <a href="AppChartController.js.html#sunlight-1-line-185">line 185</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id="xyHighlightedHandler"><span class="type-signature"></span>xyHighlightedHandler()</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Returns a callback that should be invoked any time a x/y value in the<br>graph is highlighted (effectively, any time the mouse moves). Callback<br>will accept a x and y domain coordinate as its 2 parameters and update<br>highlights.x and highlights.y accordingly.</p>
+    </div>
+    
+
+    
+
+    
+
+    
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="AppChartController.js.html">AppChartController.js</a>,
+				 <a href="AppChartController.js.html#sunlight-1-line-249">line 249</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id="xyUnhighlightedHandler"><span class="type-signature"></span>xyUnhighlightedHandler()</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Returns a callback that should be invoked any time the mouse leaves the<br>graph area or no point at all is highlighted in the graph.</p>
+    </div>
+    
+
+    
+
+    
+
+    
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="AppChartController.js.html">AppChartController.js</a>,
+				 <a href="AppChartController.js.html#sunlight-1-line-265">line 265</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id="zoomedPannedHandler"><span class="type-signature"></span>zoomedPannedHandler()</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Returns a callback that should be invoked any time the x/y extent changes<br>because the user zooms or pans in the graph. Updates the highlights object<br>(xRange property) accordingly.</p>
+    </div>
+    
+
+    
+
+    
+
+    
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="AppChartController.js.html">AppChartController.js</a>,
+				 <a href="AppChartController.js.html#sunlight-1-line-234">line 234</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        </dl>
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+		</div>
+	</div>
+
+	<div class="clearfix"></div>
+
+	
+		<div class="col-md-3">
+			<div id="toc" class="col-md-3 hidden-xs hidden-sm hidden-md"></div>
+		</div>
+	
+
+</div>
+</div>
+
+<div class="modal fade" id="searchResults">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Search results</h4>
+      </div>
+      <div class="modal-body"></div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div>
+
+<footer>
+
+
+	<span class="copyright">
+	&copy; 2016 benkku.com
+	</span>
+
+<span class="jsdoc-message">
+	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a>
+	
+		on Sat May 21st 2016
+	
+	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
+</span>
+</footer>
+
+<script src="scripts/docstrap.lib.js"></script>
+<script src="scripts/toc.js"></script>
+<script type="text/javascript" src="scripts/fulltext-search-ui.js"></script>
+
+<script>
+$( function () {
+	$( "[id*='$']" ).each( function () {
+		var $this = $( this );
+
+		$this.attr( "id", $this.attr( "id" ).replace( "$", "__" ) );
+	} );
+
+	$( ".tutorial-section pre, .readme-section pre" ).each( function () {
+		var $this = $( this );
+
+		var example = $this.find( "code" );
+		exampleText = example.html();
+		var lang = /{@lang (.*?)}/.exec( exampleText );
+		if ( lang && lang[1] ) {
+			exampleText = exampleText.replace( lang[0], "" );
+			example.html( exampleText );
+			lang = lang[1];
+		} else {
+			var langClassMatch = example.parent()[0].className.match(/lang\-(\S+)/);
+			lang = langClassMatch ? langClassMatch[1] : "javascript";
+		}
+
+		if ( lang ) {
+
+			$this
+			.addClass( "sunlight-highlight-" + lang )
+			.addClass( "linenums" )
+			.html( example.html() );
+
+		}
+	} );
+
+	Sunlight.highlightAll( {
+		lineNumbers : true,
+		showMenu : true,
+		enableDoclinks : true
+	} );
+
+	$.catchAnchorLinks( {
+        navbarOffset: 10
+	} );
+	$( "#toc" ).toc( {
+		anchorName  : function ( i, heading, prefix ) {
+			var id = $( heading ).attr( "id" );
+			return id && id.replace(/\~/g, '-inner-').replace(/\./g, '-static-') || ( prefix + i );
+		},
+		selectors   : "#toc-content h1,#toc-content h2,#toc-content h3,#toc-content h4",
+		showAndHide : false,
+		smoothScrolling: true
+	} );
+
+	$( "#main span[id^='toc']" ).addClass( "toc-shim" );
+	$( '.dropdown-toggle' ).dropdown();
+
+    $( "table" ).each( function () {
+      var $this = $( this );
+      $this.addClass('table');
+    } );
+
+} );
+</script>
+
+
+
+<!--Navigation and Symbol Display-->
+
+
+<!--Google Analytics-->
+
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		SearcherDisplay.init();
+	});
+</script>
+
+</body>
+</html>

@@ -1,19 +1,93 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <!-- Using sass, I collapse all of my CSS code into one single minified CSS-->
     <link rel="stylesheet" href="assets/stylesheets/main.min.css">
+    <!-- I use Grunt + contrib-requirejs to "uglify" / "minify" my javascript -->
+    <!-- code. If you want to use the debuggable version, uncomment the code-->
+    <!-- below.-->
+    <!--script(data-main="assets/scripts/all.min.js",src="assets/scripts/ext/require.min.js")-->
     <script data-main="assets/scripts/main.js" src="assets/scripts/ext/require.min.js"></script>
+    <!-- Metadata for favicons-->
+    <link rel="apple-touch-icon" sizes="57x57" href="assets/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="assets/icons/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="assets/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="assets/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="assets/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="assets/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="assets/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="assets/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="assets/icons/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="assets/icons/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="assets/icons/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="assets/icons/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="assets/icons/manifest.json">
+    <link rel="mask-icon" href="assets/icons/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="shortcut icon" href="assets/icons/favicon.ico">
+    <meta name="msapplication-TileColor" content="#33b433">
+    <meta name="msapplication-TileImage" content="assets/icons/mstile-144x144.png">
+    <meta name="msapplication-config" content="assets/icons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Metadata for social snippets:-->
+    <meta property="og:image" content="assets/images/dand6_coolbat.png">
+    <meta property="og:title" content="Visualization of E-Mobility Performance">
+    <meta property="og:description" content="A cool visualization about electric cars created as a student project for Udacity's Data Analyst Nanodegree.">
   </head>
   <title>E-Mobility Battery Performance Visualization</title>
   <body ng-controller="appMain as main">
+    <!---->
+    <!-- ===========================================-->
+    <!-- Hello!-->
+    <!---->
+    <!-- In addition to D3.js this project uses AngularJS, a javascript client -->
+    <!-- library which supports component based JavaScript development. AngularJS -->
+    <!-- allows you to extend your HTML with additional components, custom HTML -->
+    <!-- tags so to say. If you see such a custom tag, e.g. <app-tag-name>, you -->
+    <!-- can find the associated files defining this component in those locations:-->
+    <!---->
+    <!--   javascript code:  assets/scripts/AppTagName.js,-->
+    <!--   template code:    assets/templates/AppTagName.html or .jade-->
+    <!--   css code:         assets/stylesheets/_AppTagName.sass or .css-->
+    <!---->
+    <!-- .sass and .jade are CSS and HTML preprocessors which allow you to write-->
+    <!-- CSS & HTML code more succinctly. Apart from this index.html file, you -->
+    <!-- will find HTML/CSS comments only in the preprocessor files and the -->
+    <!-- CSS & HTML files otherwise stripped off comments for performance reasons.-->
+    <!---->
+    <!-- Alongside those component-specific files described above, there are other-->
+    <!-- helper and content files in the respective directories.-->
+    <!---->
+    <!-- For example, if you want to look at the D3.js code specifically which -->
+    <!-- is responsible for generically drawing the scatter plot and line charts, -->
+    <!-- you might be exclusively interested in the file:-->
+    <!---->
+    <!--   assets/scripts/AppChart.js-->
+    <!---->
+    <!-- ... which will contain most of the code relevant for the Data Analyst-->
+    <!-- Nanodegree Assignment. -->
+    <!---->
+    <!-- Enjoy!-->
+    <!-- ===========================================-->
+    <!---->
+    <!-- app-routes displays the navigation structure as hidable sidebar-->
     <app-routes all="main.routes" current="main.currentRoute" title="Views"></app-routes>
+    <!-- contains the main grid-->
     <div class="app-grid">
+      <!-- top navigation bar -->
       <nav role=navigation class="navbar navbar-default navbar-fixed-top">
+        <!-- hamburger menu button-->
         <button type="button" data-toggle="modal" data-target="#app-nav-views" class="btn-group btn btn-default"><span class="glyphicon glyphicon-menu-hamburger"></span></button>
+        <!-- heading & subheading-->
         <h1>Visualizing E-Mobility Battery Performance<small>&nbsp; Project in my Udacity Data Analyst Nanodegree</small></h1>
+        <!-- avatar icon with link to website of author -->
         <div class="app-bs"><img src="assets/images/bs_picture.gif"><a href="http://www.benkku.com">by Benjamin <br /> S&ouml;llner</a></div>
       </nav>
+      <!-- the main view is placed here. Check out the views/*.html files for all-->
+      <!-- the files that can be included here. Those files are configured in -->
+      <!-- assets/scripts/AppConfigurator.js-->
       <ng-view></ng-view>
-    </div><a href="https://docs.google.com/forms/d/1QYO6jHJhTl4bjxkh0eHk51biyYBS2C5d_fYuI3cYiVo/viewform" class="app-feedback modal-content modal-header btn btn-default"> <span class="glyphicon glyphicon-comment">&nbsp;</span><span>Give Feedback</span></a>
+    </div>
+    <!-- Footer contains a link to a Google Form for submitting feedback.--><a href="https://docs.google.com/forms/d/1QYO6jHJhTl4bjxkh0eHk51biyYBS2C5d_fYuI3cYiVo/viewform" class="app-feedback modal-content modal-header btn btn-default"> <span class="glyphicon glyphicon-comment">&nbsp;</span><span>Give Feedback</span></a>
   </body>
 </html>

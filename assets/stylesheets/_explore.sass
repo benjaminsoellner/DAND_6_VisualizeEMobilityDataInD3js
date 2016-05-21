@@ -1,9 +1,14 @@
-
 // Exploratory View
 .app-view#app-explore
   padding-left: 10px
   padding-right: 10px
+  padding-top: 10px
+  display: flex
+  flex-grow: 1
+  flex-direction: row
 
+  // left & right column are 50% width each but should at least be 490px wide
+  // they have a vertical flex flow
   .app-view-column
     width: 50%
     min-width: 490px
@@ -12,13 +17,8 @@
     display: flex
     flex-direction: column
 
-  .app-view-content
-    flex-grow: 1
-    display: flex
-    flex-direction: column
-    overflow: auto
-    position: relative
-
+  // on top there is a "view control" - a dropdown to select a sub-view that
+  // stretches across all width and has a horizontal flex flow inside of it
   .app-view-control
     display: flex
     flex-direction: row
@@ -29,34 +29,54 @@
       .dropdown-toggle, .dropdown-menu
         text-align: left
 
+  // ... then, if nothing is selected, there is an "empty" view with a call to
+  // action and a hand guesture icon (.app-hand-up, .app-hand-right)
   .app-view-empty
     text-align: center
     display: block
     color: #aaa
     font-weight: bold
+    display: block
     .app-hand-up, .app-hand-right
       font-size: 32px
       margin: 20px
     .app-hand-right
       float: right
 
-  app-schematics
-    display: block
-    position: relative
-    min-height: 200px
+  // ... if something is selected, the view content has an independent vertical
+  // flex flow itself
+  .app-view-content
     flex-grow: 1
-    flex-shrink: 1
-    svg
-      max-height: 100%
-      min-height: 100%
-      position: absolute
+    display: flex
+    flex-direction: column
+    overflow: auto
+    position: relative
 
-  app-stories
-    margin-bottom: 10px
-    position: relative
-    flex-grow: 1
-    min-height: 200px
-    .app-stories
-      position: absolute
-      max-height: 100%
-      bottom: 0%
+    // in that view, there can, e.g., be a schematic view of the battery, that
+    // should grow to all available space but take up at least 200px
+    app-schematics
+      display: block
+      position: relative
+      min-height: 200px
+      flex-grow: 1
+      flex-shrink: 1
+      // the containing schematics should take up 100% of the available space
+      // but not influence flex-grow / -shrink of the surrounding element
+      // (position: absolute)
+      svg
+        max-height: 100%
+        min-height: 100%
+        position: absolute
+
+    // also, there can be a story box, that should be minimum 200px height
+    app-stories
+      margin-bottom: 10px
+      position: relative
+      flex-grow: 1
+      min-height: 200px
+      // again, the amount of text in the .app-stories box should not influence
+      // the outside flex-grow behaviour (position: absolute)
+      .app-stories
+        position: absolute
+        max-height: 100%
+        bottom: 0%

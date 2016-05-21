@@ -1,27 +1,45 @@
+// CSS attributes for any elements generated using the AppChart module
+// all chart things are in a .app-chart class
 g.app-chart
+
+  // 1st layer: grid
   g.grid.layer
+
+    // x & y axis label
     text.x.label
       font-size: 10pt
     text.y.label
       font-size: 10pt
+    // x & y axis
     line.axis
       stroke: black
       stroke-width: 1
+    // x & y ticks & grids
     g.ticks g
+      // lines with .short = ticks - origin (.zero): a little bit thicker
       line.short
         stroke: black
         &.zero
           stroke: black
           stroke-width: 2
+      // lines with .long = grids - only display the origin (.zero)!
       line.long
         display: none
         &.zero
           display: block
           stroke: #ddd
+      // texts = tick labels
       text
+
+  // 2nd layer: graph layer
   svg.graph.layer
+
+    // all-scroll cursor for zooming & panning
     cursor: all-scroll
+
+    // sublayer: series -
     g.series
+      // paths are thin, if highlighted, they are a little bit thicker
       path
         opacity: 0.5
         stroke-width: 2
@@ -29,42 +47,54 @@ g.app-chart
         path
           opacity: 1.0
           stroke-width: 4
+
+    // sublayer: markers -
+    // for scatter plots, hide markers that are not part of highlighted graphs
     &.scatter g.highlight.layer circle
       display: none
-    g.hotspot.layer
-      rect.hotspot
-        fill: #aaaaaa
-        opacity: 0.25
-        animation: pulse 2s infinite
-
-    g.highlight.layer ~ g.serieses.layer
-      fill: yellow !important
-      circle.marker, text.x, text.y, text.t
-        display: none
     g.highlight.layer
-      circle
-        stroke-width: 1
+      // ... but definetely do highlight any markers
+      // where the series is highlighted
       circle.highlighted
         display: block
+        // also make that circle a little bit thicker
         stroke-width: 2
+      circle
+        // make all the other marker circles a little bit thinner
+        stroke-width: 1
       circle.with-color-map.highlighted
+        // if there is a color map applied to a circle, let's see the stroke
+        // of that circle anyway
         stroke: black
+      // texts should be bold if the series is highlighted, otherwise not
       text
         display: none
         font-weight: bold
       text.highlighted
         display: block
+
+    // sublayer: hotspots
+    g.hotspot.layer
+      // hotspots should be gray, a little bit transparent and pulsating
+      rect.hotspot
+        fill: #aaaaaa
+        opacity: 0.25
+        animation: pulse 2s infinite
+
+  // any interactive rect should be transparent
   rect.interact
     stroke: transparent
     fill: transparent
+    // the rect catching zoom events should have a all-scroll cross cursor
     &.graph
       cursor: all-scroll
+    // the rects catching axis resizing events should have EW/NS cursors
     &.x.axis
       cursor: ew-resize
     &.y.axis
       cursor: ns-resize
 
-
+// animation for pulsating hotspot effect
 @keyframes pulse
   0%
     fill: transparent

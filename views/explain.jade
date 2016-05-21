@@ -1,15 +1,24 @@
 //output: explain.html
+//- Explain Performance in Electric Car Batteries View
 .app-view#app-explain
 
+  //- Left column shows a big battery view
   .app-view-column-left
+    //- On top, there is a caption
     h2.app-summary-title Heat and State-of-Charge Development of Hybrid Car Batteries in Different Conditions 
+    //- Below there is our summary visualization chart. A "highlights" object
+    //- from the appExplain controller object is used to communicate the 
+    //- status the user is currently using the visualization in; that is, 
+    //- which areas of a graph are currently highlighted etc.
     .app-summary-chart(ng-if="appExplain.summary")
       app-summary(
           data="appExplain.summary[0]",
           highlights="appExplain.highlights"
         )
   
+  //- Right column mostly shows the story box
   .app-view-column-right
+    //- Show the storybox, but only if there are stories to tell.
     app-stories(
         ng-if="appExplain.stories"
         stories="appExplain.stories",
@@ -18,6 +27,9 @@
         autohide="false",
         explore="true"
       )
+    //- Show the "continue to explorative views" description if story-telling
+    //- has ended. The links leading off from here are hard-coded (could be
+    //- put into the "data" folder at some points as well - perhaps...)
     .app-summary-explore(ng-if="appExplain.stories && appExplain.highlights.looseness == 2")
       h3 Explore the following battery simulation data sets:
       div
