@@ -26,14 +26,8 @@ define(["AppHelper", "AppChartController"], function(AppHelper, AppChartPanel) {
     };
     this.controllerAs = "appSummary";
     // create the controller based on the AppChartController class
-    options = {
-      dataTransformer: AppHelper.getSeriesDataTransformer("x", "y", "time"),
-      ctrlName: this.controllerAs,
-      graphType: "scatter",
-      alpha: 0.05
-    };
     this.controller = ["$scope", "$element",
-        AppChartController.getFactory(options)]
+        AppChartController.getFactory(this.controllerAs)]
   };
 
   /**
@@ -52,7 +46,18 @@ define(["AppHelper", "AppChartController"], function(AppHelper, AppChartPanel) {
    */
   AppSummaryDirective.prototype.link = function( $scope, $element, $attrs,
                                                 $controllers, $transclude ) {
-    $scope.appSummary.link();
+    dataTransformer = AppHelper.getSeriesDataTransformer("x", "y", "time")
+    chartOptions = {
+      graphType: "scatter",
+      xlabel: $scope.appSummary.data.xlabel,
+      xunit: $scope.appSummary.data.xunit,
+      ylabel: $scope.appSummary.data.ylabel,
+      yunit: $scope.appSummary.data.yunit,
+      tlabel: $scope.appSummary.data.tlabel,
+      tunit: $scope.appSummary.data.tunit,
+      alpha: 0.05
+    };
+    $scope.appSummary.link(dataTransformer, chartOptions);
   };
 
   return AppSummaryDirective;

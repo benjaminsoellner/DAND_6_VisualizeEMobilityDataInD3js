@@ -19,15 +19,14 @@ define(["AppHelper", "AppChartController"], function(AppHelper, AppChartControll
    * @param $scope the AngularJS scope of the directive where the chart should
    *   be placed.
    * @param $element the DOM element of the directive
-   * @param options some options that are specific to the directive
-   *   implementation (same as in AppChartController).
+   * @param ctrlName the name of the controller in the angularjs scope
    */
-  AppMetricController = function($scope, $element, options) {
+  AppMetricController = function($scope, $element, ctrlName) {
     // call super
-    AppChartController.call(this, $scope, $element, options);
+    AppChartController.call(this, $scope, $element, ctrlName);
     // add handlers for listening for selection of different metrics, zooming/
     // panning together on the x-axis and change of the "looseness" parameter.
-    n = options.ctrlName;
+    n = ctrlName;
     $scope.$watch(n + ".highlights.metricId",
         this.highlightsUpdatedHandler());
     $scope.$watch(n + ".highlights.metricId",
@@ -49,9 +48,9 @@ define(["AppHelper", "AppChartController"], function(AppHelper, AppChartControll
    * @static
    * @param options - see AppChartController.getFactory
    */
-  AppMetricController.getFactory = function(options) {
+  AppMetricController.getFactory = function(ctrlName) {
     return function($scope, $element) {
-      return new AppMetricController($scope, $element, options);
+      return new AppMetricController($scope, $element, ctrlName);
     };
   };
 
@@ -59,10 +58,13 @@ define(["AppHelper", "AppChartController"], function(AppHelper, AppChartControll
    * This function must be called when the directive using this controller links
    * the directive to a DOM element. It takes care of actually drawing the
    * chart into the DOM element.
+   * @param chartOptions the chart options to create the AppChart with
+   * @param dataTransformer the data transform function to apply to the data
+   *   before the chart is drawn
    */
-  AppMetricController.prototype.link = function() {
+  AppMetricController.prototype.link = function(dataTransformer, chartOptions) {
     // call super
-    AppChartController.prototype.link.call(this);
+    AppChartController.prototype.link.call(this, dataTransformer, chartOptions);
     // add handlers for mouse enter / exit to be able to react to mouse
     // hovering over one of the many metric graphs
     this.chart.attachMouseEnterHandler(this.metricHighlightedHandler());
@@ -195,13 +197,8 @@ define(["AppHelper", "AppChartController"], function(AppHelper, AppChartControll
     };
     this.controllerAs = "appMetric";
     // create the controller based on the AppMetricController class
-    options = {
-      dataTransformer: AppHelper.getSeriesDataTransformer("time", "data"),
-      ctrlName: this.controllerAs,
-      graphType: "line"
-    };
     this.controller = ["$scope", "$element",
-        AppMetricController.getFactory(options)];
+        AppMetricController.getFactory(this.controllerAs)];
   };
 
   /**
@@ -219,7 +216,16 @@ define(["AppHelper", "AppChartController"], function(AppHelper, AppChartControll
    */
   AppMetricDirective.prototype.link = function( $scope, $element, $attrs,
                                                 $controllers, $transclude ) {
-    $scope.appMetric.link();
+    dataTransformer = AppHelper.getSeriesDataTransformer("time", "data");
+    chartOptions = {
+      xlabel: "time",
+      xunit: "s",
+      ylabel: $scope.appMetric.data.label,
+      yunit: $scope.appMetric.data.unit,
+      colorMap: $scope.appMetric.data.dataColorMap,
+      graphType: "line"
+    };
+    $scope.appMetric.link(dataTransformer, chartOptions);
   };
 
   return AppMetricDirective;
