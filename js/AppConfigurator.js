@@ -35,17 +35,23 @@ define([], function() {
         name: "Explore Car Batteries!",
         id: "explore"
       })
-      // Project Documentation
-      .when('/whitepaper', {
-        templateUrl: "views/whitepaper.html",
-        name: "Technical Whitepaper",
-        id: "whitepaper"
+      // Readme
+      .when('/readme', {
+        redirectTo: "https://github.com/benjaminsoellner/DAND_6_VisualizeEMobilityDataInD3js/blob/master/README.md",
+        name: "Project Documentation on GitHub",
+        id: "readme"
       })
       // Documentation
       .when('/doc', {
         templateUrl: "views/doc.html",
-        name: "JavaScript API Documentation",
+        name: "Technical Documentation",
         id: "doc"
+      })
+      // Authors homepage
+      .when('/benkku', {
+        redirectTo: "http://www.benkku.com",
+        name: "Visit www.benkku.com",
+        id: "benkku"
       })
       // Default: homepage
       .otherwise({

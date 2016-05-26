@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>DAND6 JSDoc Tutorial: JSON Class Structure of Data Files</title>
+
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<link type="text/css" rel="stylesheet" href="styles/sunlight.default.css">
+
+	<link type="text/css" rel="stylesheet" href="styles/site.paper.css">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top navbar-inverse">
+<div class="container">
+	<div class="navbar-header">
+		<a class="navbar-brand" href="index.html"><img class="branding-logo" src="../images/dand6_coldbat_tiny.png"
+		alt="logo"/>DAND6 JSDoc</a>
+		<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#topNavigation">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+        </button>
+	</div>
+	<div class="navbar-collapse collapse" id="topNavigation">
+		<ul class="nav navbar-nav">
+			
+			<li class="dropdown">
+				<a href="modules.list.html" class="dropdown-toggle" data-toggle="dropdown">Modules<b class="caret"></b></a>
+				<ul class="dropdown-menu inline">
+					<li><a href="module-AppChart.html">AppChart</a></li><li><a href="module-AppChartController.html">AppChartController</a></li><li><a href="module-AppChartPanel.html">AppChartPanel</a></li><li><a href="module-AppConfigurator.html">AppConfigurator</a></li><li><a href="module-AppConstants.html">AppConstants</a></li><li><a href="module-AppDropdownDirective.html">AppDropdownDirective</a></li><li><a href="module-AppExplainController.html">AppExplainController</a></li><li><a href="module-AppHelper.html">AppHelper</a></li><li><a href="module-AppMainController.html">AppMainController</a></li><li><a href="module-AppMetricDirective.html">AppMetricDirective</a></li><li><a href="module-AppMetricsDirective.html">AppMetricsDirective</a></li><li><a href="module-AppRoutesDirective.html">AppRoutesDirective</a></li><li><a href="module-AppSchematicsDirective.html">AppSchematicsDirective</a></li><li><a href="module-AppSeriesDirective.html">AppSeriesDirective</a></li><li><a href="module-AppStoriesDirectives.html">AppStoriesDirectives</a></li><li><a href="module-AppTranscopeDirective.html">AppTranscopeDirective</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
+				<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
+				<ul class="dropdown-menu inline">
+					<li><a href="module-AppChartController-AppChartController.html">AppChartController~AppChartController</a></li><li><a href="module-AppChartPanel-AppSummaryDirective.html">AppChartPanel~AppSummaryDirective</a></li><li><a href="module-AppChart-AppChart.html">AppChart~AppChart</a></li><li><a href="module-AppChart-AppGraphStrategy.html">AppChart~AppGraphStrategy</a></li><li><a href="module-AppChart-AppLineGraph.html">AppChart~AppLineGraph</a></li><li><a href="module-AppChart-AppScatterGraph.html">AppChart~AppScatterGraph</a></li><li><a href="module-AppConfigurator-AppConfigurator.html">AppConfigurator~AppConfigurator</a></li><li><a href="module-AppDropdownDirective-AppDropdownController.html">AppDropdownDirective~AppDropdownController</a></li><li><a href="module-AppDropdownDirective-AppDropdownDirective.html">AppDropdownDirective~AppDropdownDirective</a></li><li><a href="module-AppExplainController-AppExplainController.html">AppExplainController~AppExplainController</a></li><li><a href="module-AppExplainController-AppExploreController.html">AppExplainController~AppExploreController</a></li><li><a href="module-AppHelper-AppHelper.html">AppHelper~AppHelper</a></li><li><a href="module-AppMainController-AppMainController.html">AppMainController~AppMainController</a></li><li><a href="module-AppMetricDirective-AppMetricController.html">AppMetricDirective~AppMetricController</a></li><li><a href="module-AppMetricDirective-AppMetricDirective.html">AppMetricDirective~AppMetricDirective</a></li><li><a href="module-AppMetricsDirective-AppMetricsController.html">AppMetricsDirective~AppMetricsController</a></li><li><a href="module-AppMetricsDirective-AppMetricsDirective.html">AppMetricsDirective~AppMetricsDirective</a></li><li><a href="module-AppRoutesDirective-AppRoutesController.html">AppRoutesDirective~AppRoutesController</a></li><li><a href="module-AppRoutesDirective-AppRoutesDirective.html">AppRoutesDirective~AppRoutesDirective</a></li><li><a href="module-AppSchematicsDirective-AppSchematicsController.html">AppSchematicsDirective~AppSchematicsController</a></li><li><a href="module-AppSchematicsDirective-AppSchematicsDirective.html">AppSchematicsDirective~AppSchematicsDirective</a></li><li><a href="module-AppSeriesDirective-AppSeriesClassManipulator.html">AppSeriesDirective~AppSeriesClassManipulator</a></li><li><a href="module-AppSeriesDirective-AppSeriesColorManipulator.html">AppSeriesDirective~AppSeriesColorManipulator</a></li><li><a href="module-AppSeriesDirective-AppSeriesController.html">AppSeriesDirective~AppSeriesController</a></li><li><a href="module-AppSeriesDirective-AppSeriesDimensionManipulator.html">AppSeriesDirective~AppSeriesDimensionManipulator</a></li><li><a href="module-AppSeriesDirective-AppSeriesDirective.html">AppSeriesDirective~AppSeriesDirective</a></li><li><a href="module-AppSeriesDirective-AppSeriesManipulator.html">AppSeriesDirective~AppSeriesManipulator</a></li><li><a href="module-AppSeriesDirective-AppSeriesTextManipulator.html">AppSeriesDirective~AppSeriesTextManipulator</a></li><li><a href="module-AppStoriesDirectives-AppStoriesController.html">AppStoriesDirectives~AppStoriesController</a></li><li><a href="module-AppStoriesDirectives-AppStoriesDirective.html">AppStoriesDirectives~AppStoriesDirective</a></li><li><a href="module-AppTranscopeDirective-AppTranscopeDirective.html">AppTranscopeDirective~AppTranscopeDirective</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
+				<a href="tutorials.list.html" class="dropdown-toggle" data-toggle="dropdown">Tutorials<b class="caret"></b></a>
+				<ul class="dropdown-menu inline">
+					<li><a href="tutorial-1FileDirectoryStructure.html">File & Directory Structure</a></li><li><a href="tutorial-2Terminology.html">Terminology</a></li><li><a href="tutorial-3JSONDataStructure.html">JSON Class Structure of Data Files</a></li><li><a href="tutorial-4Components.html">Components of the Application</a></li><li><a href="tutorial-5ComponentsInteraction.html">Interaction of the Components</a></li><li><a href="tutorial-6LayersAppChart.html">Layers in the AppChart D3.js Graph</a></li>
+				</ul>
+			</li>
+			
+		</ul>
+		<div class="col-sm-3 col-md-3">
+            <form class="navbar-form" role="search">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search" name="q" id="search-input">
+                    <div class="input-group-btn">
+                        <button class="btn btn-default" id="search-submit"><i class="glyphicon glyphicon-search"></i></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+	</div>
+
+</div>
+</div>
+
+
+<div class="container" id="toc-content">
+<div class="row">
+
+	
+	<div class="col-md-12">
+	
+		<div id="main">
+			<section class="tutorial-section">
+
+<header>
+    
+
+    <h2>JSON Class Structure of Data Files</h2>
+</header>
+
+<article>
+    <p>This chapter is especially useful for engineers who would want to re-purpose the visualization application to show other, custom battery data. It may also be re-used for completely different purposes. The following definitions serve as a specification about which JSON and SVG files inside of the <code>/data</code> directory the visualization application can handle.</p>
+<p>It is important to realize that both explanatory and exploratory visualization use the same data format. However, they are stored in different files and at some positions, one may contain some values which the other<br>does not.</p>
+<p>The following picture shows the different files (in bold) that are to be stored in <code>/data</code> and their relationship to each other. Filenames are written in bold, elements/files specific only to explanatory view in orange, elements/files specific only to exploratory view in blue.</p>
+<p><img src="../jsdoc/json_structure.png" alt="Structure and Relationship of the JSON Objects in the Data Files"></p>
+<p>For the <strong>explanatory visualization</strong> there are two files:</p>
+<ul>
+<li><code>summary.json</code> containing the explanatory visualization data (one single <em>Metric</em> object with three <em>Series</em> Objects, one for each driving situation)</li>
+<li><code>summary-stories.json</code> containing the stories accompaining the explanatory visualization.</li>
+</ul>
+<p>For the <strong>explorative visualization</strong> there are usually more files:</p>
+<ul>
+<li>One central <code>scenarios.json</code> file containing all <em>Scenario</em> objects, where each one references one of the following files:</li>
+<li><code>scenario-&lt;scenarioId&gt;.json</code> that, in a similar way to <code>summary.json</code>, contains the visualization data. Again, data is organized into multiple <em>Metrics</em> and from there into multiple <em>Series(es)</em>.</li>
+<li><code>scenario-&lt;scenarioId&gt;-stories.json</code> which contains all the stories for one single scenario.</li>
+<li><code>&lt;battery&gt;.svg</code> representing a schematic drawing of a battery that will be shown alongside with the scenario. This drawing can be designed in a standard SVG drawing tool and annotated with the special attribute <code>app-series</code> in order to make single shapes react dynamically to the user-selected value.</li>
+</ul>
+<p>The following sections go into deep-level technical detail about the individual JSON properties used in the data structure.</p>
+<h3>Properties of Scenario Objects</h3><ul>
+<li><code>id</code> (string): machine-readable ID that this scenario is referenced to. ID will be used in the URL as <code>scenarioId</code> URL-parameter.</li>
+<li><code>label</code> (string): human-readable label of this scenario - will be displayed on scenario selection dropdown.</li>
+<li><code>dataFile</code> (string): reference to the file containing metric &amp; series data (filename relative to <code>/data</code> directory).</li>
+<li><code>storiesFile</code> (string): reference to the file containing the story objects / narrative displayed in the storybox (filename relative to <code>/data</code> directory).</li>
+<li><code>schematicsFile</code> (string): reference to the SVG file containing the battery schematics displayed for the scenario (filename relative to <code>/data</code> directory).</li>
+</ul>
+<h3>Properties of Story Objects</h3><ul>
+<li><code>id</code> (string): machine-readable ID that this story is referenced to. in the explorative view, ID will be used in the URL as <code>storyId</code> URL-parameter.</li>
+<li><code>label</code> (string): human-readable label of this story - will be displayed in the story selection dropdown.</li>
+<li><code>desc</code> (string): longer text that contains the narrative of this story.</li>
+<li><code>metrics</code> (array of strings, optional): an array of <code>id</code>s of metric objects that should be shown when this story is selected. All other metrics shown at this time will be hidden. If this property is not set, the displayed metrics are not changed.</li>
+<li><code>x</code> (float, optional): if set, will focus the datapoint marker for all displayed metrics at the value closest to the supplied x-value; this has the same effect as hovering with your mouse over the data point.</li>
+<li><code>xRange</code> (2-element array of floats): if set, will zoom in to the data with the supplied x-min (1st element) &amp; x-max (2nd element).</li>
+<li><code>hotspots</code> (array of &quot;hotspot objects&quot;, optional): if set, will display highlighting boxes inside of some of the metric graphs. Each hotspot object consists of the following properties:<ul>
+<li><code>metric</code> (string): a reference to the <code>id</code> of the metric where the box should be displayed</li>
+<li><code>x0</code>, <code>x1</code>, <code>y0</code>, <code>y1</code> (all float): two data points defining two corners of the box to be displayed</li>
+</ul>
+</li>
+<li><code>series</code> (string, optional): reference to a series <code>id</code> value; if set inside of the explorative view, a certain series is explicitly highlighted, leading to this value being prominently labeled (and potentially highlighted in the schematics graphic)</li>
+<li><code>prev</code> (string, optional): reference to the prev story-<code>id</code> to be moved to by clicking the &quot;Back&quot; button.</li>
+<li><code>next</code> (string, optional): reference to the next story-<code>id</code> to be moved to by clicking the &quot;Proceed&quot; button.</li>
+</ul>
+<h3>Properties of Metric Objects</h3><ul>
+<li><code>id</code> (string): machine-readable ID that this metric is referenced to; is used when referencing to the metric, for example, from a story-object.</li>
+<li><code>label</code>, <code>xlabel</code>, <code>ylabel</code>, <code>tlabel</code> (string): human-readable description of the respective dimension of the data.<ul>
+<li>For the explanatory visualization, the x/y/t-axes need to be labeled independently from another.</li>
+<li>For the explorative visualization only the y-axis needs to be labeled with <code>label</code>. This value is also used to determine the label on the metrics dropdown box. The x-axis is assumed to be &quot;time&quot;.</li>
+</ul>
+</li>
+<li><code>unit</code>, <code>xunit</code>, <code>yunit</code>, <code>tunit</code> (string): human-readable label of the unit of the respective dimension of the data.<ul>
+<li>For the explanatory visualization, the x/y/t-units need to be specified independently from another.</li>
+<li>For the explorative visualization only the y-unit needs to be specified with <code>unit</code>. The x-unit is assumed to be &quot;s&quot; (seconds).</li>
+</ul>
+</li>
+<li><code>dataColorMap</code> (array of [float,string]-pairs, optional): if defined, sets up a color-mapping-scale on the y axis; only used in the explorative visualization; contains an array that specifies a number of key data points that should be mapped to specific color values - values in between are interpolated as gradients; each of the array elements contains another array with exactly two elements:<ul>
+<li>a float representing the y-value that should be mapped to a specific color</li>
+<li>a string representing the HTML color value this y-value should be mapped to</li>
+</ul>
+</li>
+<li><code>serieses</code> (array of Series objects): contains the data series(es) that are associated with this metric and should be shown together in one chart - see the next section for the structure of Series objects</li>
+</ul>
+<h3>Properties of Series Objects</h3><ul>
+<li><code>id</code> (string): machine-readable ID that this series is referenced to; is used when referencing to a series, for example, from a story object.</li>
+<li><code>label</code> (string): human-readable textual representation of this series.</li>
+<li><code>time</code>, <code>data</code> (array of floats): the data values (x &amp; y values) of the series for explorative data; both arrays need to have the same length.</li>
+<li><code>x</code>, <code>y</code>, <code>t</code> (array of floats): the data values (x, y &amp; t values) of the series for explanatory data; all three arrays need to have the same length.</li>
+<li><code>values</code>  (array of pairs/triplets of floats): the <code>time</code>, <code>data</code>, <code>x</code>, <code>y</code> &amp; <code>t</code> values are transformed internally in a nested representation that holds the x-, y- (and potentially t-) values together for every point; the <code>values</code> property is derived at runtime and not present in the persistent data</li>
+<li><code>markers</code> (array of marker objects, optional): may contain a number of &quot;marker&quot; objects. A marker object highlights a specific point in the data. A marker object contains the following properties:<ul>
+<li><code>x</code> or <code>t</code> (float): the coordinate to select the data point by</li>
+<li><code>coords</code> (array of any subset of <code>&quot;x&quot;</code>, <code>&quot;y&quot;</code>, <code>&quot;t&quot;</code>): specifies which data values to display alongside the marker</li>
+</ul>
+</li>
+<li><code>annotations</code> (array of annotation objects, optional): may contain a number of &quot;annotation&quot; objects. An annotation object is a free-form text displayed as overlay over the data. An annotation object contains the following properties:<ul>
+<li><code>x</code>, <code>y</code> (float): the coordinates of the first line baseline of the text</li>
+<li><code>anchor</code> (<code>&quot;start&quot;</code>, <code>&quot;middle&quot;</code> or <code>&quot;end&quot;</code>): specifies if the text is left, center or right justified</li>
+<li><code>lines</code> (array of strings): contains one string per text line to display</li>
+</ul>
+</li>
+<li><code>stickers</code> (array of sticker objects, optional): may contain a number of &quot;sticker&quot; objects. Stickers are external images that should be mapped onto the graph area. Those sticker objects can be specified using the following properties:<ul>
+<li><code>x0</code>, <code>x1</code>, <code>y0</code>, <code>y1</code> (all float): two data points defining two diagonally opposing corners of the sticker object</li>
+<li><code>src</code> (string): the filename of the sticker image relative to the base-directory off the AppChart (in this visualization: <code>/data</code>)</li>
+</ul>
+</li>
+<li><code>color</code> (string, optional): if set, draws the series with a specific color value</li>
+</ul>
+<h3>Usage of the app-series Attribute in SVGs</h3><p>This project will continuously be maintained by E-mobility engineers. Therefore, the SVG graphics representing the batteries need to be easily editable. I use a simple custom SVG attribute <code>app-series</code> which can be annotated to any SVG shape or element with state-of-the-art SVG image editors like InkScape. Adding this attribute to a shape inside of the SVG graphic leads to the fill color, text or display status of the SVG shape being updated dynamically dependent on the selected data series value.</p>
+<p>The <code>app-series</code> attribute accepts a JSON object which can have any combination of the following properties:</p>
+<ul>
+<li><code>fill</code>: use if you want the fill color of a shape to be changed to the color-mapped value of the series if a series value is selected. A <code>dataColorMap</code> needs to be specified for the associated metric.</li>
+<li><code>text</code>: use if you want the inner DOM-text of a DOM element to be changed to the value of the series if a series value is selected.</li>
+<li><code>show</code>: use if you want an SVG element to be shown or hidden dependent on whether this series is currently displayed or not.</li>
+</ul>
+<p>As value for any of those properties, specify a valid <code>series</code> id.</p>
+</article>
+
+</section>
+
+		</div>
+	</div>
+
+	<div class="clearfix"></div>
+
+	
+
+</div>
+</div>
+
+<div class="modal fade" id="searchResults">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Search results</h4>
+      </div>
+      <div class="modal-body"></div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div>
+
+<footer>
+
+
+	<span class="copyright">
+	&copy; 2016 benkku.com
+	</span>
+
+<span class="jsdoc-message">
+	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a>
+	
+		on Thu May 26th 2016
+	
+	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
+</span>
+</footer>
+
+<script src="scripts/docstrap.lib.js"></script>
+<script src="scripts/toc.js"></script>
+<script type="text/javascript" src="scripts/fulltext-search-ui.js"></script>
+
+<script>
+$( function () {
+	$( "[id*='$']" ).each( function () {
+		var $this = $( this );
+
+		$this.attr( "id", $this.attr( "id" ).replace( "$", "__" ) );
+	} );
+
+	$( ".tutorial-section pre, .readme-section pre" ).each( function () {
+		var $this = $( this );
+
+		var example = $this.find( "code" );
+		exampleText = example.html();
+		var lang = /{@lang (.*?)}/.exec( exampleText );
+		if ( lang && lang[1] ) {
+			exampleText = exampleText.replace( lang[0], "" );
+			example.html( exampleText );
+			lang = lang[1];
+		} else {
+			var langClassMatch = example.parent()[0].className.match(/lang\-(\S+)/);
+			lang = langClassMatch ? langClassMatch[1] : "javascript";
+		}
+
+		if ( lang ) {
+
+			$this
+			.addClass( "sunlight-highlight-" + lang )
+			.addClass( "linenums" )
+			.html( example.html() );
+
+		}
+	} );
+
+	Sunlight.highlightAll( {
+		lineNumbers : true,
+		showMenu : true,
+		enableDoclinks : true
+	} );
+
+	$.catchAnchorLinks( {
+        navbarOffset: 10
+	} );
+	$( "#toc" ).toc( {
+		anchorName  : function ( i, heading, prefix ) {
+			var id = $( heading ).attr( "id" );
+			return id && id.replace(/\~/g, '-inner-').replace(/\./g, '-static-') || ( prefix + i );
+		},
+		selectors   : "#toc-content h1,#toc-content h2,#toc-content h3,#toc-content h4",
+		showAndHide : false,
+		smoothScrolling: true
+	} );
+
+	$( "#main span[id^='toc']" ).addClass( "toc-shim" );
+	$( '.dropdown-toggle' ).dropdown();
+
+    $( "table" ).each( function () {
+      var $this = $( this );
+      $this.addClass('table');
+    } );
+
+} );
+</script>
+
+
+
+<!--Navigation and Symbol Display-->
+
+
+<!--Google Analytics-->
+
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		SearcherDisplay.init();
+	});
+</script>
+
+</body>
+</html>

@@ -16,6 +16,13 @@
             //- When the hyperlink is clicked, jump to the correct page but also
             //- hide the modal 
             a(
+                ng-if="!route.redirectTo"
                 ng-href="#!{{route.path}}",
                 onclick="$(this).parents('.modal').first().modal('hide');"
               ) {{route.name}}
+            a(
+                ng-if="route.redirectTo"
+                ng-href="{{route.redirectTo}}",
+                onclick="$(this).parents('.modal').first().modal('hide');"
+              ) {{route.name}} &nbsp;
+              span.glyphicon.glyphicon-log-out

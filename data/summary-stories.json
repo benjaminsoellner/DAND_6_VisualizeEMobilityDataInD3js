@@ -6,23 +6,23 @@
     "next": "acceleratenbreak"
   },
   {
-    "id": "rangecert",
-    "label": "Driving long-range",
-    "desc": "During long-range driving, the car will mostly drive electrically and the battery will discharge slowly. Getting a high milage out of a single charge is key, so the State-of-Charge should remain constant as long as possible and only decrease slowly.",
-    "prev": "acceleratenbreak",
-    "next": "winter",
-    "hotspots": [
-      {"metric": "temp_mean_vs_soc", "x0": 20, "y0": 90, "x1": 80, "y1": 105}
-    ]
-  },
-  {
     "id": "acceleratenbreak",
     "label": "Driving sportively",
     "desc": "If you have a hybrid car and you drive it very fast (or 'sportively') the battery will heat up; after some 'boosts' of accellerating and breaking, the battery itself may not be able anymore to supply the full power. Your traditional fossil fuel engine will take over and re-charge the battery, increasing state-of-charge.",
     "prev": "intro",
     "next": "rangecert",
     "hotspots": [
-      {"metric": "temp_mean_vs_soc", "x0": 20, "y0": 30, "x1": 85, "y1": 50}
+      {"metric": "temp_mean_vs_soc", "x0": 20, "y0": 30, "x1": 90, "y1": 55}
+    ]
+  },
+  {
+    "id": "rangecert",
+    "label": "Driving long-range",
+    "desc": "During long-range driving, the car will mostly drive electrically and the battery will discharge slowly. Getting a high milage out of a single charge is key, so the State-of-Charge should remain constant as long as possible and only decrease slowly.",
+    "prev": "acceleratenbreak",
+    "next": "winter",
+    "hotspots": [
+      {"metric": "temp_mean_vs_soc", "x0": 20, "y0": 80, "x1": 85, "y1": 105}
     ]
   },
   {
@@ -32,7 +32,7 @@
     "prev": "rangecert",
     "next": "outro",
     "hotspots": [
-      {"metric": "temp_mean_vs_soc", "x0": -50, "y0": 63, "x1": 5, "y1": 90}
+      {"metric": "temp_mean_vs_soc", "x0": -60, "y0": 63, "x1": 5, "y1": 95}
     ]
   },
   {

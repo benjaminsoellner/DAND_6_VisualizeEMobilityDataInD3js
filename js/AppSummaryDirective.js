@@ -6,7 +6,8 @@
  * @module AppChartPanel
  * @exports AppChartPanel
  */
-define(["AppHelper", "AppChartController"], function(AppHelper, AppChartPanel) {
+define(["AppHelper", "AppChartController", "AppConstants"],
+      function(AppHelper, AppChartPanel, AppConstants) {
 
   /**
    * The &lt;app-summary&gt; directive. Supports the following attributes: <ul>
@@ -49,6 +50,7 @@ define(["AppHelper", "AppChartController"], function(AppHelper, AppChartPanel) {
     dataTransformer = AppHelper.getSeriesDataTransformer("x", "y", "time")
     chartOptions = {
       graphType: "scatter",
+      baseDir: AppConstants.DATA_DIR,
       xlabel: $scope.appSummary.data.xlabel,
       xunit: $scope.appSummary.data.xunit,
       ylabel: $scope.appSummary.data.ylabel,

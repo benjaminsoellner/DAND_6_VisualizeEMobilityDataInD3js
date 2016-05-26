@@ -46,7 +46,8 @@ define([], function() {
             self.routes.push({
               path: path,
               id: route.id,
-              name: route.name
+              name: route.name,
+              redirectTo: route.redirectTo
             });
             ids.push(route.id);
           }

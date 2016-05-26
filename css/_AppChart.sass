@@ -77,8 +77,10 @@ g.app-chart
     g.hotspot.layer
       // hotspots should be gray, a little bit transparent and pulsating
       rect.hotspot
-        fill: #aaaaaa
-        opacity: 0.25
+        stroke: #cccccc
+        stroke-width: 3px
+        stroke-dasharray: 5px, 5px
+        fill: transparent
         animation: pulse 2s infinite
 
   // any interactive rect should be transparent
@@ -93,12 +95,3 @@ g.app-chart
       cursor: ew-resize
     &.y.axis
       cursor: ns-resize
-
-// animation for pulsating hotspot effect
-@keyframes pulse
-  0%
-    fill: transparent
-  25%
-    fill: #aaaaaa
-  100%
-    fill: transparent

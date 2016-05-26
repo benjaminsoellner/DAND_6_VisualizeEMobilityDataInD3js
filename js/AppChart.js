@@ -98,12 +98,32 @@ define(["d3", "resizeSensor"], function() {
     seriesesNode.each(function(d) {
         // if the series has annotations defined
         if (d.annotations) {
-          // memorize the series's specific DOM node (should be a g-element)
           g = d3.select(this);
+          // memorize the series's specific DOM node (should be a g-element)
           // delegate back to AppGraph.prototype.drawAnnotations(...)
           self.chart.drawAnnotations(d.annotations, g);
         }
       });
+  };
+
+  /**
+   * Draws the stickers saved with each data series
+   * The method delegates back to the base charts drawStickers(...) function.
+   * @param seriesesNode the DOM node where all the data serieses are attached
+   *   with their respective "stickers" property via d3's data(...) function.
+   */
+  AppGraphStrategy.prototype.drawStickers = function(seriesesNode) {
+    var self = this;
+    // iterate through all serieses
+    seriesesNode.each(function(d) {
+      // if the series has stickers defined
+      if (d.stickers) {
+        // memorize the series's specific DOM node (should be a g-element)
+        g = d3.select(this);
+        // delegate back to AppGraph.prototype.drawStickers(...)
+        self.chart.drawStickers(d.stickers, g);
+      }
+    });
   };
 
   /**
@@ -167,6 +187,9 @@ define(["d3", "resizeSensor"], function() {
    *   with their respective datapoints in the "values" property.
    */
   AppLineGraph.prototype.drawSerieses = function(seriesesNode) {
+    // draw stickers first, they should be at the bottom
+    this.drawStickers(seriesesNode);
+    // then draw serieses
     AppGraphStrategy.prototype.drawSerieses.call(this, seriesesNode);
     var self = this;
     // remove all old lines
@@ -252,7 +275,8 @@ define(["d3", "resizeSensor"], function() {
   AppScatterGraph.prototype.drawSerieses = function(seriesesNode) {
     AppGraphStrategy.prototype.drawSerieses.call(this, seriesesNode);
     var self = this;
-    // iterate through all the serieses
+    // draw stickers first (at the bottom)
+    this.drawStickers(seriesesNode);
     seriesesNode.each(function(d) {
         // memorize the series's element (should be <g> but whatever)
         g = d3.select(this);
@@ -294,6 +318,8 @@ define(["d3", "resizeSensor"], function() {
    *   <li>ylabel - the caption of the y axis</li>
    *   <li>title - the text of the graph title</li>
    *   <li>graphType - one of "line" or "scatter"</li>
+   *   <li>baseDir - base directory to look into if urls are referenced from
+   *     the data</li>
    *   </ul>
    */
   AppChart = function(containerNode, options) {
@@ -304,6 +330,9 @@ define(["d3", "resizeSensor"], function() {
     this.containerNode = containerNode;
     // read options
     this.options = options || {};
+    // set defaults
+    if (! this.options.baseDir)
+      this.options.baseDir = ".";
     // set up color map
     this.colorMap = this.options.colorMap;
     if (this.colorMap)
@@ -334,8 +363,10 @@ define(["d3", "resizeSensor"], function() {
     // set up scales (linear in x- and y-direction)
     this.y = d3.scale.linear();
     this.x = d3.scale.linear();
-    // first level: SVG top level element
+    // first level: SVG top level element, xlink is used for referencing
+    // other sub-images by URL
     this.svgNode = d3.select(this.containerNode).append("svg")
+        .attr("xmlns:xlink", "http://www.w3.org/1999/xlink")
         .on("mouseenter", this.mouseEnterHandler())
         .on("mouseleave", this.mouseLeaveHandler());
     // second level: <g> element grouping all the layers
@@ -392,20 +423,14 @@ define(["d3", "resizeSensor"], function() {
     // sublayer 1: graph layer is used for catching mouse events
     this.interactGraph = this.graphLayer.append("rect")
         .attr("class", "interact graph");
-    // sublayer 2: "hotspots" (little flashy rects to tell stories in
+    // sublayer 2: "hotspots" (little rects to tell stories in
     //    explorative views)
     this.hotspotLayer = this.graphLayer.append("g")
         .attr("class", "hotspot layer");
     // sublayer 3: layer to display the actual data
     this.seriesesLayer = this.graphLayer.append("g")
         .attr("class", "serieses layer");
-    // sublayer 4: markers of single data points
-    this.markerLayer = this.graphLayer.append("g")
-        .attr("class", "marker layer");
-    // sublayer 5: annotations (text overlays), also used for explorative view
-    this.annotationLayer = this.graphLayer.append("g")
-        .attr("class", "annotation layer");
-    // sublayer 6: shows elements that highlight areas interactively
+    // sublayer 4: shows elements that highlight areas interactively
     this.highlightLayer = this.graphLayer.append("g")
         .attr("class", "highlight layer");
     this.highlightXYNode = this.highlightLayer.append("g");
@@ -875,6 +900,37 @@ define(["d3", "resizeSensor"], function() {
     // un the rect-area below it)
     this.graphLayer.call(
         d3.behavior.zoom().x(this.x).y(this.y).on("zoom", this.zoomHandler()));
+  };
+
+  /**
+   * Redraws the graphs stickers. Needs to be supplied with a sticker array.
+   * This method is usually called from the graph strategy.
+   * @param data the sticker data to draw on the graph - an array of
+   *   sticker objects, each with the following properties: <ul>
+   *     <li>x0, y0 - one corner to draw the sticker to</li>
+   *     <li>x1, y1 - the diagonally opposite corner to draw the sticker to</li>
+   *     <li>src - filename (relative to graphOptions.baseDir) of the
+   *       sticker</li>
+   *   </ul>
+   * @param container the container to draw the stickers into
+   */
+  AppChart.prototype.drawStickers = function(data, container) {
+    var self = this;
+    stickerSel = container.selectAll("image.sticker");
+    sticker = stickerSel.data(data);
+    sticker.exit().remove();
+    stickerEnter = sticker.enter().append("image").attr("class", "sticker");
+    sticker
+    .attr("x",
+        function (d) { return Math.min(self.x(d.x0),self.x(d.x1)); })
+    .attr("y",
+        function (d) { return Math.min(self.y(d.y0),self.y(d.y1)); })
+    .attr("width",
+        function (d) { return Math.abs(self.x(d.x1)-self.x(d.x0)); })
+    .attr("height",
+        function (d) { return Math.abs(self.y(d.y0)-self.y(d.y1)); })
+    .attr("xlink:href",
+        function(d) { return self.options.baseDir + "/" + d.src; });
   };
 
   /**

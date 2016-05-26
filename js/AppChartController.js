@@ -27,7 +27,6 @@ define(["AppChart"], function(AppChart) {
     this.container = $element.children().first()[0];
     // memorize scope since some callbacks will use $scope.$apply(...)
     this.$scope = $scope;
-    // only carry over known options
     // attach handlers to "highlights" object
     n = ctrlName;
     $scope.$watch(n + ".highlights.x", this.highlightsUpdatedHandler());

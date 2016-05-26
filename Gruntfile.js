@@ -22,9 +22,10 @@ module.exports = function(grunt) {
         src: ["js/*.js"],
         options: {
           destination: "doc",
-          configure: "jsdoc/jsdoc.config.json",
+          configure: "jsdoc.config.json",
           template: "node_modules/ink-docstrap/template",
-          readme: "jsdoc/jsdoc-home.md"
+          readme: "jsdoc-home.md",
+          tutorials: "jsdoc"
         }
       }
     }

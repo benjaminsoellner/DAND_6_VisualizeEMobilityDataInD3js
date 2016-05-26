@@ -6,7 +6,8 @@
  * @module AppMetricDirective
  * @exports AppMetricDirective
  */
-define(["AppHelper", "AppChartController"], function(AppHelper, AppChartController) {
+define(["AppHelper", "AppChartController", "AppConstants"],
+      function(AppHelper, AppChartController, AppConstants) {
 
   /**
    * Sets up a controller to glue together the generic AppChart chart drawing
@@ -223,7 +224,8 @@ define(["AppHelper", "AppChartController"], function(AppHelper, AppChartControll
       ylabel: $scope.appMetric.data.label,
       yunit: $scope.appMetric.data.unit,
       colorMap: $scope.appMetric.data.dataColorMap,
-      graphType: "line"
+      graphType: "line",
+      baseDir: AppConstants.DATA_DIR
     };
     $scope.appMetric.link(dataTransformer, chartOptions);
   };

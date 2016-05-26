@@ -1,0 +1,20 @@
+{
+  "1FileDirectoryStructure": {
+    "title": "File & Directory Structure"
+  },
+  "2Terminology": {
+    "title": "Terminology"
+  },
+  "3JSONDataStructure": {
+    "title": "JSON Class Structure of Data Files"
+  },
+  "4Components": {
+    "title": "Components of the Application"
+  },
+  "5ComponentsInteraction": {
+    "title": "Interaction of the Components"
+  },
+  "6LayersAppChart": {
+    "title": "Layers in the AppChart D3.js Graph"
+  }
+}

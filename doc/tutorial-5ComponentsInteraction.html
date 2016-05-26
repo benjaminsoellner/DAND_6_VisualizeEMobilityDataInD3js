@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>DAND6 JSDoc Tutorial: Interaction of the Components</title>
+
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<link type="text/css" rel="stylesheet" href="styles/sunlight.default.css">
+
+	<link type="text/css" rel="stylesheet" href="styles/site.paper.css">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top navbar-inverse">
+<div class="container">
+	<div class="navbar-header">
+		<a class="navbar-brand" href="index.html"><img class="branding-logo" src="../images/dand6_coldbat_tiny.png"
+		alt="logo"/>DAND6 JSDoc</a>
+		<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#topNavigation">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+        </button>
+	</div>
+	<div class="navbar-collapse collapse" id="topNavigation">
+		<ul class="nav navbar-nav">
+			
+			<li class="dropdown">
+				<a href="modules.list.html" class="dropdown-toggle" data-toggle="dropdown">Modules<b class="caret"></b></a>
+				<ul class="dropdown-menu inline">
+					<li><a href="module-AppChart.html">AppChart</a></li><li><a href="module-AppChartController.html">AppChartController</a></li><li><a href="module-AppChartPanel.html">AppChartPanel</a></li><li><a href="module-AppConfigurator.html">AppConfigurator</a></li><li><a href="module-AppConstants.html">AppConstants</a></li><li><a href="module-AppDropdownDirective.html">AppDropdownDirective</a></li><li><a href="module-AppExplainController.html">AppExplainController</a></li><li><a href="module-AppHelper.html">AppHelper</a></li><li><a href="module-AppMainController.html">AppMainController</a></li><li><a href="module-AppMetricDirective.html">AppMetricDirective</a></li><li><a href="module-AppMetricsDirective.html">AppMetricsDirective</a></li><li><a href="module-AppRoutesDirective.html">AppRoutesDirective</a></li><li><a href="module-AppSchematicsDirective.html">AppSchematicsDirective</a></li><li><a href="module-AppSeriesDirective.html">AppSeriesDirective</a></li><li><a href="module-AppStoriesDirectives.html">AppStoriesDirectives</a></li><li><a href="module-AppTranscopeDirective.html">AppTranscopeDirective</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
+				<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
+				<ul class="dropdown-menu inline">
+					<li><a href="module-AppChartController-AppChartController.html">AppChartController~AppChartController</a></li><li><a href="module-AppChartPanel-AppSummaryDirective.html">AppChartPanel~AppSummaryDirective</a></li><li><a href="module-AppChart-AppChart.html">AppChart~AppChart</a></li><li><a href="module-AppChart-AppGraphStrategy.html">AppChart~AppGraphStrategy</a></li><li><a href="module-AppChart-AppLineGraph.html">AppChart~AppLineGraph</a></li><li><a href="module-AppChart-AppScatterGraph.html">AppChart~AppScatterGraph</a></li><li><a href="module-AppConfigurator-AppConfigurator.html">AppConfigurator~AppConfigurator</a></li><li><a href="module-AppDropdownDirective-AppDropdownController.html">AppDropdownDirective~AppDropdownController</a></li><li><a href="module-AppDropdownDirective-AppDropdownDirective.html">AppDropdownDirective~AppDropdownDirective</a></li><li><a href="module-AppExplainController-AppExplainController.html">AppExplainController~AppExplainController</a></li><li><a href="module-AppExplainController-AppExploreController.html">AppExplainController~AppExploreController</a></li><li><a href="module-AppHelper-AppHelper.html">AppHelper~AppHelper</a></li><li><a href="module-AppMainController-AppMainController.html">AppMainController~AppMainController</a></li><li><a href="module-AppMetricDirective-AppMetricController.html">AppMetricDirective~AppMetricController</a></li><li><a href="module-AppMetricDirective-AppMetricDirective.html">AppMetricDirective~AppMetricDirective</a></li><li><a href="module-AppMetricsDirective-AppMetricsController.html">AppMetricsDirective~AppMetricsController</a></li><li><a href="module-AppMetricsDirective-AppMetricsDirective.html">AppMetricsDirective~AppMetricsDirective</a></li><li><a href="module-AppRoutesDirective-AppRoutesController.html">AppRoutesDirective~AppRoutesController</a></li><li><a href="module-AppRoutesDirective-AppRoutesDirective.html">AppRoutesDirective~AppRoutesDirective</a></li><li><a href="module-AppSchematicsDirective-AppSchematicsController.html">AppSchematicsDirective~AppSchematicsController</a></li><li><a href="module-AppSchematicsDirective-AppSchematicsDirective.html">AppSchematicsDirective~AppSchematicsDirective</a></li><li><a href="module-AppSeriesDirective-AppSeriesClassManipulator.html">AppSeriesDirective~AppSeriesClassManipulator</a></li><li><a href="module-AppSeriesDirective-AppSeriesColorManipulator.html">AppSeriesDirective~AppSeriesColorManipulator</a></li><li><a href="module-AppSeriesDirective-AppSeriesController.html">AppSeriesDirective~AppSeriesController</a></li><li><a href="module-AppSeriesDirective-AppSeriesDimensionManipulator.html">AppSeriesDirective~AppSeriesDimensionManipulator</a></li><li><a href="module-AppSeriesDirective-AppSeriesDirective.html">AppSeriesDirective~AppSeriesDirective</a></li><li><a href="module-AppSeriesDirective-AppSeriesManipulator.html">AppSeriesDirective~AppSeriesManipulator</a></li><li><a href="module-AppSeriesDirective-AppSeriesTextManipulator.html">AppSeriesDirective~AppSeriesTextManipulator</a></li><li><a href="module-AppStoriesDirectives-AppStoriesController.html">AppStoriesDirectives~AppStoriesController</a></li><li><a href="module-AppStoriesDirectives-AppStoriesDirective.html">AppStoriesDirectives~AppStoriesDirective</a></li><li><a href="module-AppTranscopeDirective-AppTranscopeDirective.html">AppTranscopeDirective~AppTranscopeDirective</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
+				<a href="tutorials.list.html" class="dropdown-toggle" data-toggle="dropdown">Tutorials<b class="caret"></b></a>
+				<ul class="dropdown-menu inline">
+					<li><a href="tutorial-1FileDirectoryStructure.html">File & Directory Structure</a></li><li><a href="tutorial-2Terminology.html">Terminology</a></li><li><a href="tutorial-3JSONDataStructure.html">JSON Class Structure of Data Files</a></li><li><a href="tutorial-4Components.html">Components of the Application</a></li><li><a href="tutorial-5ComponentsInteraction.html">Interaction of the Components</a></li><li><a href="tutorial-6LayersAppChart.html">Layers in the AppChart D3.js Graph</a></li>
+				</ul>
+			</li>
+			
+		</ul>
+		<div class="col-sm-3 col-md-3">
+            <form class="navbar-form" role="search">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search" name="q" id="search-input">
+                    <div class="input-group-btn">
+                        <button class="btn btn-default" id="search-submit"><i class="glyphicon glyphicon-search"></i></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+	</div>
+
+</div>
+</div>
+
+
+<div class="container" id="toc-content">
+<div class="row">
+
+	
+	<div class="col-md-12">
+	
+		<div id="main">
+			<section class="tutorial-section">
+
+<header>
+    
+
+    <h2>Interaction of the Components</h2>
+</header>
+
+<article>
+    <p>In order to make different <a href="https://angularjs.org/">AngularJS</a> components interact (see Page about <a href="tutorial-4Components.html">Components</a>) AngularJS supports the concept of centralized &quot;scopes&quot;, essentially shared variables that hold the applications state. Those scopes may be nested with directives/components having &quot;isolated&quot; scopes, but to understand the component interaction in our application, we have to look into the &quot;top&quot; scope of our application.</p>
+<h3>Objects in Top Scope</h3><p><img src="../jsdoc/controller_scope.png" alt="Interaction of the components via central objects"></p>
+<p>In the top scope, the following variables are used to govern the applications state. Those variables are handed over as references to the various components. The components then either update the variables on user input or listen to changes of the variables and update their presentation layer accordingly.</p>
+<ul>
+<li><code>scenarios</code> - an array of Scenario objects taken directly from the <code>/data/scenarios.json</code> file (see <a href="tutorial-3JSONDataStructure.html">JSON Class Structure of Data Files</a>).</li>
+<li><code>selectedScenario</code> - the scenario that has been selected from the dropdown menu, an element of the <code>scenarios</code> array - <code>undefined</code> if no scenario is selected.</li>
+</ul>
+<p>The following metrics are all set to <code>undefined</code> if no scenario is selected at this moment:</p>
+<ul>
+<li><code>metrics</code> - an array of Metric objects taken directly from the <code>/data/scenario-&lt;scenarioId&gt;.json</code> file (see <a href="tutorial-3JSONDataStructure.html">JSON Class Structure of Data Files</a>).</li>
+<li><code>selectedMetrics</code> - an array of metrics that has been selected from the dropdown menu, a subset of the elements of the <code>metrics</code> array</li>
+<li><code>stories</code> - an array of Story objects taken directly from the <code>/data/scenario-&lt;scenarioId&gt;-stories.json</code> file (see <a href="tutorial-3JSONDataStructure.html">JSON Class Structure of Data Files</a>) or <code>undefined</code> if no stories-file is available.</li>
+<li><code>selectedStory</code> - the currently selected story, an element of the <code>stories</code> object, <code>undefined</code> if no story is selected.</li>
+</ul>
+<p>The main &quot;magic&quot; however lies in the <code>highlights</code> object which governs the current highlighting &amp; interaction state of the visualization. This object is tied almost to all components on the page and serves as a central model about how the user currently interacts with the data:</p>
+<ul>
+<li><code>metric</code> (string) references the metric-ID of the metric chart the user currently hovers over</li>
+<li><code>seriesId</code> (string) references the series-ID of the data series the user currently hovers over; hovering over a data series also &quot;boldens&quot; the respective representation in the schematics SVG</li>
+<li><code>x</code>, <code>y</code> (both float) contains the x and y value of the current position of the mouse inside one of the metric charts</li>
+<li><code>xRange</code> (pair of floats) contains the min-x and max-x values of all metric charts</li>
+<li><code>seriesesValues</code> (array of value objects) contains an array of all datapoints of all metrics and series(es) that correspond to the current x-position of the mouse. How these values are transferred into the schematics component is explained <a href="#controller-broadcasts">below</a>. Every value in this array contains one datapoint from one series and has the following properties:<ul>
+<li><code>x</code>, <code>y</code> (float) - x and y coordinate</li>
+<li><code>colorVal</code> (string) - in case a data-color-mapping was defined for the metric, the color corresponding to the x value</li>
+<li><code>color</code> (string) - in case a color was defined for the series, this exact color</li>
+<li><code>seriesId</code> (string) - the <code>id</code> of the series object from which this data value originates</li>
+</ul>
+</li>
+<li><code>looseness</code> (int) - defines how rigidly the user currently follows the &quot;story&quot; (guided tour) and, by that means, defines if the story box is displayed, if buttons to re-center the graph are displayed etc. There are different levels of &quot;exploartiveness&quot; the user can be in during the visualization and the value to which &quot;looseness&quot; is set captures that. See the next section for a detailed definition.</li>
+</ul>
+<h3>Definition of &quot;looseness&quot;</h3><p>The <code>highlights.looseness</code> state defines how independently from the linear story narrative the user interacts with the graph. The value controls which elements need to be displayed on the page: Should we show an explanatory text? Or hiding the story, providing more whitespace instead and just adding a button to return to the story be more appropriate?</p>
+<p>There are 4 different &quot;levels of looseness / explorativeness&quot; which all slightly modify the UI in order to adapt to the users behaviour and needs. Those levels are described below.</p>
+<table>
+<thead>
+<tr>
+<th>Image</th>
+<th style="text-align:center"><code>highlights.looseness</code></th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="../jsdoc/controller_looseness_0.png" alt="Screenshot Looseness = 0"></td>
+<td style="text-align:center">0</td>
+<td>story telling mode, user is presented with a narrative, a point in the graph (focus) may be highlighted (depending on the story configuration)</td>
+</tr>
+<tr>
+<td><img src="../jsdoc/controller_looseness_1.png" alt="Screenshot Looseness = 1"></td>
+<td style="text-align:center">1</td>
+<td>user has started moving their mouse through graph, the user can return to the focussed mode (looseness = 0) by clicking the &quot;highlight point&quot; button.</td>
+</tr>
+<tr>
+<td><img src="../jsdoc/controller_looseness_2.png" alt="Screenshot Looseness = 2"></td>
+<td style="text-align:center">2</td>
+<td>explorative mode - user has selected a second metric, the storybox is completely hidden from view since the content of the narrative does probably not align anymore with the visualization. Clicking „Return to Guided Tour“ sets looseness back to 1.</td>
+</tr>
+<tr>
+<td><img src="../jsdoc/controller_looseness_3.png" alt="Screenshot Looseness = 3"></td>
+<td style="text-align:center">3</td>
+<td>User has &quot;completely gone off on their own&quot; by zooming / panning inside of the graph; an additional „re-fit to view button is shown to set looseness back to 3.</td>
+</tr>
+</tbody>
+</table>
+<h3>Communication of Schematics and Metric Graphs</h3><p>The <code>highlights.seriesesValues</code> property captures all the values that are currently selected based on the x-coordinate of the mouse. Those values are watched over by the battery schematics SVG graph which uses the values to dynamically update fill color, text, display status etc. of some of their elements. Communication of those values to the different elements occurs via so-called Angular broadcasts. The following picture shows the inner workings of this mechanism in more technical detail.</p>
+<p><img src="../jsdoc/controller_broadcasts.png" alt="Interaction of the components via Angular.js broadcasts"><br><a name="controller-broadcasts" /></p>
+<ol>
+<li><p>Hovering the mouse over a data point will trigger, via the AppChart’s event functions, the central &quot;highlights.seriesesValues&quot; object to be modified. The seriesesValue will be filled by every series in every metric chart with the value at the current x-position.</p>
+</li>
+<li><p>Via an AngularJS-watcher, the schematics component will notice this change and broadcast an angular event to all &quot;series directives&quot; annotated to the containing SVG graphic...</p>
+</li>
+</ol>
+<p>… these &quot;series directives&quot; can be annotated via SVG drawing programs like InkScape to SVG elements. They define how those elements are manipulated when a new set of seriesesValues is populated. I.e., those directives define from which data series those elements receive their text, display status, fill color, etc.</p>
+<p><img src="../jsdoc/controller_serieses.png" alt="Definition of dynamic shapes in InkScape with the app-serieses directive"></p>
+<p>Above, you can see an example of a shape being decorated with the series directive {fill:'temp_mean'} in the program InkScape. This will apply the mapped color of the mean temperature series to the fill color of the shape. The benefit of this rather convoluted design is that an average user of standard vector programs may design or modify the SVG drawings functionality quite easily.</p>
+</article>
+
+</section>
+
+		</div>
+	</div>
+
+	<div class="clearfix"></div>
+
+	
+
+</div>
+</div>
+
+<div class="modal fade" id="searchResults">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Search results</h4>
+      </div>
+      <div class="modal-body"></div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div>
+
+<footer>
+
+
+	<span class="copyright">
+	&copy; 2016 benkku.com
+	</span>
+
+<span class="jsdoc-message">
+	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a>
+	
+		on Thu May 26th 2016
+	
+	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
+</span>
+</footer>
+
+<script src="scripts/docstrap.lib.js"></script>
+<script src="scripts/toc.js"></script>
+<script type="text/javascript" src="scripts/fulltext-search-ui.js"></script>
+
+<script>
+$( function () {
+	$( "[id*='$']" ).each( function () {
+		var $this = $( this );
+
+		$this.attr( "id", $this.attr( "id" ).replace( "$", "__" ) );
+	} );
+
+	$( ".tutorial-section pre, .readme-section pre" ).each( function () {
+		var $this = $( this );
+
+		var example = $this.find( "code" );
+		exampleText = example.html();
+		var lang = /{@lang (.*?)}/.exec( exampleText );
+		if ( lang && lang[1] ) {
+			exampleText = exampleText.replace( lang[0], "" );
+			example.html( exampleText );
+			lang = lang[1];
+		} else {
+			var langClassMatch = example.parent()[0].className.match(/lang\-(\S+)/);
+			lang = langClassMatch ? langClassMatch[1] : "javascript";
+		}
+
+		if ( lang ) {
+
+			$this
+			.addClass( "sunlight-highlight-" + lang )
+			.addClass( "linenums" )
+			.html( example.html() );
+
+		}
+	} );
+
+	Sunlight.highlightAll( {
+		lineNumbers : true,
+		showMenu : true,
+		enableDoclinks : true
+	} );
+
+	$.catchAnchorLinks( {
+        navbarOffset: 10
+	} );
+	$( "#toc" ).toc( {
+		anchorName  : function ( i, heading, prefix ) {
+			var id = $( heading ).attr( "id" );
+			return id && id.replace(/\~/g, '-inner-').replace(/\./g, '-static-') || ( prefix + i );
+		},
+		selectors   : "#toc-content h1,#toc-content h2,#toc-content h3,#toc-content h4",
+		showAndHide : false,
+		smoothScrolling: true
+	} );
+
+	$( "#main span[id^='toc']" ).addClass( "toc-shim" );
+	$( '.dropdown-toggle' ).dropdown();
+
+    $( "table" ).each( function () {
+      var $this = $( this );
+      $this.addClass('table');
+    } );
+
+} );
+</script>
+
+
+
+<!--Navigation and Symbol Display-->
+
+
+<!--Google Analytics-->
+
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		SearcherDisplay.init();
+	});
+</script>
+
+</body>
+</html>

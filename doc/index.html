@@ -45,6 +45,13 @@
 				</ul>
 			</li>
 			
+			<li class="dropdown">
+				<a href="tutorials.list.html" class="dropdown-toggle" data-toggle="dropdown">Tutorials<b class="caret"></b></a>
+				<ul class="dropdown-menu inline">
+					<li><a href="tutorial-1FileDirectoryStructure.html">File & Directory Structure</a></li><li><a href="tutorial-2Terminology.html">Terminology</a></li><li><a href="tutorial-3JSONDataStructure.html">JSON Class Structure of Data Files</a></li><li><a href="tutorial-4Components.html">Components of the Application</a></li><li><a href="tutorial-5ComponentsInteraction.html">Interaction of the Components</a></li><li><a href="tutorial-6LayersAppChart.html">Layers in the AppChart D3.js Graph</a></li>
+				</ul>
+			</li>
+			
 		</ul>
 		<div class="col-sm-3 col-md-3">
             <form class="navbar-form" role="search">
@@ -93,7 +100,39 @@
 
     <section class="readme-section">
         <article><p><img src="../images/dand6_comic_normal.png" alt="Comic Logo of this Udacity Project"></p>
-<h1>Welcome</h1><p>This documentation is for the curious mind who wants to understand and<br>potentially re-use the code of this visualization. Feel free to browse the<br>modules and classes of the project.</p></article>
+<h1>Welcome</h1><p>This documentation is for the curious mind who wants to understand and potentially re-use the code of this visualization. Feel free to browse the modules and classes of the project.</p>
+<h2>How to start</h2><p>Before diving into the API Doc and into the code, there are a few conceptual documents listed under &quot;Tutorials&quot; that I recommend reading to get a general understanding about the source code:</p>
+<ul>
+<li><a href="tutorial-1FileDirectoryStructure.html">File &amp; Directory Structure</a> contains a general &quot;what is where&quot; of the repository.</li>
+<li><a href="tutorial-1FileDirectoryStructure.html">Terminology</a> describes a number of clearly defined concepts you see on the screen of the application.</li>
+<li><a href="tutorial-1FileDirectoryStructure.html">JSON Class Structure of Data Files</a> contains the file structure of the visualized data and may be especially useful for readers that want to swap out the dataset with other data.</li>
+<li><a href="tutorial-1FileDirectoryStructure.html">Components of the Application</a> describes the components you see on the web application. This application uses <a href="https://angularjs.org/">AngularJS</a>, a framework that lets us define &quot;extensions&quot; to HTML and attach custom behaviours to those new elements. For drawing the charts, dropdowns, battery schematics etc. this is heavily used.</li>
+<li><a href="tutorial-1FileDirectoryStructure.html">Interaction of the Components</a> explains how the components described above exchange data so they all update simultaneously and thusly provide a consistent user experience.</li>
+<li><a href="tutorial-1FileDirectoryStructure.html">Layers in the AppChart D3.js Graph</a> goes into deeper detail about how our chart implementation's internal SVG layering is designed so that all small things of the chart, like axes, labels, data points etc. all fall into place at the right position.</li>
+</ul>
+<h3>Frameworks Used &amp; Copyrights</h3><ul>
+<li><a href="http://getbootstrap.com/">Bootstrap</a> (<a href="https://github.com/twbs/bootstrap/blob/master/LICENSE">MIT License</a>)</li>
+<li><a href="https://www.npmjs.com/package/bootstrap-sass">Bootstrap Sass</a></li>
+<li><a href="https://jquery.com/">jQuery</a> (<a href="https://tldrlegal.com/license/mit-license">MIT License</a>)</li>
+<li><a href="https://angularjs.org/">AngularJS</a> (<a href="https://github.com/angular/angular.js/blob/master/LICENSE">MIT License</a>)</li>
+<li><a href="https://d3js.org/">D3.js</a> (<a href="https://opensource.org/licenses/BSD-3-Clause">BSD License</a>)</li>
+<li><a href="http://requirejs.org/">Requirejs</a> (<a href="https://github.com/requirejs/requirejs/blob/master/LICENSE">New BSD or MIT License</a>)</li>
+<li><a href="http://underscorejs.org/">Underscore</a> (<a href="https://github.com/jashkenas/underscore/blob/master/LICENSE">License</a>)</li>
+<li><a href="http://usejsdoc.org/">JSDoc</a> (<a href="http://usejsdoc.org/about-license-jsdoc3.html">Apache License 2.0</a>)</li>
+<li><a href="https://github.com/docstrap/docstrap">JSDoc Bootstrap / Docstrap</a> (<a href="https://github.com/docstrap/docstrap/blob/master/LICENSE.md">License</a>)</li>
+<li><a href="https://github.com/marcj/css-element-queries">ElementQueries, ResizeSensor</a></li>
+</ul>
+<p>For development:</p>
+<ul>
+<li><a href="http://gruntjs.com/">Grunt</a></li>
+<li><a href="https://nodejs.org/en/">NodeJS</a></li>
+<li><a href="https://github.com/gruntjs/grunt-contrib-requirejs">grunt-contrib-requirejs</a></li>
+<li><a href="https://github.com/krampstudio/grunt-jsdoc">grunt-jsdoc</a></li>
+<li><a href="http://jade-lang.com/">Jade</a></li>
+<li><a href="http://sass-lang.com/">Sass</a></li>
+</ul>
+<!-- External Content: Frameworks -->
+<!-- Here --></article>
     </section>
 
 
@@ -141,7 +180,7 @@
 <span class="jsdoc-message">
 	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a>
 	
-		on Sun May 22nd 2016
+		on Thu May 26th 2016
 	
 	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
 </span>
