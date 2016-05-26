@@ -68,7 +68,7 @@ Footnote (\*): CHG-7 is not implemented at this stage since they would have exce
 | Screenshot | Date / Link to Snapshot | Description |
 |------------|:-----------------------:|-------------|
 | ![Initial Sketches][sketches-initial] | [28 Feb 2016][sketches-initial-pdf] | Initial meeting with my friend, the battery expert, to discuss the project and brainstorm ideas. Quite a few sketches came out of that. |
-| <iframe width="560" height="315" src="https://www.youtube.com/embed/WeySfLkMOio" frameborder="0" allowfullscreen />| [14 Mar 2016][youtube-pitch] | **YouTube pitch for the [Udacity Forum][forum-pitch]:** After meeting with my friend and fleshing out ideas, I was asking for feedback from the nanodegree community & coaches.  |
+| [![Youtube Video](https://img.youtube.com/vi/WeySfLkMOio/0.jpg)](https://www.youtube.com/watch?v=WeySfLkMOio) | [14 Mar 2016][youtube-pitch] | **YouTube pitch for the [Udacity Forum][forum-pitch]:** After meeting with my friend and fleshing out ideas, I was asking for feedback from the nanodegree community & coaches.  |
 | ![Screenshot 01][screenshot-01] | [13 Apr 2016][snapshot-01] | **Fail:** Using dimple.js as the library for the graph components; realizing that there is no option for me to make these components interactable in any meaningful way, so I will need to design the charts from scratch. |
 | ![Screenshot 02][screenshot-02] | [18 Apr 2016][snapshot-02] | Components talking to each other! The battery schematic updates when you move the mouse over the chart; also the layout is more responsive; no thought spent yet on actual real-life data or how to de-clutter the UI. |
 | ![Screenshot 03][screenshot-03] | [26 Apr 2016][snapshot-03] | Removed "clutter", made layout more responsive and added a whole deal of interactivity; what did not work in the end: to use the colored gradient as a stroke for the linegraph – too confusing! Instead the color mapping it is now shown as a guide on the y axis & on the data points. |
@@ -80,7 +80,7 @@ Footnote (\*): CHG-7 is not implemented at this stage since they would have exce
 | ![Screenshot 09][screenshot-09] | [13 May 2016][snapshot-09] | Re-designed the exploratory visualization and requested further feedback from a subject-matter-expert. |
 | ![Screenshot 10][screenshot-10] | [17 May 2016][snapshot-10] | **Release Candidate:** Added markers, annotations etc. etc., completed story - except for minor feedback from other people than the subject-matter-expert, this is the final project. The rest was bug fixing, refactoring for maintainability, commenting, documenting and asking other people for feedback. |
 | ![Work-in-Progress Sketches][sketches-wip] | [14 Mar - 17 May 2016][sketches-wip-pdf] | Of course, also during the course of this project a few sketches and notes were taken - mainly for myself. |
-| <iframe width="560" height="315" src="https://www.youtube.com/embed/4cP_gmFC6Vc" frameborder="0" allowfullscreen></iframe>| [22 May 2016][youtube-rc] | **Request For Feedback in the [Udacity Forum][forum-rc]:** The project was at a high enough maturity that I could come back to the Nanodegree Community and ask for feedback. |
+| [![Youtube Video](https://img.youtube.com/vi/4cP_gmFC6Vc/0.jpg)](https://www.youtube.com/watch?v=4cP_gmFC6Vc) | [22 May 2016][youtube-rc] | **Request For Feedback in the [Udacity Forum][forum-rc]:** The project was at a high enough maturity that I could come back to the Nanodegree Community and ask for feedback. |
 | ![Screenshot 11][screenshot-11] | [26 May 2016][snapshot-now] | **First Submission:** Incorporated all public feedback (see above), finished technical and project documenation and submitted project to Udacity. |
 
 ### Retrospective
@@ -207,8 +207,8 @@ For development:
 [screenshot-09]: http://rawgit.com/benjaminsoellner/DAND_6_VisualizeEMobilityDataInD3js/master/readme/screenshot_09.png
 [screenshot-10]: http://rawgit.com/benjaminsoellner/DAND_6_VisualizeEMobilityDataInD3js/master/readme/screenshot_10.png
 [screenshot-11]: http://rawgit.com/benjaminsoellner/DAND_6_VisualizeEMobilityDataInD3js/master/readme/screenshot_11.png
-[sketches-initial]: http://rawgit.com/benjaminsoellner/DAND_6_VisualizeEMobilityDataInD3js/master/readme/sketches_initial.jpg
-[sketches-wip]: http://rawgit.com/benjaminsoellner/DAND_6_VisualizeEMobilityDataInD3js/master/readme/sketches_initial.jpg
+[sketches-initial]: http://rawgit.com/benjaminsoellner/DAND_6_VisualizeEMobilityDataInD3js/master/readme/sketches_initial.png
+[sketches-wip]: http://rawgit.com/benjaminsoellner/DAND_6_VisualizeEMobilityDataInD3js/master/readme/sketches_initial.png
 
 <!-- Links to raw files of current repo commit -->
 [snapshot-now]: https://rawgit.com/benjaminsoellner/DAND_6_VisualizeEMobilityDataInD3js/master/index.html
