@@ -1,4 +1,7 @@
 # Data Analyst Nanodegree Project 6 - Visualize Electric Car Battery Performance in D3.js
+Benjamin Söllner <br/>
+27.05.2016
+
 ![Comic Logo of this Udacity Project][dand-comic]
 
 ## Summary
@@ -12,21 +15,6 @@ For my 6th Udacity Data Analyst Nanodegree Project I wanted to "go big" and crea
 The challenge, of course, is that the scope of the project is much larger and additional stakeholders are involved. But data visualization is a topic dear to my heart (what is the use of all the data in the world if you cannot communicate it?). Also, web application development was my profession 5 years ago - so I was eager to see what had changed in the meantime.
 
 ### Initial Design Principles
-
-#### Additional High-Level Requirements
-
-The following high-level requirements were added to the requirements of the Nanodegree rubric in order to create a practical solution for the R&D engineers at my company.
-
-* Data must be stored in JSON file in a pre-defined structure and must be easily replacable or extensible by new data of new battery measurements (scenarios).
-* Visualization must contain an explorative component that allows access to any metrics recorded in the data in addition to the explanatory visualization.
-* Explanatory visualization for the Data Analyst Nanodegree should be a high-level overview visualization of a conclusion from all battery scenarios. This visualization should be understandable by an unexperienced viewer who is not familiar with the topic of E-Mobility.
-* From this explanatory visualization it should be possible to drill-down into the explorative view. Even in the explorative view, there should be some guided storytelling / descriptions to guide unexperienced users.
-* Switching between both views should occur seamlessly. Navigation between different views should also be possible at any time using a navigation menu. The navigation menu should be as unobstrusive as possible (maybe just a single button bringing it up / "hamburger menu").
-* Each visualization should have a "guided" mode that shows the user certain areas of a graph and guides him through exploring it and a "unguided" mode where the user can explore the graph (or related graphs) on their own. This is to make the visualization appealing both to expert users who may be better suited to draw their own conclusions and to laypersons.  
-* It should be possible to add additional views later and re-use code and components across views. In fact, as much code as possible should be re-used between explanatory and explorative view. Code should be documented in [JSDoc][jsdoc].
-* Code artifacts relevant for the Data Analyst Nanodegree, especially components that use [D3.js][d3js] should be encapsulated and understandable on their own when reading the commented source code files (and/or potential technical documentation).
-* Whole web application should be realized in responsive design and look good on different screen sizes down to viewport width of 1024px. Charts should re-scale in a way that the x- and y-range stays fixed as well as any font sizes and line strokes unchanged. Spacing and shape size may re-size to fill available space. Scrolling is only permissable if the user explicitly elects to view a large number of charts (>2) below each other in an explorative mode.
-* Web application should work well in all modern versions of Internet Explorer, Firefox and Chrome.
 
 #### Visual Design Decisions of the Explanatory View
 
@@ -65,6 +53,21 @@ The explorative view was envisioned before the Explanatory View and where it mad
 7. If multiple series are present in one graph, less important series (like limits for voltage) can be colored by a paler color like gray. This color is re-used in the schematics, thereby linking the two visual displays.
 9. The storybox is now added on the right column. It fits better to the area describing "what is going on in the current status of the battery".
 10. The visualization also allows to divert from the story alltoghether by starting to move inside of the graph or changing the number of metrics that are displayed. This is especially useful for experienced users. Should a user decide that they want to return to the visualization, they can always click "Return to Guided Tour".
+
+#### Additional High-Level Requirements
+
+The following high-level requirements were added to the requirements of the Nanodegree rubric in order to create a practical solution for the R&D engineers at my company.
+
+* Data must be stored in JSON file in a pre-defined structure and must be easily replacable or extensible by new data of new battery measurements (scenarios).
+* Visualization must contain an explorative component that allows access to any metrics recorded in the data in addition to the explanatory visualization.
+* Explanatory visualization for the Data Analyst Nanodegree should be a high-level overview visualization of a conclusion from all battery scenarios. This visualization should be understandable by an unexperienced viewer who is not familiar with the topic of E-Mobility.
+* From this explanatory visualization it should be possible to drill-down into the explorative view. Even in the explorative view, there should be some guided storytelling / descriptions to guide unexperienced users.
+* Switching between both views should occur seamlessly. Navigation between different views should also be possible at any time using a navigation menu. The navigation menu should be as unobstrusive as possible (maybe just a single button bringing it up / "hamburger menu").
+* Each visualization should have a "guided" mode that shows the user certain areas of a graph and guides him through exploring it and a "unguided" mode where the user can explore the graph (or related graphs) on their own. This is to make the visualization appealing both to expert users who may be better suited to draw their own conclusions and to laypersons.  
+* It should be possible to add additional views later and re-use code and components across views. In fact, as much code as possible should be re-used between explanatory and explorative view. Code should be documented in [JSDoc][jsdoc].
+* Code artifacts relevant for the Data Analyst Nanodegree, especially components that use [D3.js][d3js] should be encapsulated and understandable on their own when reading the commented source code files (and/or potential technical documentation).
+* Whole web application should be realized in responsive design and look good on different screen sizes down to viewport width of 1024px. Charts should re-scale in a way that the x- and y-range stays fixed as well as any font sizes and line strokes unchanged. Spacing and shape size may re-size to fill available space. Scrolling is only permissable if the user explicitly elects to view a large number of charts (>2) below each other in an explorative mode.
+* Web application should work well in all modern versions of Internet Explorer, Firefox and Chrome.
 
 ### Changes after Feedback
 
@@ -279,3 +282,6 @@ For development:
 [doc-4Components]: (https://rawgit.com/benjaminsoellner/doc/tutorial-1FileDirectoryStructure.html)
 [doc-5ComponentsInteraction]: (https://rawgit.com/benjaminsoellner/doc/tutorial-1FileDirectoryStructure.html)
 [doc-6LayersAppChart]: (https://rawgit.com/benjaminsoellner/doc/tutorial-1FileDirectoryStructure.html)
+
+## Thanks
+... to my collegue Fabian Friedrichs for supplying me with data and advice. Also thanks to everyone who gave feedback!
