@@ -252,23 +252,23 @@ For development:
 [chg7]: #chg7
 
 <!-- Images to be displayed on Markdown file -->
-[dand-comic]: http://rawgit.com/benjaminsoellner/DAND_6_VisualizeEMobilityDataInD3js/master/images/dand6_comic_normal.png
-[screenshot-01]: http://rawgit.com/benjaminsoellner/DAND_6_VisualizeEMobilityDataInD3js/master/readme/screenshot_01.png
-[screenshot-02]: http://rawgit.com/benjaminsoellner/DAND_6_VisualizeEMobilityDataInD3js/master/readme/screenshot_02.png
-[screenshot-03]: http://rawgit.com/benjaminsoellner/DAND_6_VisualizeEMobilityDataInD3js/master/readme/screenshot_03.png
-[screenshot-04]: http://rawgit.com/benjaminsoellner/DAND_6_VisualizeEMobilityDataInD3js/master/readme/screenshot_04.png
-[screenshot-05]: http://rawgit.com/benjaminsoellner/DAND_6_VisualizeEMobilityDataInD3js/master/readme/screenshot_05.png
-[screenshot-06]: http://rawgit.com/benjaminsoellner/DAND_6_VisualizeEMobilityDataInD3js/master/readme/screenshot_06.png
-[screenshot-07]: http://rawgit.com/benjaminsoellner/DAND_6_VisualizeEMobilityDataInD3js/master/readme/screenshot_07.png
-[screenshot-08]: http://rawgit.com/benjaminsoellner/DAND_6_VisualizeEMobilityDataInD3js/master/readme/screenshot_08.png
-[screenshot-09]: http://rawgit.com/benjaminsoellner/DAND_6_VisualizeEMobilityDataInD3js/master/readme/screenshot_09.png
-[screenshot-10]: http://rawgit.com/benjaminsoellner/DAND_6_VisualizeEMobilityDataInD3js/master/readme/screenshot_10.png
-[screenshot-11]: http://rawgit.com/benjaminsoellner/DAND_6_VisualizeEMobilityDataInD3js/master/readme/screenshot_11.png
-[sketches-initial]: http://rawgit.com/benjaminsoellner/DAND_6_VisualizeEMobilityDataInD3js/master/readme/sketches_initial.png
-[sketches-wip]: http://rawgit.com/benjaminsoellner/DAND_6_VisualizeEMobilityDataInD3js/master/readme/sketches_initial.png
-[design-explanatory]: http://rawgit.com/benjaminsoellner/DAND_6_VisualizeEMobilityDataInD3js/master/readme/design_explanatory.png
-[design-exploratory]: http://rawgit.com/benjaminsoellner/DAND_6_VisualizeEMobilityDataInD3js/master/readme/design_exploratory.png
-[design-changes]: http://rawgit.com/benjaminsoellner/DAND_6_VisualizeEMobilityDataInD3js/master/readme/design_changes.png
+[dand-comic]: http://benjaminsoellner.github.io/DAND_6_VisualizeEMobilityDataInD3js/images/dand6_comic_normal.png
+[screenshot-01]: http://benjaminsoellner.github.io/DAND_6_VisualizeEMobilityDataInD3js/readme/screenshot_01.png
+[screenshot-02]: http://benjaminsoellner.github.io/DAND_6_VisualizeEMobilityDataInD3js/readme/screenshot_02.png
+[screenshot-03]: http://benjaminsoellner.github.io/DAND_6_VisualizeEMobilityDataInD3js/readme/screenshot_03.png
+[screenshot-04]: http://benjaminsoellner.github.io/DAND_6_VisualizeEMobilityDataInD3js/readme/screenshot_04.png
+[screenshot-05]: http://benjaminsoellner.github.io/DAND_6_VisualizeEMobilityDataInD3js/readme/screenshot_05.png
+[screenshot-06]: http://benjaminsoellner.github.io/DAND_6_VisualizeEMobilityDataInD3js/readme/screenshot_06.png
+[screenshot-07]: http://benjaminsoellner.github.io/DAND_6_VisualizeEMobilityDataInD3js/readme/screenshot_07.png
+[screenshot-08]: http://benjaminsoellner.github.io/DAND_6_VisualizeEMobilityDataInD3js/readme/screenshot_08.png
+[screenshot-09]: http://benjaminsoellner.github.io/DAND_6_VisualizeEMobilityDataInD3js/readme/screenshot_09.png
+[screenshot-10]: http://benjaminsoellner.github.io/DAND_6_VisualizeEMobilityDataInD3js/readme/screenshot_10.png
+[screenshot-11]: http://benjaminsoellner.github.io/DAND_6_VisualizeEMobilityDataInD3js/readme/screenshot_11.png
+[sketches-initial]: http://benjaminsoellner.github.io/DAND_6_VisualizeEMobilityDataInD3js/readme/sketches_initial.png
+[sketches-wip]: http://benjaminsoellner.github.io/DAND_6_VisualizeEMobilityDataInD3js/readme/sketches_initial.png
+[design-explanatory]: http://benjaminsoellner.github.io/DAND_6_VisualizeEMobilityDataInD3js/readme/design_explanatory.png
+[design-exploratory]: http://benjaminsoellner.github.io/DAND_6_VisualizeEMobilityDataInD3js/readme/design_exploratory.png
+[design-changes]: http://benjaminsoellner.github.io/DAND_6_VisualizeEMobilityDataInD3js/readme/design_changes.png
 
 <!-- Links to raw files of current repo commit -->
 [snapshot-now]: https://rawgit.com/benjaminsoellner/DAND_6_VisualizeEMobilityDataInD3js/master/index.html

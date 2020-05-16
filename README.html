@@ -577,7 +577,7 @@ pre.editor-colors .fold-marker:after,
   <body class='markdown-preview'><h1 id="data-analyst-nanodegree-project-6-visualize-electric-car-battery-performance-in-d3-js">Data Analyst Nanodegree Project 6 - Visualize Electric Car Battery Performance in D3.js</h1>
 <p>Benjamin Söllner <br>
 27.05.2016</p>
-<p><img src="http://rawgit.com/benjaminsoellner/DAND_6_VisualizeEMobilityDataInD3js/master/images/dand6_comic_normal.png" alt="Comic Logo of this Udacity Project"></p>
+<p><img src="http://benjaminsoellner.github.io/DAND_6_VisualizeEMobilityDataInD3js/images/dand6_comic_normal.png" alt="Comic Logo of this Udacity Project"></p>
 <h2 id="summary">Summary</h2>
 <p>Hybrid and fully electric cars are awesome because they will help us save the planet from burning through more dinosaur juice! But temperature of the battery and the way of driving your car is very important in order to have a long-lasting battery with which you can drive over a long range. This Data Analyst Nanodegree Visualization Project shows how electric car batteries State-of-Charge diminishes or increases and how the temperature of such a battery develops during different driving situations. The visualization was created with scrambled R&amp;D data from a german car manufacturer and also contains options to drill down into an explorative mode which will be used by roughly 200 researchers in the field.</p>
 <h2 id="design">Design</h2>
@@ -586,7 +586,7 @@ pre.editor-colors .fold-marker:after,
 <h3 id="initial-design-principles">Initial Design Principles</h3>
 <h4 id="visual-design-decisions-of-the-explanatory-view">Visual Design Decisions of the Explanatory View</h4>
 <p>When designing the layout of the explanatory view, the following principles were in my mind:</p>
-<p><img src="http://rawgit.com/benjaminsoellner/DAND_6_VisualizeEMobilityDataInD3js/master/readme/design_explanatory.png" alt="Design Decisions of the Explanatory View annotated on Screenshot"></p>
+<p><img src="http://benjaminsoellner.github.io/DAND_6_VisualizeEMobilityDataInD3js/readme/design_explanatory.png" alt="Design Decisions of the Explanatory View annotated on Screenshot"></p>
 <ol>
 <li>Visualize the corellation between Temperature of the Battery and State-of-Charge of the Battery. Correlations are best visualized with a scatter plot.</li>
 <li>Use different colors to visualize different scenarios (winter, fast driving, normal driving). Use a categorical color scale from <a href="http://colorbrewer.org">colorbrewer.org</a>, in particular, associate &quot;red&quot; with &quot;hot&quot; (sportive driving), &quot;blue&quot; with &quot;cold&quot; (winter), &quot;green&quot; with &quot;normal&quot; (range testing).</li>
@@ -606,7 +606,7 @@ pre.editor-colors .fold-marker:after,
 </ol>
 <h4 id="visual-design-decisions-of-the-explorative-view">Visual Design Decisions of the Explorative View</h4>
 <p>The explorative view was envisioned before the Explanatory View and where it made sense, decisions made here were carried over to the Explanatory View.</p>
-<p><img src="http://rawgit.com/benjaminsoellner/DAND_6_VisualizeEMobilityDataInD3js/master/readme/design_exploratory.png" alt="Design Decisions of the Exploratory View annotated on Screenshot"></p>
+<p><img src="http://benjaminsoellner.github.io/DAND_6_VisualizeEMobilityDataInD3js/readme/design_exploratory.png" alt="Design Decisions of the Exploratory View annotated on Screenshot"></p>
 <ol>
 <li>Instead of a 2-to-1 column grid, this view displays a grid with 2 columns of equal width and two dropdowns on top. This facilitates a more technical, tool-oriented, rational view that gives an impression that &quot;here, you have complete control about two things going on&quot;.</li>
 <li>The two columns follow a strict structural hierarchy: the left is about one battery (scenario) and its current state, the right is about one or more metrics that are explored in this battery over time.</li>
@@ -634,7 +634,7 @@ pre.editor-colors .fold-marker:after,
 </ul>
 <h3 id="changes-after-feedback">Changes after Feedback</h3>
 <p>The following changes were applied after gathering feedback from a public audience. See <a href="#actionable-feedback">Actionable Feedback</a> for their justification and [Feedback Methodology][feedback-methodology] for an explanation on how feedback was gathered:</p>
-<p><img src="http://rawgit.com/benjaminsoellner/DAND_6_VisualizeEMobilityDataInD3js/master/readme/design_changes.png" alt="Design Decisions of the Exploratory View annotated on Screenshot"></p>
+<p><img src="http://benjaminsoellner.github.io/DAND_6_VisualizeEMobilityDataInD3js/readme/design_changes.png" alt="Design Decisions of the Exploratory View annotated on Screenshot"></p>
 <ul>
 <li>CHG-1: Changed the text content of the visualization to state more clearly what we mean if we talk about &quot;battery performance&quot; - what makes a good electric car battery?</li>
 <li>CHG-2: While the scatterplot compares two dimensions, Temperature and State-of-Charge, there is also a third dimension, &quot;time&quot;, that doesn&#39;t come out easily. &quot;Time&quot; gives those scatter plot points an order to be drawn in and the trail of scatter scatter points a direction. Initially, I tried highlighting this by marking the time point &quot;190 seconds&quot; in the data in order to make the three data sets comparable. Appearantly this was not enough so I added a small arrow next to every data series to hint at the directionality.</li>
@@ -655,7 +655,7 @@ pre.editor-colors .fold-marker:after,
 <li>Creating a <a href="https://www.youtube.com/watch?v=4cP_gmFC6Vc">video walkthrough on YouTube</a> and posting it on the [Udacity Forums][forums-rc] (no critiques)</li>
 <li>Posting a <a href="https://twitter.com/qwertzuhr/status/734362586712526850">link on my twitter</a> (no critiques)</li>
 </ul>
-<p>Subjects were encouraged to use a prepared <a href="https://docs.google.com/forms/d/1QYO6jHJhTl4bjxkh0eHk51biyYBS2C5d_fYuI3cYiVo/viewform">Google Form</a> but only one participant (subject D) did so (<a href="https://rawgit.com/benjaminsoellner/DAND_6_VisualizeEMobilityDataInD3js/master/readme/subject_D_redacted.pdf">and here are his answers</a>)</p>
+<p>Subjects were encouraged to use a prepared <a href="https://docs.google.com/forms/d/1QYO6jHJhTl4bjxkh0eHk51biyYBS2C5d_fYuI3cYiVo/viewform">Google Form</a> but only one participant (subject D) did so (<a href="https://benjaminsoellner.github.io/DAND_6_VisualizeEMobilityDataInD3js/readme/subject_D_redacted.pdf">and here are his answers</a>)</p>
 <h3 id="actionable-feedback">Actionable Feedback</h3>
 <p><a name="actionable-feedback"></a></p>
 <p>The following table summarizes the feedback given by 4 individuals (A-D) during the &quot;review phase&quot; of the release candidate.</p>
@@ -734,8 +734,8 @@ pre.editor-colors .fold-marker:after,
 </thead>
 <tbody>
 <tr>
-<td><img src="http://rawgit.com/benjaminsoellner/DAND_6_VisualizeEMobilityDataInD3js/master/readme/sketches_initial.png" alt="Initial Sketches"></td>
-<td style="text-align:center"><a href="https://rawgit.com/benjaminsoellner/DAND_6_VisualizeEMobilityDataInD3js/master/readme/sketches_initial.pdf">28 Feb 2016</a></td>
+<td><img src="http://benjaminsoellner.github.io/DAND_6_VisualizeEMobilityDataInD3js/readme/sketches_initial.png" alt="Initial Sketches"></td>
+<td style="text-align:center"><a href="https://benjaminsoellner.github.io/DAND_6_VisualizeEMobilityDataInD3js/readme/sketches_initial.pdf">28 Feb 2016</a></td>
 <td>Initial meeting with my friend, the battery expert, to discuss the project and brainstorm ideas. Quite a few sketches came out of that.</td>
 </tr>
 <tr>
@@ -744,58 +744,58 @@ pre.editor-colors .fold-marker:after,
 <td><strong>YouTube pitch for the <a href="https://discussions.udacity.com/t/visualizing-electric-car-battery-performance-feedback-request-on-project-idea/160501">Udacity Forum</a>:</strong> After meeting with my friend and fleshing out ideas, I was asking for feedback from the nanodegree community &amp; coaches.</td>
 </tr>
 <tr>
-<td><img src="http://rawgit.com/benjaminsoellner/DAND_6_VisualizeEMobilityDataInD3js/master/readme/screenshot_01.png" alt="Screenshot 01"></td>
+<td><img src="http://benjaminsoellner.github.io/DAND_6_VisualizeEMobilityDataInD3js/readme/screenshot_01.png" alt="Screenshot 01"></td>
 <td style="text-align:center"><a href="https://rawgit.com/benjaminsoellner/DAND_6_VisualizeEMobilityDataInD3js/0f270bf58721d37fc8f672e5e68c704318f857fb/index.html">13 Apr 2016</a></td>
 <td><strong>Fail:</strong> Using dimple.js as the library for the graph components; realizing that there is no option for me to make these components interactable in any meaningful way, so I will need to design the charts from scratch.</td>
 </tr>
 <tr>
-<td><img src="http://rawgit.com/benjaminsoellner/DAND_6_VisualizeEMobilityDataInD3js/master/readme/screenshot_02.png" alt="Screenshot 02"></td>
+<td><img src="http://benjaminsoellner.github.io/DAND_6_VisualizeEMobilityDataInD3js/readme/screenshot_02.png" alt="Screenshot 02"></td>
 <td style="text-align:center"><a href="https://rawgit.com/benjaminsoellner/DAND_6_VisualizeEMobilityDataInD3js/e12ae92c2a9acb0a24d343078277cc1a78891595/index.html">18 Apr 2016</a></td>
 <td>Components talking to each other! The battery schematic updates when you move the mouse over the chart; also the layout is more responsive; no thought spent yet on actual real-life data or how to de-clutter the UI.</td>
 </tr>
 <tr>
-<td><img src="http://rawgit.com/benjaminsoellner/DAND_6_VisualizeEMobilityDataInD3js/master/readme/screenshot_03.png" alt="Screenshot 03"></td>
+<td><img src="http://benjaminsoellner.github.io/DAND_6_VisualizeEMobilityDataInD3js/readme/screenshot_03.png" alt="Screenshot 03"></td>
 <td style="text-align:center"><a href="https://rawgit.com/benjaminsoellner/DAND_6_VisualizeEMobilityDataInD3js/ade394df185b6ba1d1a73e516014b6d659b54864/index.html">26 Apr 2016</a></td>
 <td>Removed &quot;clutter&quot;, made layout more responsive and added a whole deal of interactivity; what did not work in the end: to use the colored gradient as a stroke for the linegraph – too confusing! Instead the color mapping it is now shown as a guide on the y axis &amp; on the data points.</td>
 </tr>
 <tr>
-<td><img src="http://rawgit.com/benjaminsoellner/DAND_6_VisualizeEMobilityDataInD3js/master/readme/screenshot_04.png" alt="Screenshot 04"></td>
+<td><img src="http://benjaminsoellner.github.io/DAND_6_VisualizeEMobilityDataInD3js/readme/screenshot_04.png" alt="Screenshot 04"></td>
 <td style="text-align:center"><a href="https://rawgit.com/benjaminsoellner/DAND_6_VisualizeEMobilityDataInD3js/52bab2b0137ae3832838bcd71a4dd2815b9f9f42/index.html#!/explore?scenarioId=sample&amp;storyId=peak">29 Apr 2016</a></td>
 <td>Added the storybox, interactivity and cleaned up the site layout, navigation and structure.</td>
 </tr>
 <tr>
-<td><img src="http://rawgit.com/benjaminsoellner/DAND_6_VisualizeEMobilityDataInD3js/master/readme/screenshot_05.png" alt="Screenshot 05"></td>
+<td><img src="http://benjaminsoellner.github.io/DAND_6_VisualizeEMobilityDataInD3js/readme/screenshot_05.png" alt="Screenshot 05"></td>
 <td style="text-align:center"><a href="https://rawgit.com/benjaminsoellner/DAND_6_VisualizeEMobilityDataInD3js/8612ed4aba025b4436172955e9545cecaad7b84f/index.html#!/explain">02 May 2016</a></td>
 <td><strong>Fail:</strong> A weird way of setting up an explanatory visualization comparing multiple batteries and displaying every battery in some strange bubbles There was a delay in the final &quot;real-life&quot; battery data being supplied and finally I was reaching a point where I desperately needed it to make design decisions!</td>
 </tr>
 <tr>
-<td><img src="http://rawgit.com/benjaminsoellner/DAND_6_VisualizeEMobilityDataInD3js/master/readme/screenshot_06.png" alt="Screenshot 06"></td>
+<td><img src="http://benjaminsoellner.github.io/DAND_6_VisualizeEMobilityDataInD3js/readme/screenshot_06.png" alt="Screenshot 06"></td>
 <td style="text-align:center"><a href="https://rawgit.com/benjaminsoellner/DAND_6_VisualizeEMobilityDataInD3js/f9ae5632b3007172c434cf5a1c08d04eea5ab85a/index.html#!/explore?scenarioId=MeasBoostNSlowEMode&amp;storyId=peak">04 May 2016</a></td>
 <td>Integrated first real-life battery + mockup of battery drawing into explorative view; Result: the graphs behaved really, really slow with the many additional data-points – programming of the event handlers was not performant at all! Also, in order to draw the lines with gradients, the lines had to be split into many segments leading to a very huge DOM.</td>
 </tr>
 <tr>
-<td><img src="http://rawgit.com/benjaminsoellner/DAND_6_VisualizeEMobilityDataInD3js/master/readme/screenshot_07.png" alt="Screenshot 07"></td>
+<td><img src="http://benjaminsoellner.github.io/DAND_6_VisualizeEMobilityDataInD3js/readme/screenshot_07.png" alt="Screenshot 07"></td>
 <td style="text-align:center"><a href="https://rawgit.com/benjaminsoellner/DAND_6_VisualizeEMobilityDataInD3js/c706442b6e91d1728cc9d86855887cbdccdf7271/index.html#!/explore?scenarioId=MeasBoostNSlowEMode&amp;storyId=peak">04 May 2016</a></td>
 <td>The graphs are performant now - but: many outliers which make the data look ugly. We do have to do some wrangling :/ Also: the segment-wise drawing of the data in order to make their stroke use gradients makes the lines look &quot;broken&quot;.</td>
 </tr>
 <tr>
-<td><img src="http://rawgit.com/benjaminsoellner/DAND_6_VisualizeEMobilityDataInD3js/master/readme/screenshot_08.png" alt="Screenshot 08"></td>
+<td><img src="http://benjaminsoellner.github.io/DAND_6_VisualizeEMobilityDataInD3js/readme/screenshot_08.png" alt="Screenshot 08"></td>
 <td style="text-align:center"><a href="https://rawgit.com/benjaminsoellner/DAND_6_VisualizeEMobilityDataInD3js/9167bd3981ae42848bb6773e0eb6111037737741/index.html#!/explore?scenarioId=NEFZ&amp;storyId=peak">07 May 2016</a></td>
 <td>Added 2 other scenarios and re-styled the gradient functionality. Also added the interactivity in the schematic visualization.</td>
 </tr>
 <tr>
-<td><img src="http://rawgit.com/benjaminsoellner/DAND_6_VisualizeEMobilityDataInD3js/master/readme/screenshot_09.png" alt="Screenshot 09"></td>
+<td><img src="http://benjaminsoellner.github.io/DAND_6_VisualizeEMobilityDataInD3js/readme/screenshot_09.png" alt="Screenshot 09"></td>
 <td style="text-align:center"><a href="https://rawgit.com/benjaminsoellner/DAND_6_VisualizeEMobilityDataInD3js/9af784fa02ae9964971c565ff0d3b8d76f92d3ef/index.html#!/explain?showStories=0">13 May 2016</a></td>
 <td>Re-designed the exploratory visualization and requested further feedback from a subject-matter-expert.</td>
 </tr>
 <tr>
-<td><img src="http://rawgit.com/benjaminsoellner/DAND_6_VisualizeEMobilityDataInD3js/master/readme/screenshot_10.png" alt="Screenshot 10"></td>
+<td><img src="http://benjaminsoellner.github.io/DAND_6_VisualizeEMobilityDataInD3js/readme/screenshot_10.png" alt="Screenshot 10"></td>
 <td style="text-align:center"><a href="https://rawgit.com/benjaminsoellner/DAND_6_VisualizeEMobilityDataInD3js/a4ea71606374418c116f0b2abae4dd792f8240bf/index.html#!/explain?showStories=14">17 May 2016</a></td>
 <td><strong>Release Candidate:</strong> Added markers, annotations etc. etc., completed story - except for minor feedback from other people than the subject-matter-expert, this is the final project. The rest was bug fixing, refactoring for maintainability, commenting, documenting and asking other people for feedback.</td>
 </tr>
 <tr>
-<td><img src="http://rawgit.com/benjaminsoellner/DAND_6_VisualizeEMobilityDataInD3js/master/readme/sketches_initial.png" alt="Work-in-Progress Sketches"></td>
-<td style="text-align:center"><a href="https://rawgit.com/benjaminsoellner/DAND_6_VisualizeEMobilityDataInD3js/master/readme/sketches_wip.pdf">14 Mar - 17 May 2016</a></td>
+<td><img src="http://benjaminsoellner.github.io/DAND_6_VisualizeEMobilityDataInD3js/readme/sketches_initial.png" alt="Work-in-Progress Sketches"></td>
+<td style="text-align:center"><a href="https://benjaminsoellner.github.io/DAND_6_VisualizeEMobilityDataInD3js/readme/sketches_wip.pdf">14 Mar - 17 May 2016</a></td>
 <td>Of course, also during the course of this project a few sketches and notes were taken - mainly for myself.</td>
 </tr>
 <tr>
@@ -804,8 +804,8 @@ pre.editor-colors .fold-marker:after,
 <td><strong>Request For Feedback in the <a href="https://discussions.udacity.com/t/visualizing-electric-car-battery-performance-almost-done-sharing-requesting-feedback/169633">Udacity Forum</a>:</strong> The project was at a high enough maturity that I could come back to the Nanodegree Community and ask for feedback.</td>
 </tr>
 <tr>
-<td><img src="http://rawgit.com/benjaminsoellner/DAND_6_VisualizeEMobilityDataInD3js/master/readme/screenshot_11.png" alt="Screenshot 11"></td>
-<td style="text-align:center"><a href="https://rawgit.com/benjaminsoellner/DAND_6_VisualizeEMobilityDataInD3js/master/index.html">27 May 2016</a></td>
+<td><img src="http://benjaminsoellner.github.io/DAND_6_VisualizeEMobilityDataInD3js/readme/screenshot_11.png" alt="Screenshot 11"></td>
+<td style="text-align:center"><a href="https://benjaminsoellner.github.io/DAND_6_VisualizeEMobilityDataInD3js/index.html">27 May 2016</a></td>
 <td><strong>First Submission:</strong> Incorporated all public feedback (see above), finished technical and project documenation and submitted project to Udacity.</td>
 </tr>
 </tbody>
@@ -820,7 +820,7 @@ pre.editor-colors .fold-marker:after,
 </ul>
 <p>Of course, if I had the chance to play around with un-obfuscated or additional data, I could realize many more cool visualizations (like the projection described in <a href="#chg7">CHG-7</a>).</p>
 <h2 id="technical-documentation">Technical Documentation</h2>
-<p>The source code of this project is thouroughly documented but before diving into the comments of the source code, I recommend getting a high level understanding about some concepts that are mentioned throughout the source code. I supply some <a href="https://rawgit.com/benjaminsoellner/DAND_6_VisualizeEMobilityDataInD3js/master/doc/index.html">&quot;tutorial&quot; documents alongside in the JSDoc documentation of this project</a>:</p>
+<p>The source code of this project is thouroughly documented but before diving into the comments of the source code, I recommend getting a high level understanding about some concepts that are mentioned throughout the source code. I supply some <a href="https://benjaminsoellner.github.io/DAND_6_VisualizeEMobilityDataInD3js/doc/index.html">&quot;tutorial&quot; documents alongside in the JSDoc documentation of this project</a>:</p>
 <ol>
 <li><a href="(https://rawgit.com/benjaminsoellner/doc/tutorial-1FileDirectoryStructure.html)">File &amp; Directory Structure</a> contains a general &quot;what is where&quot; of the repository.</li>
 <li><a href="(https://rawgit.com/benjaminsoellner/doc/tutorial-1FileDirectoryStructure.html)">Terminology</a> describes a number of clearly defined concepts you see on the screen of the application.</li>
